@@ -1,9 +1,19 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 import App from './App';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key: any) => key }),
+}));
+
 test('renders App', () => {
-  render(<App />);
-  const element = screen.getByText(/ATT Sales Tool/i);
-  expect(element).toBeInTheDocument();
+  const { getByText } = render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+
+  expect(getByText(/welcome/i)).toBeInTheDocument();
 });
