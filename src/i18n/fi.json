@@ -1,1 +1,8 @@
-{}
+{
+  "common.navbar.Navbar.lang.en": "In English",
+  "common.navbar.Navbar.lang.fi": "Suomeksi",
+  "common.navbar.Navbar.lang.sv": "På svenska",
+  "common.navbar.Navbar.title": "ATT myyjän työkalu",
+  "common.navbar.Navbar.skipToContent": "Hyppää pääsisältöön",
+  "welcome": "Tervetuloa"
+}
