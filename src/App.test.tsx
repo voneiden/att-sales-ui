@@ -4,6 +4,10 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key: any) => key }),
+}));
+
 test('renders App', () => {
   const { getByText } = render(
     <Provider store={store}>
@@ -11,5 +15,5 @@ test('renders App', () => {
     </Provider>
   );
 
-  expect(getByText(/ATT Sales Tool/i)).toBeInTheDocument();
+  expect(getByText(/welcome/i)).toBeInTheDocument();
 });

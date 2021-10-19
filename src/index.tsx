@@ -6,6 +6,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store';
 
+import './i18n/i18n';
+
 import './assets/styles/main.scss';
 
 ReactDOM.render(
