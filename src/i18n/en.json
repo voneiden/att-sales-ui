@@ -1,8 +1,8 @@
 {
+  "common.navbar.Navbar.homepage": "Home",
   "common.navbar.Navbar.lang.en": "In English",
   "common.navbar.Navbar.lang.fi": "Suomeksi",
   "common.navbar.Navbar.lang.sv": "På svenska",
   "common.navbar.Navbar.title": "ATT Sales Tool",
-  "common.navbar.Navbar.skipToContent": "Skip to main content",
-  "welcome": "Welcome"
+  "common.navbar.Navbar.skipToContent": "Skip to main content"
 }
