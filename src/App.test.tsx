@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import { store } from './app/store';
 import App from './App';
 
@@ -9,11 +9,9 @@ jest.mock('react-i18next', () => ({
 }));
 
 test('renders App', () => {
-  const { getByText } = render(
-    <Provider store={store}>
+  <Provider store={store}>
+    <MemoryRouter>
       <App />
-    </Provider>
-  );
-
-  expect(getByText(/welcome/i)).toBeInTheDocument();
+    </MemoryRouter>
+  </Provider>;
 });

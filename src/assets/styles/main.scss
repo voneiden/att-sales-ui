@@ -6,3 +6,11 @@ body {
   color: var(--color-black);
   line-height: var(--lineheight-l);
 }
+
+.app-main {
+  max-width: var(--container-width-xl);
+  padding: 0 var(--spacing-m);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}

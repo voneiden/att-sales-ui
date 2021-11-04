@@ -1,18 +1,22 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Routes, Route } from 'react-router-dom';
 
-import NavBar from './common/navbar/NavBar';
+import AuthError from './pages/AuthError';
+import Index from './pages/Index';
+import MainLayout from './common/mainLayout/MainLayout';
+import NotFound from './pages/NotFound';
+
+import { ROUTES } from './constants';
 
 const App = (): JSX.Element => {
-  const { t } = useTranslation();
-
   return (
-    <>
-      <NavBar />
-      <div id="content">
-        <h1>{t('welcome')}</h1>
-      </div>
-    </>
+    <MainLayout>
+      <Routes>
+        <Route path={ROUTES.INDEX} element={<Index />} />
+        <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+        <Route path={ROUTES.AUTH_ERROR} element={<AuthError />} />
+      </Routes>
+    </MainLayout>
   );
 };
 
