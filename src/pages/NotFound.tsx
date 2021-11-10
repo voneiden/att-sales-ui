@@ -1,5 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const NotFound = (): React.ReactElement => <h1>404 Not Found</h1>;
+const T_PATH = 'pages.NotFound';
+
+const NotFound = (): React.ReactElement => {
+  const { t } = useTranslation();
+  return <h1>404 &ndash; {t(`${T_PATH}.pageNotFound`)}</h1>;
+};
 
 export default NotFound;
