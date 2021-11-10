@@ -4,7 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import App from './App';
+import HandleCallback from './auth/HandleCallback';
 import reportWebVitals from './reportWebVitals';
+import { ClientProvider } from './auth/ClientProvider';
 import { store } from './app/store';
 
 import './i18n/i18n';
@@ -13,11 +15,15 @@ import './assets/styles/main.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <HandleCallback>
+        <ClientProvider>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </ClientProvider>
+      </HandleCallback>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
