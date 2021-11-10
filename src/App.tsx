@@ -1,23 +1,43 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Navigate, Routes, Route } from 'react-router-dom';
 
 import AuthError from './pages/AuthError';
-import Index from './pages/Index';
-import MainLayout from './common/mainLayout/MainLayout';
+import Homepage from './pages/Homepage';
+import Login from './pages/Login';
+import Logout from './pages/Logout';
+import MainLayout from './components/common/mainLayout/MainLayout';
 import NotFound from './pages/NotFound';
+import LoadingScreen from './components/common/loadingScreen/LoadingScreen';
+import WithAuth from './auth/WithAuth';
 
-import { ROUTES } from './constants';
+import { ROUTES } from './enums';
 
-const App = (): JSX.Element => {
-  return (
-    <MainLayout>
-      <Routes>
-        <Route path={ROUTES.INDEX} element={<Index />} />
-        <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
-        <Route path={ROUTES.AUTH_ERROR} element={<AuthError />} />
-      </Routes>
-    </MainLayout>
-  );
-};
+const Authenticated = (): JSX.Element => (
+  <Routes>
+    <Route path="/" element={<MainLayout />}>
+      <Route index element={<Homepage />} />
+      <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
+      <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
+      <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+      <Route path="/" element={<Navigate to={ROUTES.INDEX} />} />
+      <Route path="*" element={<Navigate to={ROUTES.NOT_FOUND} />} />
+    </Route>
+  </Routes>
+);
+
+const Unauthenticated = (): JSX.Element => (
+  <Routes>
+    <Route path="/" element={<MainLayout />}>
+      <Route path={ROUTES.LOGIN} element={<Login />} />
+      <Route path={ROUTES.LOGOUT} element={<Logout />} />
+      <Route path={ROUTES.AUTH_ERROR} element={<AuthError />} />
+      <Route path="/" element={<Navigate to={ROUTES.LOGIN} />} />
+      <Route path="*" element={<Navigate to={ROUTES.LOGIN} />} />
+    </Route>
+  </Routes>
+);
+
+const App = (props: React.PropsWithChildren<unknown>): React.ReactElement =>
+  WithAuth(Authenticated, Unauthenticated, LoadingScreen);
 
 export default App;
