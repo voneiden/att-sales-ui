@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Navigation } from 'hds-react';
+import { IconSignout, Navigation } from 'hds-react';
 import { matchPath, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { ROUTES } from '../../constants';
+import { ROUTES } from '../../../enums';
+import { useClient } from '../../../auth/hooks';
 
 const T_PATH = 'common.navbar.Navbar';
 const LANGUAGES = ['fi', 'en', 'sv'];
@@ -11,8 +12,12 @@ const LANGUAGES = ['fi', 'en', 'sv'];
 const isActiveLink = (path: string, currentPath: string): boolean => !!matchPath({ path, end: false }, currentPath);
 
 const NavBar = (): JSX.Element => {
-  const { t, i18n } = useTranslation();
+  const client = useClient();
+  const authenticated = client.isAuthenticated();
+  const initialized = client.isInitialized();
+  const user = client.getUser();
   const location = useLocation();
+  const { t, i18n } = useTranslation();
   const [language, setLang] = useState<string>(LANGUAGES[0]);
 
   const setLanguage = (code: string) => {
@@ -29,16 +34,12 @@ const NavBar = (): JSX.Element => {
 
   return (
     <Navigation
-      title={t(`${T_PATH}.title`)}
       menuToggleAriaLabel="menu"
+      title={t(`${T_PATH}.title`)}
+      titleUrl={ROUTES.INDEX}
       skipTo="#content"
       skipToContentLabel={t(`${T_PATH}.skipToContent`)}
     >
-      <Navigation.Row variant="inline">
-        {navLinks.map(({ path, label }) => (
-          <Navigation.Item key={path} href={path} label={label} active={isActiveLink(path, location.pathname)} />
-        ))}
-      </Navigation.Row>
       <Navigation.Actions>
         <Navigation.LanguageSelector label={language.toUpperCase()}>
           {LANGUAGES.map((lang) => (
@@ -50,7 +51,30 @@ const NavBar = (): JSX.Element => {
             />
           ))}
         </Navigation.LanguageSelector>
+        {initialized && (
+          <Navigation.User
+            authenticated={authenticated}
+            label={t(`${T_PATH}.login`)}
+            onSignIn={(): void => client.login()}
+            userName={user ? user.given_name : ''}
+          >
+            <Navigation.Item
+              onClick={(): void => client.logout()}
+              variant="supplementary"
+              label={t(`${T_PATH}.logout`)}
+              href={`/${ROUTES.LOGOUT}`}
+              icon={<IconSignout aria-hidden />}
+            />
+          </Navigation.User>
+        )}
       </Navigation.Actions>
+      {initialized && authenticated && (
+        <Navigation.Row>
+          {navLinks.map(({ path, label }) => (
+            <Navigation.Item key={path} href={path} label={label} active={isActiveLink(path, location.pathname)} />
+          ))}
+        </Navigation.Row>
+      )}
     </Navigation>
   );
 };

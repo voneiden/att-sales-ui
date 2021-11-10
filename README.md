@@ -2,6 +2,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and it is using [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/).
 
+## Development
+
+Make a local `.env.development.local` copy:
+
+```bash
+$ cp .env.development.local.example .env.development.local
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
