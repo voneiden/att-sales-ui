@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
 import App from './App';
 import HandleCallback from './auth/HandleCallback';
 import reportWebVitals from './reportWebVitals';
+import StoreProvider from './redux/StoreProvider';
 import { ClientProvider } from './auth/ClientProvider';
-import { store } from './app/store';
 
 import './i18n/i18n';
 
@@ -16,13 +15,13 @@ import './assets/styles/main.scss';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <HandleCallback>
-        <ClientProvider>
-          <Provider store={store}>
+      <StoreProvider>
+        <HandleCallback>
+          <ClientProvider>
             <App />
-          </Provider>
-        </ClientProvider>
-      </HandleCallback>
+          </ClientProvider>
+        </HandleCallback>
+      </StoreProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
