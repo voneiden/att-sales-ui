@@ -37,7 +37,7 @@ const NavBar = (): JSX.Element => {
       menuToggleAriaLabel="menu"
       title={t(`${T_PATH}.title`)}
       titleUrl={ROUTES.INDEX}
-      skipTo="#content"
+      skipTo="#mainContent"
       skipToContentLabel={t(`${T_PATH}.skipToContent`)}
     >
       <Navigation.Actions>
