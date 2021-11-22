@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getClientConfig } from '../auth/index';
 import { useClient } from '../auth/hooks';
-import NarrowContainer from '../components/common/narrowContainer/NarrowContainer';
+import Container from '../components/common/container/Container';
 
 const T_PATH = 'pages.Logout';
 
@@ -21,11 +21,11 @@ const Login = (): React.ReactElement => {
   };
 
   return (
-    <NarrowContainer>
+    <Container narrow>
       <Card style={{ textAlign: 'center' }}>
         <h1>{isLoggedIn() ? t(`${T_PATH}.loggedIn`) : t(`${T_PATH}.loggedOut`)}</h1>
       </Card>
-    </NarrowContainer>
+    </Container>
   );
 };
 

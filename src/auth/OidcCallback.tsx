@@ -3,7 +3,7 @@ import { Card, LoadingSpinner } from 'hds-react';
 import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import NarrowContainer from '../components/common/narrowContainer/NarrowContainer';
+import Container from '../components/common/container/Container';
 import { useClientCallback } from './hooks';
 
 const T_PATH = 'auth.OidCallback';
@@ -21,7 +21,7 @@ const OidcCallback = (props: OidcCallbackProps): JSX.Element => {
 
   if (!initialized) {
     return (
-      <NarrowContainer>
+      <Container narrow>
         <Card style={{ marginTop: 20 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center' }}>
             <LoadingSpinner
@@ -33,7 +33,7 @@ const OidcCallback = (props: OidcCallbackProps): JSX.Element => {
             <span aria-hidden={true}>{t(`${T_PATH}.checkingLoginCredentials`)}...</span>
           </div>
         </Card>
-      </NarrowContainer>
+      </Container>
     );
   }
 
