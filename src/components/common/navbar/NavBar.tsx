@@ -40,6 +40,13 @@ const NavBar = (): JSX.Element => {
       skipTo="#mainContent"
       skipToContentLabel={t(`${T_PATH}.skipToContent`)}
     >
+      {initialized && authenticated && (
+        <Navigation.Row variant="inline">
+          {navLinks.map(({ path, label }) => (
+            <Navigation.Item key={path} href={path} label={label} active={isActiveLink(path, location.pathname)} />
+          ))}
+        </Navigation.Row>
+      )}
       <Navigation.Actions>
         <Navigation.LanguageSelector label={language.toUpperCase()}>
           {LANGUAGES.map((lang) => (
@@ -68,13 +75,6 @@ const NavBar = (): JSX.Element => {
           </Navigation.User>
         )}
       </Navigation.Actions>
-      {initialized && authenticated && (
-        <Navigation.Row>
-          {navLinks.map(({ path, label }) => (
-            <Navigation.Item key={path} href={path} label={label} active={isActiveLink(path, location.pathname)} />
-          ))}
-        </Navigation.Row>
-      )}
     </Navigation>
   );
 };
