@@ -3,7 +3,7 @@ import { Button, IconCogwheel } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import Label from '../common/label/Label';
-import { formatDateTime } from '../../utils';
+import formatDateTime from '../../utils/formatDateTime';
 import { Project } from '../../types';
 
 import styles from './ProjectCard.module.scss';
