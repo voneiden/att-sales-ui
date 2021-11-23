@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Client } from './index';
-import { useClient } from './hooks';
+import { Client } from '../../auth/index';
+import { useClient } from '../../auth/hooks';
 
 export type WithAuthChildProps = { client: Client };
 

@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
-import HandleCallback from './auth/HandleCallback';
+import HandleCallback from './components/auth/HandleCallback';
 import reportWebVitals from './reportWebVitals';
 import StoreProvider from './redux/StoreProvider';
-import { ClientProvider } from './auth/ClientProvider';
+import { ClientProvider } from './components/auth/ClientProvider';
 
 import './i18n/i18n';
 

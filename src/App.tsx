@@ -8,7 +8,7 @@ import Logout from './pages/Logout';
 import MainLayout from './components/common/mainLayout/MainLayout';
 import NotFound from './pages/NotFound';
 import LoadingScreen from './components/common/loadingScreen/LoadingScreen';
-import WithAuth from './auth/WithAuth';
+import WithAuth from './components/auth/WithAuth';
 import ProjectDetail from './pages/ProjectDetail';
 
 import { ROUTES } from './enums';

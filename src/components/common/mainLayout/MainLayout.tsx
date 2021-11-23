@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import ErrorPrompt from '../../../auth/ErrorPrompt';
+import ErrorPrompt from '../../auth/ErrorPrompt';
 import NavBar from '../navbar/NavBar';
 
 import styles from './MainLayout.module.scss';

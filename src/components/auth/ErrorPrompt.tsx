@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import { useClientErrorDetection, useClient } from './hooks';
-import { ClientErrorObject, ClientError } from './index';
+import { useClientErrorDetection, useClient } from '../../auth/hooks';
+import { ClientErrorObject, ClientError } from '../../auth/index';
 
 import styles from './ErrorPrompt.module.scss';
 
