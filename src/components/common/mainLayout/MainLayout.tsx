@@ -6,10 +6,10 @@ import NavBar from '../navbar/NavBar';
 
 import styles from './MainLayout.module.scss';
 
-const MainLayout: React.FC = ({ children }) => (
+const MainLayout = (): JSX.Element => (
   <>
     <NavBar />
-    <main className={styles['app-main']}>
+    <main id="mainContent" className={styles['app-main']} tabIndex={-1}>
       <Outlet />
     </main>
     <ErrorPrompt />

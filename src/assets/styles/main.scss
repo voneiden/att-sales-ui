@@ -1,8 +1,9 @@
 @import "~hds-core";
+@import "~hds-core/lib/components/button/button";
 @import url('https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/HelsinkiGrotesk.css');
 
 body {
-  background-color: var(--color-black-5);
+  background-color: var(--white);
   font-family: var(--font-default);
   font-size: var(--fontsize-body-m);
   color: var(--color-black);
@@ -14,4 +15,9 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }

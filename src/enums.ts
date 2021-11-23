@@ -4,4 +4,5 @@ export enum ROUTES {
   LOGIN = 'login',
   LOGOUT = 'logout',
   NOT_FOUND = '404',
+  PROJECT = 'project',
 }

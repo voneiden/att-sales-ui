@@ -1,0 +1,95 @@
+.projectCard {
+  display: flex;
+  background-color: var(--color-black-5);
+  padding: var(--spacing-l) var(--spacing-m);
+  flex-wrap: wrap;
+
+  @media (min-width: 1248px) { // --breakpoint-l
+    padding: var(--spacing-xl) var(--spacing-2-xl);
+  }
+}
+
+.projectDetails {
+  display: flex;
+}
+
+.projectActions {
+  display: flex;
+  flex: 1;
+}
+
+.projectImageColumn {
+  margin-right: var(--spacing-m);
+  max-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.projectDetailsColumn {
+  flex-shrink: 0;
+  margin-right: var(--spacing-5-xl);
+}
+
+.projectName {
+  font-size: var(--fontsize-heading-s);
+  margin: 0;
+}
+
+.projectLocation {
+  margin: 0 0 var(--spacing-2-xs) 0;
+}
+
+.projectOwnershipType {
+  margin: 0 0 var(--spacing-2-xs) 0;
+}
+
+.completionTime {
+  display: flex;
+  align-items: center;
+  font-size: var(--fontsize-body-s);
+}
+
+.projectStatusColumn {}
+
+.lotteryBtnWrap {
+  margin-top: var(--spacing-s);
+}
+
+.projectRightColumn {
+  margin-left: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.projectAssignee {
+  margin-bottom: auto;
+}
+
+.assigneeCircle {
+  background-color: var(--color-bus);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  line-height: 1;
+  border-radius: 50%;
+}
+
+.projectLink {
+  margin-top: auto;
+
+  a {
+    text-decoration: none;
+  }
+}
