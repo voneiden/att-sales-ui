@@ -57,7 +57,7 @@ const ProjectCard = (project: Project): JSX.Element => {
             <strong>{state_of_sale}</strong>
           </div>
           <div>
-            {t(`${T_PATH}.applicationEndTime`)} {formatDateTime(application_end_time)}
+            {t(`${T_PATH}.applicationEndTime`)} {application_end_time ? formatDateTime(application_end_time) : '-'}
           </div>
           <div className={styles.lotteryBtnWrap}>
             {/* TODO: Add functionality for the button */}
