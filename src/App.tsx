@@ -17,7 +17,7 @@ const Authenticated = (): JSX.Element => (
   <Routes>
     <Route path="/" element={<MainLayout />}>
       <Route index element={<Homepage />} />
-      <Route path={`${ROUTES.PROJECT}/:projectID`} element={<ProjectDetail />} />
+      <Route path={`${ROUTES.PROJECT}/:projectId`} element={<ProjectDetail />} />
       <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
