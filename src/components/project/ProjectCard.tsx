@@ -10,7 +10,11 @@ import styles from './ProjectCard.module.scss';
 
 const T_PATH = 'components.project.ProjectCard';
 
-const ProjectCard = (project: Project): JSX.Element => {
+interface IProps {
+  project: Project;
+}
+
+const ProjectCard = ({ project }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const {
     application_end_time,
