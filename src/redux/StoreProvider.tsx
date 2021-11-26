@@ -2,7 +2,7 @@ import React, { useEffect, FC } from 'react';
 import { Provider } from 'react-redux';
 
 import { ClientEvent, ClientErrorObject, User } from '../auth';
-import { authorized, connected, errorThrown, initializing, tokenExpired, unauthorized } from './authSlice';
+import { authorized, connected, errorThrown, initializing, tokenExpired, unauthorized } from './features/authSlice';
 import { store } from './store';
 import { useClient } from '../auth/hooks';
 

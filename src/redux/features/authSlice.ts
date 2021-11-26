@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ClientErrorObject, ClientStatus, ClientStatusId, User } from '../auth/index';
+import { ClientErrorObject, ClientStatus, ClientStatusId, User } from '../../auth/index';
 
 interface AuthState {
   user: User | undefined;

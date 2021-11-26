@@ -3,14 +3,18 @@ import { Button, IconCogwheel } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import Label from '../common/label/Label';
-import { formatDateTime } from '../../utils';
+import formatDateTime from '../../utils/formatDateTime';
 import { Project } from '../../types';
 
 import styles from './ProjectCard.module.scss';
 
 const T_PATH = 'components.project.ProjectCard';
 
-const ProjectCard = (project: Project): JSX.Element => {
+interface IProps {
+  project: Project;
+}
+
+const ProjectCard = ({ project }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const {
     application_end_time,
@@ -57,7 +61,7 @@ const ProjectCard = (project: Project): JSX.Element => {
             <strong>{state_of_sale}</strong>
           </div>
           <div>
-            {t(`${T_PATH}.applicationEndTime`)} {formatDateTime(application_end_time)}
+            {t(`${T_PATH}.applicationEndTime`)} {application_end_time ? formatDateTime(application_end_time) : '-'}
           </div>
           <div className={styles.lotteryBtnWrap}>
             {/* TODO: Add functionality for the button */}

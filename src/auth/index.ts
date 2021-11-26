@@ -1,6 +1,6 @@
 import to from 'await-to-js';
 
-import { envValueToBoolean } from '../utils';
+import envValueToBoolean from '../utils/envValueToBoolean';
 
 export type User = Record<string, string | number | boolean>;
 export type Token = string | undefined;

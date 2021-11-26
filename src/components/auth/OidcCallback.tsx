@@ -3,8 +3,8 @@ import { Card, LoadingSpinner } from 'hds-react';
 import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import Container from '../components/common/container/Container';
-import { useClientCallback } from './hooks';
+import Container from '../common/container/Container';
+import { useClientCallback } from '../../auth/hooks';
 
 const T_PATH = 'auth.OidCallback';
 

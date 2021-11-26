@@ -2,9 +2,9 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 import OidcCallback from './OidcCallback';
-import { isCallbackUrl } from './index';
-import { getClient } from './oidc-react';
-import { ROUTES } from '../enums';
+import { isCallbackUrl } from '../../auth/index';
+import { getClient } from '../../auth/oidc-react';
+import { ROUTES } from '../../enums';
 
 const HandleCallback = (props: React.PropsWithChildren<unknown>): React.ReactElement => {
   const { children } = props;
