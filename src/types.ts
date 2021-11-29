@@ -40,6 +40,7 @@ export type Apartment = {
   parking_fee: number;
   parking_fee_explanation: string;
   price_m2: number;
+  project_id: number;
   right_of_occupancy_payment: number;
   room_count: number;
   sales_price: number;

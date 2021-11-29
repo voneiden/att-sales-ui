@@ -1,0 +1,95 @@
+.apartmentTableRow {
+  width: 100%;
+  position: relative;
+  border-bottom: 1px solid var(--color-black-20);
+
+  @media (min-width: 769px) {
+    display: table-row;
+  }
+}
+
+.apartmentTableRowButtons {
+  width: 100%;
+  position: relative;
+
+  @media (min-width: 769px) {
+    display: table-row;
+  }
+}
+
+.cellTextStyles {
+  color: var(--color-black-90);
+  font-size: 18px;
+  font-family: var(--font-default);
+  font-weight: normal;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.cell {
+  @extend .cellTextStyles;
+  display: flex;
+  padding-bottom: var(--spacing-xs);
+
+  @media (min-width: 769px) {
+    flex: 1;
+    padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+    border-top: 1px solid var(--color-black-20);
+    display: table-cell;
+    vertical-align: top;
+  }
+}
+
+.apartmentCell {
+  @media (min-width: 992px) and (max-width: 1099px) {
+    min-width: 200px;
+  }
+
+  strong {
+    display: inline-block;
+    line-height: 1;
+    font-size: var(--fontsize-body-xl);
+    margin-right: var(--spacing-s);
+
+    @media (min-width: 992px) {
+      min-width: 40px;
+    }
+  }
+
+  span {
+    display: inline-block;
+  }
+}
+
+.apartmentCellMobile {
+  @extend .cellTextStyles;
+  border: none;
+  background: none;
+  padding: var(--spacing-s);
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  width: 100%;
+  cursor: pointer;
+
+  strong {
+    font-size: var(--fontsize-heading-m);
+    min-width: 60px;
+    line-height: 1;
+  }
+}
+
+.mobileCells {
+  display: none;
+  padding: 0 var(--spacing-s) var(--spacing-s) var(--spacing-s);
+
+  &.open {
+    display: block;
+  }
+}
+
+.cellMobileTitle {
+  flex-basis: 100%;
+  min-width: 150px;
+  max-width: 50%;
+}
