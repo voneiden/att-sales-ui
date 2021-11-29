@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { Project } from '../../types';
+import { Apartment, Project } from '../../types';
 import getApiBaseUrl from '../../utils/getApiBaseUrl';
 
 // Define a service using a base URL and expected endpoints
-export const projectApi = createApi({
-  reducerPath: 'projectApi',
+export const api = createApi({
+  reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: getApiBaseUrl() }),
   endpoints: (builder) => ({
     getProjects: builder.query<Project[], void>({
@@ -14,7 +14,10 @@ export const projectApi = createApi({
     getProjectById: builder.query<Project, string>({
       query: (id) => `projects/${id}`,
     }),
+    getApartmentsByProject: builder.query<Apartment[], number>({
+      query: (id) => `apartments?project_id=${id}`,
+    }),
   }),
 });
 
-export const { useGetProjectsQuery, useGetProjectByIdQuery } = projectApi;
+export const { useGetProjectsQuery, useGetProjectByIdQuery, useGetApartmentsByProjectQuery } = api;
