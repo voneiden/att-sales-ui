@@ -5,8 +5,15 @@ import fi from './fi.json';
 import en from './en.json';
 import sv from './sv.json';
 
+export const LOCALSTORAGE_LANG_KEY = 'currentLang';
+
+const getLang = () => {
+  const stored = localStorage.getItem(LOCALSTORAGE_LANG_KEY);
+  return stored !== null && stored !== undefined ? JSON.parse(stored) : 'fi';
+};
+
 i18n.use(initReactI18next).init({
-  lng: 'fi',
+  lng: getLang(),
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
