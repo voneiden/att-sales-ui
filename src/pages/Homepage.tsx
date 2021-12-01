@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Container from '../components/common/container/Container';
-import { useGetProjectsQuery } from '../redux/services/projectApi';
+import { useGetProjectsQuery } from '../redux/services/api';
 import { ROUTES } from '../enums';
 
 const Index = (): JSX.Element => {
-  const { data, isLoading, isError, isSuccess } = useGetProjectsQuery();
+  const { data: projects, isLoading, isError, isSuccess } = useGetProjectsQuery();
 
   return (
     <Container>
@@ -18,10 +18,10 @@ const Index = (): JSX.Element => {
           : isError
           ? 'Error while loading projects'
           : isSuccess &&
-            data &&
-            data.map((project) => (
-              <p>
-                <Link to={`${ROUTES.PROJECT}/${project.uuid}`}>{project.housing_company}</Link>
+            projects &&
+            projects.map((project) => (
+              <p key={project.uuid}>
+                <Link to={`${ROUTES.PROJECT}/${project.id}`}>{project.housing_company}</Link>
               </p>
             ))}
       </>

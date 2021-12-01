@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IconSignout, Navigation } from 'hds-react';
 import { matchPath, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+import useLocalStorage from '../../../utils/useLocalStorage';
 import { ROUTES } from '../../../enums';
 import { useClient } from '../../../auth/hooks';
+import { LOCALSTORAGE_LANG_KEY } from '../../../i18n/i18n';
 
 const T_PATH = 'common.navbar.Navbar';
 const LANGUAGES = ['fi', 'en', 'sv'];
@@ -18,7 +20,10 @@ const NavBar = (): JSX.Element => {
   const user = client.getUser();
   const location = useLocation();
   const { t, i18n } = useTranslation();
-  const [language, setLang] = useState<string>(LANGUAGES[0]);
+  const [language, setLang] = useLocalStorage({
+    defaultValue: LANGUAGES[0],
+    key: LOCALSTORAGE_LANG_KEY,
+  });
 
   const setLanguage = (code: string) => {
     i18n.changeLanguage(code);

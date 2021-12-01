@@ -3,22 +3,27 @@ import cx from 'classnames';
 
 import styles from './Container.module.scss';
 
-interface IProps {
-  children: React.ReactElement;
+type ContainerProps = React.PropsWithChildren<React.HTMLProps<HTMLDivElement>>;
+type IProps = ContainerProps & {
   narrow?: boolean;
   wide?: boolean;
-}
+};
 
-const Container = ({ children, narrow, wide }: IProps): JSX.Element => {
+const Container = ({ children, className, narrow, wide, ...rest }: IProps): JSX.Element => {
   const classes = cx([
     styles.container,
+    className,
     {
       [styles.narrow]: narrow,
       [styles.wide]: wide,
     },
   ]);
 
-  return <div className={classes}>{children}</div>;
+  return (
+    <div className={classes} {...rest}>
+      {children}
+    </div>
+  );
 };
 
 export default Container;

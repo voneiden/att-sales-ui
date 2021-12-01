@@ -4,10 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { store } from './redux/store';
 import App from './App';
 
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: any) => key }),
-}));
-
 test('renders App', () => {
   <Provider store={store}>
     <MemoryRouter>
