@@ -5,21 +5,30 @@ import { useTranslation } from 'react-i18next';
 
 import ApartmentRow from './ApartmentRow';
 import SortApartments from './SortApartments';
-import { Project } from '../../types';
-import { useGetApartmentsByProjectQuery } from '../../redux/services/api';
+import { Apartment, Project } from '../../types';
 
 import styles from './ApartmentTable.module.scss';
 
 const T_PATH = 'components.apartment.ApartmentTable';
 
 interface IProps {
+  apartments: Apartment[] | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
   projectId: Project['id'];
   housingCompany: Project['housing_company'];
 }
 
-const ApartmentTable = ({ projectId, housingCompany }: IProps): JSX.Element => {
+const ApartmentTable = ({
+  apartments,
+  isLoading,
+  isError,
+  isSuccess,
+  projectId,
+  housingCompany,
+}: IProps): JSX.Element => {
   const { t } = useTranslation();
-  const { data: apartments, isLoading, isError, isSuccess } = useGetApartmentsByProjectQuery(projectId);
   const { sortedApartments, requestSort, sortConfig } = SortApartments(
     isSuccess && apartments ? apartments : [],
     `project-${projectId}`
@@ -87,10 +96,14 @@ const ApartmentTable = ({ projectId, housingCompany }: IProps): JSX.Element => {
             {t(`${T_PATH}.applicants`)}
           </div>
         </li>
-        {isLoading && <li>Loading...</li>}
-        {isError && <li>Error while loading apartments</li>}
-        {sortedApartments &&
-          sortedApartments.map((apartment) => <ApartmentRow key={apartment.uuid} apartment={apartment} />)}
+        {isLoading ? (
+          <li>Loading...</li>
+        ) : isError ? (
+          <li>Error while loading apartments</li>
+        ) : (
+          sortedApartments &&
+          sortedApartments.map((apartment) => <ApartmentRow key={apartment.uuid} apartment={apartment} />)
+        )}
       </ul>
     </div>
   );
