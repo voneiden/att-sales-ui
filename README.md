@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), and it is using [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/).
 
+## Dependencies
+
+- Node v16
+
 ## Development
 
 Make a local `.env.development.local` copy:
