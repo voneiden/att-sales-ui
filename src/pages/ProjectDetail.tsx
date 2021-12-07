@@ -6,14 +6,20 @@ import ApartmentActions from '../components/apartment/ApartmentActions';
 import ApartmentTable from '../components/apartment/ApartmentTable';
 import Container from '../components/common/container/Container';
 import ProjectCard from '../components/project/ProjectCard';
-import { useGetProjectByIdQuery } from '../redux/services/api';
+import { useGetApartmentsByProjectQuery, useGetProjectByIdQuery } from '../redux/services/api';
 
 const T_PATH = 'pages.ProjectDetail';
 
 const ProjectDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { projectId } = useParams();
-  const { data: project, isLoading, isError, isSuccess } = useGetProjectByIdQuery(projectId || '');
+  const { data: project, isLoading, isError, isSuccess } = useGetProjectByIdQuery(projectId || '0');
+  const {
+    data: apartments,
+    isLoading: isApartmentsLoading,
+    isError: isApartmentsError,
+    isSuccess: isApartmentsSuccess,
+  } = useGetApartmentsByProjectQuery(projectId || '0', { skip: !isSuccess });
 
   if (isLoading) {
     return <Container>Loading...</Container>;
@@ -23,13 +29,24 @@ const ProjectDetail = (): JSX.Element | null => {
     return <Container>Error while loading the project</Container>;
   }
 
+  if (!isSuccess || !project) return null;
+
   return (
     <>
-      <Container wide>{isSuccess && project && <ProjectCard project={project} />}</Container>
+      <Container wide>
+        <ProjectCard project={project} />
+      </Container>
       <Container>
         <h2>{t(`${T_PATH}.projectApartments`)}</h2>
         <ApartmentActions />
-        {isSuccess && project && <ApartmentTable projectId={project.id} housingCompany={project.housing_company} />}
+        <ApartmentTable
+          apartments={apartments}
+          isLoading={isApartmentsLoading}
+          isError={isApartmentsError}
+          isSuccess={isApartmentsSuccess}
+          projectId={project.id}
+          housingCompany={project.housing_company}
+        />
       </Container>
     </>
   );

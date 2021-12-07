@@ -14,7 +14,7 @@ export const api = createApi({
     getProjectById: builder.query<Project, string>({
       query: (id) => `projects/${id}`,
     }),
-    getApartmentsByProject: builder.query<Apartment[], number>({
+    getApartmentsByProject: builder.query<Apartment[], string>({
       query: (id) => `apartments?project_id=${id}`,
     }),
   }),

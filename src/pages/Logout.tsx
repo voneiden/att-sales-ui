@@ -8,7 +8,7 @@ import Container from '../components/common/container/Container';
 
 const T_PATH = 'pages.Logout';
 
-const Login = (): React.ReactElement => {
+const Logout = (): React.ReactElement => {
   const { t } = useTranslation();
   const currentConfig = getClientConfig();
   const { isAuthenticated } = useClient();
@@ -29,4 +29,4 @@ const Login = (): React.ReactElement => {
   );
 };
 
-export default Login;
+export default Logout;

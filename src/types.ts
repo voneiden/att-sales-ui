@@ -60,7 +60,6 @@ export type Apartment = {
 export type Project = {
   acc_financeofficer: string;
   acc_salesperson: string;
-  apartments: Apartment[];
   apartment_count: number;
   application_end_time: string;
   application_start_time: string;
