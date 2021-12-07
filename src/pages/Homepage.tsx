@@ -10,21 +10,22 @@ const Index = (): JSX.Element => {
 
   return (
     <Container>
-      <>
-        <h1>Homepage</h1>
-        <h2>Projects</h2>
-        {isLoading
-          ? 'Loading...'
-          : isError
-          ? 'Error while loading projects'
-          : isSuccess &&
-            projects &&
-            projects.map((project) => (
-              <p key={project.uuid}>
-                <Link to={`${ROUTES.PROJECT}/${project.id}`}>{project.housing_company}</Link>
-              </p>
-            ))}
-      </>
+      <h1>Homepage</h1>
+      <h2>Projects</h2>
+      {isLoading
+        ? 'Loading...'
+        : isError
+        ? 'Error while loading projects'
+        : isSuccess &&
+          projects && (
+            <>
+              {projects.map((project) => (
+                <p key={project.uuid}>
+                  <Link to={`${ROUTES.PROJECT}/${project.id}`}>{project.housing_company}</Link>
+                </p>
+              ))}
+            </>
+          )}
     </Container>
   );
 };
