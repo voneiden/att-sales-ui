@@ -7,6 +7,7 @@ import HandleCallback from './components/auth/HandleCallback';
 import reportWebVitals from './reportWebVitals';
 import StoreProvider from './redux/StoreProvider';
 import { ClientProvider } from './components/auth/ClientProvider';
+import { ApiAccessTokenProvider } from './components/api/ApiAccessTokenProvider';
 
 import './i18n/i18n';
 
@@ -18,7 +19,9 @@ ReactDOM.render(
       <StoreProvider>
         <HandleCallback>
           <ClientProvider>
-            <App />
+            <ApiAccessTokenProvider>
+              <App />
+            </ApiAccessTokenProvider>
           </ClientProvider>
         </HandleCallback>
       </StoreProvider>
