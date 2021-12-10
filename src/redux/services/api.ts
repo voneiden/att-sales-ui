@@ -9,13 +9,13 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: getApiBaseUrl() }),
   endpoints: (builder) => ({
     getProjects: builder.query<Project[], void>({
-      query: () => 'projects',
+      query: () => 'projects/',
     }),
     getProjectById: builder.query<Project, string>({
       query: (id) => `projects/${id}`,
     }),
     getApartmentsByProject: builder.query<Apartment[], string>({
-      query: (id) => `apartments?project_id=${id}`,
+      query: (id) => `apartments?project_uuid=${id}`,
     }),
   }),
 });

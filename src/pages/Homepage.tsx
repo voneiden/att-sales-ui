@@ -21,7 +21,7 @@ const Index = (): JSX.Element => {
             <>
               {projects.map((project) => (
                 <p key={project.uuid}>
-                  <Link to={`${ROUTES.PROJECT}/${project.id}`}>{project.housing_company}</Link>
+                  <Link to={`${ROUTES.PROJECT}/${project.uuid}`}>{project.housing_company}</Link>
                 </p>
               ))}
             </>
