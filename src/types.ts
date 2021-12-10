@@ -1,14 +1,10 @@
+import { StateOfSale } from './enums';
+
 export type AnyObject = Record<string, unknown>;
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type AnyNonNullishValue = {};
 export type AnyValue = AnyNonNullishValue | undefined | null;
 export type AnyFunction = (props?: unknown) => unknown;
-
-export enum StateOfSale {
-  ForSale = 'FOR_SALE',
-  PreMarketing = 'PRE_MARKETING',
-  Upcoming = 'UPCOMING',
-}
 
 export type Apartment = {
   _language: string;

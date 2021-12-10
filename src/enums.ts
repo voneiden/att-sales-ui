@@ -6,3 +6,9 @@ export enum ROUTES {
   NOT_FOUND = '404',
   PROJECT = 'project',
 }
+
+export enum StateOfSale {
+  ForSale = 'FOR_SALE',
+  PreMarketing = 'PRE_MARKETING',
+  Upcoming = 'UPCOMING',
+}
