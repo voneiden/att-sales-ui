@@ -78,5 +78,10 @@
       "prettier --write --ignore-unknown"
     ]
   },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "src/mocks"
+    ]
+  },
   "proxy": "http://localhost:8081"
 }
