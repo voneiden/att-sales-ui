@@ -2,52 +2,54 @@ import React from 'react';
 
 import useSessionStorage from '../../utils/useSessionStorage';
 
-const SortApartments = (items: any, sessionStorageID: string) => {
-  const sortDefaultProps = {
-    key: 'apartment_number',
-    direction: 'ascending',
-    alphaNumeric: true,
-  };
+export const sortAlphanumeric = (items: any[], sortConfig: any) => {
+  items.sort((a, b) => {
+    const firstValue = a[sortConfig.key].split(' ').join('');
+    const secondValue = b[sortConfig.key].split(' ').join('');
+    if (sortConfig.direction === 'ascending') {
+      return firstValue.localeCompare(secondValue, 'fi', { numeric: true });
+    }
+    return secondValue.localeCompare(firstValue, 'fi', { numeric: true });
+  });
+  return items;
+};
 
+export const sortNumeric = (items: any[], sortConfig: any) => {
+  items.sort((a, b) => {
+    const firstValue = a[sortConfig.key];
+    const secondValue = b[sortConfig.key];
+
+    if (firstValue < secondValue) {
+      return sortConfig.direction === 'ascending' ? -1 : 1;
+    }
+    if (firstValue > secondValue) {
+      return sortConfig.direction === 'ascending' ? 1 : -1;
+    }
+    return 0;
+  });
+  return items;
+};
+
+const SortApartments = (items: any, sessionStorageID: string) => {
   const [sortConfig, setSortConfig] = useSessionStorage({
-    defaultValue: sortDefaultProps,
+    defaultValue: {
+      key: 'apartment_number',
+      direction: 'ascending',
+      alphaNumeric: true,
+    },
     key: `sortConfig-${sessionStorageID}`,
   });
 
   const sortedApartments = React.useMemo(() => {
     if (items === undefined) return [];
 
-    let sortableApartments = [...items];
+    const sortableApartments = [...items];
 
     if (sortConfig === null) return sortableApartments;
 
-    function sortAlphanumeric() {
-      sortableApartments.sort((a, b) => {
-        const firstValue = a[sortConfig.key].split(' ').join('');
-        const secondValue = b[sortConfig.key].split(' ').join('');
-        if (sortConfig.direction === 'ascending') {
-          return firstValue.localeCompare(secondValue, 'fi', { numeric: true });
-        }
-        return secondValue.localeCompare(firstValue, 'fi', { numeric: true });
-      });
-    }
-
-    function sortNumeric() {
-      sortableApartments.sort((a, b) => {
-        const firstValue = a[sortConfig.key];
-        const secondValue = b[sortConfig.key];
-
-        if (firstValue < secondValue) {
-          return sortConfig.direction === 'ascending' ? -1 : 1;
-        }
-        if (firstValue > secondValue) {
-          return sortConfig.direction === 'ascending' ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-
-    sortConfig.alphaNumeric ? sortAlphanumeric() : sortNumeric();
+    sortConfig.alphaNumeric
+      ? sortAlphanumeric(sortableApartments, sortConfig)
+      : sortNumeric(sortableApartments, sortConfig);
 
     return sortableApartments;
   }, [items, sortConfig]);
