@@ -17,7 +17,5 @@ describe('ApartmentTable', () => {
     render(<ApartmentTable apartments={apartments} isLoading={false} isError={false} isSuccess={true} projectId={1} />);
 
     expect(screen.getAllByText('components.apartment.ApartmentTable.apartment')).toBeDefined();
-    expect(screen.getAllByText('components.apartment.ApartmentTable.floor')).toBeDefined();
-    expect(screen.getAllByText('components.apartment.ApartmentTable.area')).toBeDefined();
   });
 });

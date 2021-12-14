@@ -1,5 +1,7 @@
 .apartmentList {
   overflow: auto;
+  background-color: var(--color-white);
+  padding: 0 var(--spacing-s);
 
   @media (max-width: 1248px) {
     padding: 0 var(--spacing-m);
