@@ -22,7 +22,7 @@ const OidcCallback = (props: OidcCallbackProps): JSX.Element => {
   if (!initialized) {
     return (
       <Container narrow>
-        <Card style={{ marginTop: 20 }}>
+        <Card style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center' }}>
             <LoadingSpinner
               small

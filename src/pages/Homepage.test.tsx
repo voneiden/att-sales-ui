@@ -7,13 +7,15 @@ import { renderWithProviders } from '../test/test-utils';
 
 describe('Homepage', () => {
   it('handles good response', async () => {
+    // show all projects
+    window.localStorage.setItem('showMyProjects', 'false');
+
     renderWithProviders(<Index />);
 
-    screen.getByText('Loading...');
+    screen.getByText('pages.Homepage.loading...');
 
     await screen.findByText('Taloyhtiö 30+');
     await screen.findByText('Kotikatu 32 As Oy');
-    await screen.findByText('Huolintatalo');
   });
 
   it('handles error response', async () => {
@@ -26,8 +28,38 @@ describe('Homepage', () => {
 
     renderWithProviders(<Index />);
 
-    screen.getByText('Loading...');
+    screen.getByText('pages.Homepage.loading...');
 
-    await screen.findByText('Error while loading projects');
+    await screen.findByText('pages.Homepage.errorLoadingProjects');
+  });
+
+  it('handles empty response', async () => {
+    // force msw to return error response
+    server.use(
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (req, res, ctx) => {
+        return res(ctx.json([]));
+      })
+    );
+
+    renderWithProviders(<Index />);
+
+    screen.getByText('pages.Homepage.loading...');
+
+    await screen.findByText('pages.Homepage.noAssignedProjects');
+  });
+
+  it('handles undefined response', async () => {
+    // force msw to return error response
+    server.use(
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (req, res, ctx) => {
+        return res(ctx.json(undefined));
+      })
+    );
+
+    renderWithProviders(<Index />);
+
+    screen.getByText('pages.Homepage.loading...');
+
+    await screen.findByText('pages.Homepage.noProjects');
   });
 });

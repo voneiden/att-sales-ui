@@ -1,10 +1,11 @@
 export enum ROUTES {
   AUTH_ERROR = 'auth-error',
+  CUSTOMERS = 'customers',
   INDEX = '/',
   LOGIN = 'login',
   LOGOUT = 'logout',
   NOT_FOUND = '404',
-  PROJECT = 'project',
+  PROJECTS = 'projects',
 }
 
 export enum StateOfSale {

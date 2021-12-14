@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const ApartmentRow = ({ apartment }: IProps): JSX.Element => {
-  const { apartment_number, apartment_structure, floor, floor_max, living_area, nid, url } = apartment;
+  const { apartment_number, apartment_structure, living_area, nid, url } = apartment;
 
   const { t } = useTranslation();
   const [width, setWidth] = useState(window.innerWidth);
@@ -44,7 +44,8 @@ const ApartmentRow = ({ apartment }: IProps): JSX.Element => {
       </strong>
       <span>
         <span className="hiddenFromScreen">{t(`${T_PATH}.ariaApartmentStructure`)}: </span>
-        {apartment_structure}
+        {apartment_structure}{' '}
+        {living_area && <span style={{ color: 'var(--color-black-60)' }}>({formattedLivingArea(living_area)})</span>}
       </span>
       {isMobileSize &&
         (rowOpen ? (
@@ -56,22 +57,12 @@ const ApartmentRow = ({ apartment }: IProps): JSX.Element => {
   );
 
   const apartMentRowOtherDetails = (
-    <>
-      <div className={styles.cell}>
-        <span className={isDesktopSize ? 'hiddenFromScreen' : styles.cellMobileTitle}>
-          {t(`${T_PATH}.floor`)}&nbsp;{' '}
-        </span>
-        <span>
-          {floor} {floor_max && ` / ${floor_max}`}
-        </span>
-      </div>
-      <div className={styles.cell}>
-        <span className={isDesktopSize ? 'hiddenFromScreen' : styles.cellMobileTitle}>
-          {t(`${T_PATH}.area`)}&nbsp;{' '}
-        </span>
-        {living_area && <span>{formattedLivingArea(living_area)}</span>}
-      </div>
-    </>
+    <div>
+      <span className={isDesktopSize ? 'hiddenFromScreen' : styles.cellMobileTitle}>
+        {t(`${T_PATH}.applicants`)}&nbsp;{' '}
+      </span>
+      <span>{/* TODO: show applicant data here */}-</span>
+    </div>
   );
 
   return (
@@ -96,9 +87,8 @@ const ApartmentRow = ({ apartment }: IProps): JSX.Element => {
       ) : (
         <>
           <div className={cx(styles.cell, styles.apartmentCell)}>{apartmentRowBaseDetails}</div>
-          {apartMentRowOtherDetails}
           <div className={styles.cell} style={{ textAlign: 'right' }}>
-            -
+            {apartMentRowOtherDetails}
           </div>
         </>
       )}

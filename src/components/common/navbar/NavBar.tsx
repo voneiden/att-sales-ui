@@ -8,6 +8,8 @@ import { ROUTES } from '../../../enums';
 import { useClient } from '../../../auth/hooks';
 import { LOCALSTORAGE_LANG_KEY } from '../../../i18n/i18n';
 
+import styles from './Navbar.module.scss';
+
 const T_PATH = 'common.navbar.Navbar';
 const LANGUAGES = ['fi', 'en', 'sv'];
 
@@ -32,8 +34,12 @@ const NavBar = (): JSX.Element => {
 
   const navLinks = [
     {
-      path: ROUTES.INDEX,
-      label: t(`${T_PATH}.homepage`),
+      path: `/${ROUTES.PROJECTS}`,
+      label: t(`${T_PATH}.projects`),
+    },
+    {
+      path: `/${ROUTES.CUSTOMERS}`,
+      label: t(`${T_PATH}.customers`),
     },
   ];
 
@@ -44,14 +50,8 @@ const NavBar = (): JSX.Element => {
       titleUrl={ROUTES.INDEX}
       skipTo="#mainContent"
       skipToContentLabel={t(`${T_PATH}.skipToContent`)}
+      className={styles.navbar}
     >
-      {initialized && authenticated && (
-        <Navigation.Row variant="inline">
-          {navLinks.map(({ path, label }) => (
-            <Navigation.Item key={path} href={path} label={label} active={isActiveLink(path, location.pathname)} />
-          ))}
-        </Navigation.Row>
-      )}
       <Navigation.Actions>
         <Navigation.LanguageSelector label={language.toUpperCase()}>
           {LANGUAGES.map((lang) => (
@@ -80,6 +80,13 @@ const NavBar = (): JSX.Element => {
           </Navigation.User>
         )}
       </Navigation.Actions>
+      {initialized && authenticated && (
+        <Navigation.Row>
+          {navLinks.map(({ path, label }) => (
+            <Navigation.Item key={path} href={path} label={label} active={isActiveLink(path, location.pathname)} />
+          ))}
+        </Navigation.Row>
+      )}
     </Navigation>
   );
 };

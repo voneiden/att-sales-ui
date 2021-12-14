@@ -1,10 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
-import { IconSortAscending, IconSortDescending } from 'hds-react';
+import { IconSortAscending, IconSortDescending, Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import ApartmentRow from './ApartmentRow';
 import SortApartments from './SortApartments';
+import StatusText from '../common/statusText/StatusText';
 import { Apartment, Project } from '../../types';
 
 import styles from './ApartmentTable.module.scss';
@@ -79,30 +80,32 @@ const ApartmentTable = ({
     <div
       className={styles.apartmentList}
       role="group"
-      aria-label={`${t(`${T_PATH}.'ariaApartmentListForProject'`)}: ${housingCompany}`}
+      aria-label={`${t(`${T_PATH}.ariaApartmentListForProject`)}: ${housingCompany}`}
     >
       <ul className={styles.apartmentListTable}>
-        <li className={styles.apartmentListHeaders} aria-label={t(`${T_PATH}.ariaSortApartments`)}>
-          <div className={cx(styles.headerCell, styles.headerCellSortable, styles.headerCellApartment)}>
-            {tableHeadButton('apartment_number', t(`${T_PATH}.apartment`), true)}
-          </div>
-          <div className={cx(styles.headerCell, styles.headerCellSortable, styles.headerCellNarrow)}>
-            {tableHeadButton('floor', t(`${T_PATH}.floor`), false)}
-          </div>
-          <div className={cx(styles.headerCell, styles.headerCellSortable, styles.headerCellNarrow)}>
-            {tableHeadButton('living_area', t(`${T_PATH}.area`), false)}
-          </div>
-          <div className={cx(styles.headerCell, styles.headerCellWide)} style={{ textAlign: 'right' }}>
-            {t(`${T_PATH}.applicants`)}
-          </div>
-        </li>
         {isLoading ? (
-          <li>Loading...</li>
+          <li>
+            <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
+          </li>
         ) : isError ? (
-          <li>Error while loading apartments</li>
+          <li>
+            <Notification type="error" size="small" style={{ marginTop: 15 }}>
+              {t(`${T_PATH}.errorLoadingApartments`)}
+            </Notification>
+          </li>
         ) : (
-          sortedApartments &&
-          sortedApartments.map((apartment) => <ApartmentRow key={apartment.uuid} apartment={apartment} />)
+          <>
+            <li className={styles.apartmentListHeaders} aria-label={t(`${T_PATH}.ariaSortApartments`)}>
+              <div className={cx(styles.headerCell, styles.headerCellSortable, styles.headerCellApartment)}>
+                {tableHeadButton('apartment_number', t(`${T_PATH}.apartment`), true)}
+              </div>
+              <div className={cx(styles.headerCell, styles.headerCellWide)} style={{ textAlign: 'right' }}>
+                {t(`${T_PATH}.applicants`)}
+              </div>
+            </li>
+            {sortedApartments &&
+              sortedApartments.map((apartment) => <ApartmentRow key={apartment.uuid} apartment={apartment} />)}
+          </>
         )}
       </ul>
     </div>
