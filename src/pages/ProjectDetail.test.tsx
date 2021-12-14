@@ -9,9 +9,9 @@ describe('ProjectDetail Page', () => {
   it('handles good response', async () => {
     renderWithProviders(<ProjectDetail />);
 
-    screen.getByText('Loading...');
+    screen.getByText('pages.ProjectDetail.loading...');
 
-    await screen.findByText('pages.ProjectDetail.projectApartments');
+    await screen.findByText('Kolkyt 30');
   });
 
   it('handles response when project is undefined', async () => {
@@ -37,8 +37,8 @@ describe('ProjectDetail Page', () => {
 
     renderWithProviders(<ProjectDetail />);
 
-    screen.getByText('Loading...');
+    screen.getByText('pages.ProjectDetail.loading...');
 
-    await screen.findByText('Error while loading the project');
+    await screen.findByText('pages.ProjectDetail.errorLoadingProject');
   });
 });
