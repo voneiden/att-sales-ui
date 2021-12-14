@@ -10,5 +10,5 @@
 }
 
 .wide {
-  max-width: calc(1200px + var(--spacing-2-xl) + var(--spacing-2-xl));
+  max-width: calc(var(--container-width-xl) + var(--spacing-2-xl) + var(--spacing-2-xl));
 }
