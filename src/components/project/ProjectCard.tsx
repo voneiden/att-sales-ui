@@ -1,10 +1,13 @@
 import React from 'react';
-import { Button, IconCogwheel } from 'hds-react';
+import { Button, IconArrowRight, IconCogwheel } from 'hds-react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import Label from '../common/label/Label';
 import formatDateTime from '../../utils/formatDateTime';
+import { getInitials } from '../../utils/getInitials';
 import { Project } from '../../types';
+import { ROUTES } from '../../enums';
 
 import styles from './ProjectCard.module.scss';
 
@@ -12,12 +15,15 @@ const T_PATH = 'components.project.ProjectCard';
 
 interface IProps {
   project: Project;
+  showActions?: Boolean;
+  renderAsLink?: Boolean;
 }
 
-const ProjectCard = ({ project }: IProps): JSX.Element => {
+const ProjectCard = ({ project, renderAsLink, showActions }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const {
     application_end_time,
+    estate_agent,
     estimated_completion,
     district,
     housing_company,
@@ -29,8 +35,8 @@ const ProjectCard = ({ project }: IProps): JSX.Element => {
     uuid,
   } = project;
 
-  return (
-    <div className={styles.projectCard} id={uuid}>
+  const renderContent = () => (
+    <>
       <div className={styles.projectDetails}>
         {main_image_url && (
           <div className={styles.projectImageColumn}>
@@ -56,45 +62,59 @@ const ProjectCard = ({ project }: IProps): JSX.Element => {
 
       <div className={styles.projectActions}>
         <div className={styles.projectStatusColumn}>
-          <div>
+          <IconArrowRight className={styles.statusArrowIcon} />
+          <div className={styles.stateOfProject}>
             {/* TODO: Format values for state_of_sale */}
-            <strong>{state_of_sale}</strong>
+            {state_of_sale}
           </div>
           <div>
             {t(`${T_PATH}.applicationEndTime`)} {application_end_time ? formatDateTime(application_end_time) : '-'}
           </div>
-          <div className={styles.lotteryBtnWrap}>
-            {/* TODO: Add functionality for the button */}
-            <Button variant="secondary" size="small" disabled>
-              {t(`${T_PATH}.startLottery`)}
-            </Button>
-            {/* TODO: Add functionality for the button */}
-            <Button variant="primary" size="small" disabled>
-              {t(`${T_PATH}.downloadLotteryResults`)} (PDF)
-            </Button>
-          </div>
+          {showActions && (
+            <div className={styles.lotteryBtnWrap}>
+              <div>
+                {/* TODO: Add functionality for the button */}
+                <Button variant="secondary" size="small" disabled>
+                  {t(`${T_PATH}.startLottery`)}
+                </Button>
+              </div>
+              <div>
+                {/* TODO: Add functionality for the button */}
+                <Button variant="primary" size="small" disabled>
+                  {t(`${T_PATH}.downloadLotteryResults`)} (PDF)
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className={styles.projectRightColumn}>
+          {!renderAsLink && (
+            <div className={styles.projectLink}>
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                className="hds-button hds-button--supplementary hds-button--small"
+              >
+                <span className="hds-button__label">{t(`${T_PATH}.showProject`)}</span>
+              </a>
+            </div>
+          )}
           <div className={styles.projectAssignee}>
-            <span className={styles.assigneeCircle}>
-              {/* TODO: Get proper person's initials */}
-              XY
-            </span>
-          </div>
-          <div className={styles.projectLink}>
-            <a
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              className="hds-button hds-button--supplementary hds-button--small"
-            >
-              <span className="hds-button__label">{t(`${T_PATH}.showProject`)}</span>
-            </a>
+            <span className={styles.assigneeCircle}>{getInitials(estate_agent)}</span>
           </div>
         </div>
       </div>
-    </div>
+    </>
+  );
+
+  return renderAsLink ? (
+    <Link to={`/${ROUTES.PROJECTS}/${uuid}`} className={styles.projectCard}>
+      {renderContent()}
+    </Link>
+  ) : (
+    <div className={styles.projectCard}>{renderContent()}</div>
   );
 };
 
