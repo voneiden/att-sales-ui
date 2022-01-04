@@ -108,3 +108,15 @@ export type Project = {
   zoning_info: string;
   zoning_status: string;
 };
+
+export type Customer = {
+  coApplicant: string;
+  email: string;
+  firstName: string;
+  fullName: string;
+  id: number;
+  lastName: string;
+  nin: string;
+  phone: string;
+  project: string;
+};
