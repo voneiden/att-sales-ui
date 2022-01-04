@@ -1,0 +1,9 @@
+.searchFields {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-s);
+
+  > * {
+      margin-right: var(--spacing-s);
+  }
+}

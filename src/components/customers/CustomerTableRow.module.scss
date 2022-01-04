@@ -1,0 +1,20 @@
+.customerTableRow {
+  display: table-row;
+}
+
+.customerTableRow + .customerTableRow {
+  border-top: 1px solid var(--color-black-10);
+}
+
+.customerTableCell {
+  display: table-cell;
+  padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+}
+
+.nameCell {
+  min-width: 220px;
+
+  a {
+    color: inherit;
+  }
+}
