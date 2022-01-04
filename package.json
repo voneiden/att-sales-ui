@@ -80,7 +80,9 @@
   },
   "jest": {
     "coveragePathIgnorePatterns": [
-      "src/mocks"
+      "src/mocks",
+      "src/reportWebVitals.ts",
+      "src/index.tsx"
     ]
   },
   "proxy": "http://localhost:8081"
