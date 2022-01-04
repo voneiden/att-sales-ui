@@ -10,6 +10,7 @@ import NotFound from './pages/NotFound';
 import LoadingScreen from './components/common/loadingScreen/LoadingScreen';
 import WithAuth from './components/auth/WithAuth';
 import ProjectDetail from './pages/ProjectDetail';
+import CustomerSearch from './pages/CustomerSearch';
 
 import { ROUTES } from './enums';
 
@@ -19,6 +20,7 @@ const Authenticated = (): JSX.Element => (
       <Route index element={<Navigate to={ROUTES.PROJECTS} />} />
       <Route path={ROUTES.PROJECTS} element={<Index />} />
       <Route path={`${ROUTES.PROJECTS}/:projectId`} element={<ProjectDetail />} />
+      <Route path={ROUTES.CUSTOMERS} element={<CustomerSearch />} />
       <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
