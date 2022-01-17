@@ -4,6 +4,7 @@ import type { PreloadedState } from '@reduxjs/toolkit';
 
 import authReducer from './features/authSlice';
 import { api } from './services/api';
+import { rtkQueryErrorLogger } from './middleware/error';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,7 +14,7 @@ const rootReducer = combineReducers({
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware, rtkQueryErrorLogger),
     preloadedState,
   });
 };
