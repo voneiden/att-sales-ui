@@ -1,0 +1,17 @@
+#toast-container-main {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999999;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  align-items: flex-end;
+}
+
+.custom-toast {
+  position: relative !important;
+  top: 0;
+  right: 0;
+  margin-bottom: var(--spacing-s);
+}
