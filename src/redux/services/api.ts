@@ -31,7 +31,19 @@ export const api = createApi({
     getApartmentsByProject: builder.query<Apartment[], string>({
       query: (id) => `apartments?project_uuid=${id}`,
     }),
+    startLotteryForProject: builder.mutation<any, {}>({
+      query: (params) => ({
+        url: 'execute_lottery_for_project',
+        method: 'POST',
+        body: params,
+      }),
+    }),
   }),
 });
 
-export const { useGetProjectsQuery, useGetProjectByIdQuery, useGetApartmentsByProjectQuery } = api;
+export const {
+  useGetProjectsQuery,
+  useGetProjectByIdQuery,
+  useGetApartmentsByProjectQuery,
+  useStartLotteryForProjectMutation,
+} = api;

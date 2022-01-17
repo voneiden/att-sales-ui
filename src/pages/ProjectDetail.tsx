@@ -9,7 +9,11 @@ import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Br
 import Container from '../components/common/container/Container';
 import ProjectCard from '../components/project/ProjectCard';
 import StatusText from '../components/common/statusText/StatusText';
-import { useGetApartmentsByProjectQuery, useGetProjectByIdQuery } from '../redux/services/api';
+import {
+  useGetApartmentsByProjectQuery,
+  useGetProjectByIdQuery,
+  useStartLotteryForProjectMutation,
+} from '../redux/services/api';
 import { ROUTES } from '../enums';
 
 import styles from './ProjectDetail.module.scss';
@@ -26,6 +30,27 @@ const ProjectDetail = (): JSX.Element | null => {
     isError: isApartmentsError,
     isSuccess: isApartmentsSuccess,
   } = useGetApartmentsByProjectQuery(projectId || '0', { skip: !isSuccess });
+  const [
+    startLotteryForProject,
+    {
+      // TODO: Use necessary items from the query
+      // data: startLotteryData,
+      // error: startLotteryError,
+      isLoading: startLotterIsLoading,
+      // isError: startLotteryIsError,
+      // isSuccess: startLotteryIsSuccess,
+    },
+  ] = useStartLotteryForProjectMutation();
+
+  const onStartLotteryClick = async () => {
+    if (!startLotterIsLoading) {
+      try {
+        await startLotteryForProject({ project_uuid: project?.uuid }).unwrap();
+      } catch (err) {
+        console.error('Failed to post: ', err);
+      }
+    }
+  };
 
   const breadcrumbAncestors: BreadcrumbItem[] = [
     {
@@ -60,7 +85,12 @@ const ProjectDetail = (): JSX.Element | null => {
         <Breadcrumbs current={project.housing_company} ancestors={breadcrumbAncestors} />
       </Container>
       <Container wide>
-        <ProjectCard project={project} showActions />
+        <ProjectCard
+          project={project}
+          showActions
+          lotteryOnClick={() => onStartLotteryClick()}
+          lotteryLoading={startLotterIsLoading}
+        />
         <div className={styles.apartmentsWrapper}>
           <ApartmentActions />
           <ApartmentTable

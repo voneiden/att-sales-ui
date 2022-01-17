@@ -32,6 +32,5 @@ describe('ProjectCard', () => {
   it('renders action buttons', () => {
     render(<ProjectCard project={mockProject[1]} renderAsLink={false} showActions />);
     expect(screen.getByText('components.project.ProjectCard.startLottery')).toBeDefined();
-    expect(screen.getByText('components.project.ProjectCard.downloadLotteryResults', { exact: false })).toBeDefined();
   });
 });
