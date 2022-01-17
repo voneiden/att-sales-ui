@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './Breadcrumbs.module.scss';
 
-const T_PATH = 'components.common.breadcrumbs';
+const T_PATH = 'components.common.breadcrumbs.Breadcrumbs';
 
 export interface BreadcrumbItem {
   label: string;
