@@ -3,10 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import type { PreloadedState } from '@reduxjs/toolkit';
 
 import authReducer from './features/authSlice';
+import apiTokenReducer from './features/apiTokenSlice';
 import { api } from './services/api';
 import { rtkQueryErrorLogger } from './middleware/error';
 
 const rootReducer = combineReducers({
+  tokens: apiTokenReducer,
   auth: authReducer,
   [api.reducerPath]: api.reducer,
 });

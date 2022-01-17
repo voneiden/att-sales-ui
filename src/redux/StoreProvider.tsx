@@ -3,16 +3,22 @@ import { Provider } from 'react-redux';
 
 import { ClientEvent, ClientErrorObject, User } from '../auth';
 import { authorized, connected, errorThrown, initializing, tokenExpired, unauthorized } from './features/authSlice';
+import { apiTokenFetched } from './features/apiTokenSlice';
 import { store } from './store';
 import { useClient } from '../auth/hooks';
+import { useApiAccessTokens } from '../api/useApiAccessTokens';
 
 const StoreProvider: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   const client = useClient();
+  const apiAccessTokens = useApiAccessTokens();
 
   useEffect(() => {
     const getStatus = client.getStatus();
     const isAuthenticated = client.isAuthenticated();
     const isInitialized = client.isInitialized();
+
+    const tokens = apiAccessTokens.getTokens();
+    const apiToken = tokens ? tokens[String(process.env.REACT_APP_API_AUDIENCE)] : '';
 
     client.addListener(ClientEvent.INITIALIZING, () => {
       store.dispatch(initializing());
@@ -30,7 +36,9 @@ const StoreProvider: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
       store.dispatch(errorThrown(payload as ClientErrorObject));
     });
     store.dispatch(connected({ getStatus, isAuthenticated, isInitialized }));
-  }, [client]);
+
+    store.dispatch(apiTokenFetched({ apiToken }));
+  }, [client, apiAccessTokens]);
 
   return <Provider store={store}>{children}</Provider>;
 };
