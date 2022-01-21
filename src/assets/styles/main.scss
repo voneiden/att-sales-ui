@@ -2,6 +2,8 @@
 @import "~hds-core/lib/components/button/button";
 @import url('https://makasiini.hel.ninja/delivery/HelsinkiGrotesk/HelsinkiGrotesk.css');
 
+@import "./toast.scss";
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

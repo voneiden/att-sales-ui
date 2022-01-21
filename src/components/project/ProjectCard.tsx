@@ -15,11 +15,13 @@ const T_PATH = 'components.project.ProjectCard';
 
 interface IProps {
   project: Project;
-  showActions?: Boolean;
-  renderAsLink?: Boolean;
+  showActions?: boolean;
+  renderAsLink?: boolean;
+  lotteryLoading?: boolean;
+  lotteryOnClick?: () => void;
 }
 
-const ProjectCard = ({ project, renderAsLink, showActions }: IProps): JSX.Element => {
+const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotteryOnClick }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const {
     application_end_time,
@@ -34,6 +36,9 @@ const ProjectCard = ({ project, renderAsLink, showActions }: IProps): JSX.Elemen
     url,
     uuid,
   } = project;
+
+  const timeNow = new Date().getTime();
+  const applicationPeriodHasEnded = application_end_time ? timeNow > new Date(application_end_time).getTime() : false;
 
   const renderContent = () => (
     <>
@@ -68,22 +73,19 @@ const ProjectCard = ({ project, renderAsLink, showActions }: IProps): JSX.Elemen
             {state_of_sale}
           </div>
           <div>
-            {t(`${T_PATH}.applicationEndTime`)} {application_end_time ? formatDateTime(application_end_time) : '-'}
+            {applicationPeriodHasEnded ? t(`${T_PATH}.applicationTimeHasEnded`) : t(`${T_PATH}.applicationEndTime`)}
+            &nbsp;
+            {application_end_time ? formatDateTime(application_end_time) : '-'}
           </div>
           {showActions && (
             <div className={styles.lotteryBtnWrap}>
-              <div>
-                {/* TODO: Add functionality for the button */}
-                <Button variant="secondary" size="small" disabled>
-                  {t(`${T_PATH}.startLottery`)}
-                </Button>
-              </div>
-              <div>
-                {/* TODO: Add functionality for the button */}
-                <Button variant="primary" size="small" disabled>
-                  {t(`${T_PATH}.downloadLotteryResults`)} (PDF)
-                </Button>
-              </div>
+              <Button
+                variant="primary"
+                onClick={lotteryOnClick}
+                disabled={!applicationPeriodHasEnded || lotteryLoading}
+              >
+                {t(`${T_PATH}.startLottery`)}
+              </Button>
             </div>
           )}
         </div>

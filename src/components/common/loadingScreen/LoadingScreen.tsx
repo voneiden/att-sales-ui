@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import styles from './LoadingScreen.module.scss';
 
-const T_PATH = 'common.loadingScreen.LoadingScreen';
+const T_PATH = 'components.common.loadingScreen.LoadingScreen';
 
 const LoadingScreen = (): JSX.Element => {
   const { t } = useTranslation();

@@ -3,9 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import type { PreloadedState } from '@reduxjs/toolkit';
 
 import authReducer from './features/authSlice';
+import apiTokenReducer from './features/apiTokenSlice';
 import { api } from './services/api';
+import { rtkQueryErrorLogger } from './middleware/error';
 
 const rootReducer = combineReducers({
+  tokens: apiTokenReducer,
   auth: authReducer,
   [api.reducerPath]: api.reducer,
 });
@@ -13,7 +16,7 @@ const rootReducer = combineReducers({
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware, rtkQueryErrorLogger),
     preloadedState,
   });
 };
