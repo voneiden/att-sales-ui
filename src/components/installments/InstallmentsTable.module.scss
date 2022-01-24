@@ -1,0 +1,30 @@
+.installmentsWrapper {
+  background-color: var(--color-white);
+  padding: 0 var(--spacing-s) var(--spacing-s) var(--spacing-s);
+}
+
+.installmentsTable {
+  margin-bottom: var(--spacing-xs);
+
+  thead {
+    background-color: transparent;
+  }
+
+  tfoot {
+    background-color: var(--color-info-light);
+  }
+
+  th {
+    border-color: var(--color-black-50);
+  }
+}
+
+.printDialog {
+  @media (min-width: 1248px) { // --breakpoint-l
+    width: 720px !important;
+  }
+
+  [class*="dialogTitle"] {
+    font-size: var(--fontsize-heading-l);
+  }
+}

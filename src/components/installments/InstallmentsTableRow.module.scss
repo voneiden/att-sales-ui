@@ -1,0 +1,17 @@
+.buttonCell {
+  padding-top: var(--spacing-3-xs) !important;
+  padding-bottom: var(--spacing-3-xs) !important;
+}
+
+.tableWrapper {
+  padding: var(--spacing-xs) 0;
+  border: solid var(--color-black-20);
+  border-width: 1px 0;
+}
+
+.table {
+  th,
+  td {
+    padding: var(--spacing-3-xs) var(--spacing-2-xs);
+  }
+}
