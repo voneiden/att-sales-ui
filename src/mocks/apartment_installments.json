@@ -1,0 +1,52 @@
+[
+  {
+    "type": "DOWN_PAYMENT",
+    "amount": "3000.00",
+    "unit": "EURO",
+    "unit_specifier": "FROM_SALE_PRICE",
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "remarks": "lorem ipsum dolor sit amet ",
+    "laske_reference": "1231231 3123123"
+  },
+  {
+    "type": "PAYMENT_1",
+    "amount": "22500.00",
+    "unit": "EURO",
+    "unit_specifier": "FROM_SALE_PRICE",
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "remarks": "lorem ipsum dolor sit amet ",
+    "laske_reference": "LASKE-VIITE-2"
+  },
+  {
+    "type": "PAYMENT_2",
+    "amount": "45500.00",
+    "unit": "EURO",
+    "unit_specifier": "FROM_SALE_PRICE",
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "remarks": "lorem ipsum dolor sit amet ",
+    "laske_reference": "LASKE-VIITE-3"
+  },
+  {
+    "type": "PAYMENT_3",
+    "amount": "30500.00",
+    "unit": "EURO",
+    "unit_specifier": "FROM_SALE_PRICE",
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "remarks": "lorem ipsum dolor sit amet ",
+    "laske_reference": "LASKE-VIITE-4"
+  },
+  {
+    "type": "PAYMENT_4",
+    "amount": "25000.00",
+    "unit": "EURO",
+    "unit_specifier": "FROM_SALE_PRICE",
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "remarks": "lorem ipsum dolor sit amet ",
+    "laske_reference": "LASKE-VIITE-5"
+  }
+]
