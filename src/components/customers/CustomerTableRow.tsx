@@ -43,7 +43,7 @@ const CustomerTableRow = ({ customer }: IProps): JSX.Element => {
       </div>
       <div className={styles.customerTableCell}>
         <span className="hiddenFromScreen">{t(`${T_PATH}.coApplicant`)}:</span>
-        {customer?.coApplicant}
+        {customer?.coApplicant?.fullName}
       </div>
     </div>
   );
