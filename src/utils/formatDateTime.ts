@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 
-export default function formatDateTime(value: string) {
+export default function formatDateTime(value: string, dateOnly?: boolean) {
   let locale = '';
 
   switch (i18n.language) {
@@ -12,6 +12,10 @@ export default function formatDateTime(value: string) {
       break;
     default:
       locale = 'fi-FI';
+  }
+
+  if (dateOnly) {
+    return new Intl.DateTimeFormat(locale).format(new Date(value));
   }
 
   return new Intl.DateTimeFormat(locale, {
