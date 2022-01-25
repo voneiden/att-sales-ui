@@ -1,0 +1,18 @@
+.projectName {
+  display: flex;
+  margin-bottom: var(--spacing-xs);
+  align-items: baseline;
+  line-height: 1;
+
+  h2 {
+    margin: 0 var(--spacing-s);
+  }
+}
+
+.labelWrapper {
+  align-self: flex-start;
+
+  span {
+    margin: -2px 0 0 0;
+  }
+}

@@ -1,4 +1,4 @@
-import { StateOfSale } from './enums';
+import { StateOfSale, InstallmentTypes } from './enums';
 
 export type AnyObject = Record<string, unknown>;
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -109,14 +109,37 @@ export type Project = {
   zoning_status: string;
 };
 
-export type Customer = {
-  coApplicant: string;
+// TODO: Define these after we have a working API
+export type CustomerBaseDetails = {
+  address: string;
   email: string;
   firstName: string;
   fullName: string;
-  id: number;
   lastName: string;
   nin: string;
   phone: string;
+};
+
+// TODO: Define these after we have a working API
+export type Customer = CustomerBaseDetails & {
+  coApplicant: CustomerBaseDetails | undefined | null;
+  family_with_children: boolean;
+  haso_number: string;
+  has_haso_ownership: boolean;
+  has_hitas_ownership: boolean;
+  id: number;
+  is_over_55_years_old: boolean;
   project: string;
+};
+
+// TODO: Define these after we have a working API
+export type ApartmentInstallment = {
+  type: `${InstallmentTypes}`;
+  amount?: number;
+  percentage?: string;
+  unit_specifier: string;
+  account_number: string;
+  due_date: string;
+  remarks: string;
+  laske_reference: string;
 };
