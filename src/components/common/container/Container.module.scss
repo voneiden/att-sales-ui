@@ -3,6 +3,10 @@
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+
+  @media (max-width: 1248px) {
+    padding: 0 var(--spacing-m);
+  }
 }
 
 .narrow {
@@ -11,4 +15,8 @@
 
 .wide {
   max-width: calc(var(--container-width-xl) + var(--spacing-2-xl) + var(--spacing-2-xl));
+
+  @media (max-width: 1248px) {
+    padding: 0 !important;
+  }
 }
