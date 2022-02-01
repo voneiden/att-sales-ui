@@ -20,6 +20,7 @@ import {
 } from './index';
 import { AnyObject } from '../types';
 import createHttpPoller from './http-poller';
+import { toast } from '../components/common/errorToast/ErrorToastManager';
 
 let client: Client | null = null;
 
@@ -172,7 +173,9 @@ export function createOidcClient(): Client {
   });
 
   const login: Client['login'] = () => {
-    manager.signinRedirect();
+    manager.signinRedirect().catch((e) => {
+      toast.show({ type: 'error', content: e.toString() });
+    });
   };
 
   const logout: Client['logout'] = () => {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-const T_PATH = 'common.errorToast.ErrorToast';
+const T_PATH = 'components.common.errorToast.ErrorToast';
 
 export type ErrorToastProps = {
   content?: string;
