@@ -89,5 +89,5 @@
 }
 
 .formWrapper {
-  margin: 0 calc(var(--spacing-l) * -1);
+  margin: 0 calc(#{var(--spacing-l)} * -1);
 }
