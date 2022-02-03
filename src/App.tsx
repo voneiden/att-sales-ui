@@ -17,7 +17,7 @@ import { ROUTES } from './enums';
 
 const Authenticated = (): JSX.Element => (
   <Routes>
-    <Route path="/" element={<MainLayout />}>
+    <Route path="/" element={<MainLayout authenticated />}>
       <Route index element={<Navigate to={ROUTES.PROJECTS} />} />
       <Route path={ROUTES.PROJECTS} element={<Index />} />
       <Route path={`${ROUTES.PROJECTS}/:projectId`} element={<ProjectDetail />} />
