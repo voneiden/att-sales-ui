@@ -1,15 +1,18 @@
 import React from 'react';
 import { Button, IconArrowRight } from 'hds-react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import ProjectName from '../project/ProjectName';
 import formattedLivingArea from '../../utils/formatLivingArea';
-import { Apartment } from '../../types';
+import { Apartment, Customer, Project } from '../../types';
+import { showOfferModal } from '../../redux/features/offerModalSlice';
 
 import styles from './CustomerReservations.module.scss';
 
 import dummyProjects from '../../mocks/projects.json'; // TODO: Get actual project data
 import dummyApartments from '../../mocks/apartments.json'; // TODO: Get actual apartment data
+import dummyCustomers from '../../mocks/customers.json'; // TODO: Get actual project data
 
 const T_PATH = 'components.customers.CustomerReservations';
 
@@ -18,8 +21,9 @@ const dummyApartments2 = dummyApartments.slice(2, 3); // Get 3. for demo
 
 const CustomerReservations = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
-  const renderApartmentRow = (apartment: Apartment) => (
+  const renderApartmentRow = (apartment: Apartment, customer: Customer, project: Project) => (
     <div className={styles.row}>
       <div className={styles.apartmentRow}>
         <div className={styles.apartmentRowLeft}>
@@ -40,7 +44,19 @@ const CustomerReservations = () => {
         </div>
       </div>
       <div className={styles.buttons}>
-        <Button variant="secondary" size="small" disabled>
+        <Button
+          variant="secondary"
+          size="small"
+          onClick={() =>
+            dispatch(
+              showOfferModal({
+                project: project,
+                apartment: apartment,
+                customer: customer,
+              })
+            )
+          }
+        >
           {t(`${T_PATH}.createOffer`)}
         </Button>
         <Button variant="secondary" size="small" disabled>
@@ -57,7 +73,7 @@ const CustomerReservations = () => {
         {!!dummyApartments1.length &&
           dummyApartments1.map((a: any) => (
             <div key={a.uuid} className={styles.singleApartment}>
-              {renderApartmentRow(a)}
+              {renderApartmentRow(a, dummyCustomers[0], dummyProjects[0] as any)}
             </div>
           ))}
       </div>
@@ -66,7 +82,7 @@ const CustomerReservations = () => {
         {!!dummyApartments2.length &&
           dummyApartments2.map((a: any) => (
             <div key={a.uuid} className={styles.singleApartment}>
-              {renderApartmentRow(a)}
+              {renderApartmentRow(a, dummyCustomers[0], dummyProjects[1] as any)}
             </div>
           ))}
       </div>
