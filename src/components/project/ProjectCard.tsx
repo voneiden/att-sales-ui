@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, IconArrowRight, IconCogwheel } from 'hds-react';
+import { Button, Dialog, IconArrowRight, IconCogwheel, IconLinkExternal, IconQuestionCircle } from 'hds-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -23,6 +23,8 @@ interface IProps {
 
 const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotteryOnClick }: IProps): JSX.Element => {
   const { t } = useTranslation();
+  const openLotteryConfirmDialogButtonRef = React.useRef(null);
+  const [isLotteryConfirmOpen, setIsLotteryConfirmOpen] = React.useState(false);
   const {
     application_end_time,
     estate_agent,
@@ -39,6 +41,15 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
 
   const timeNow = new Date().getTime();
   const applicationPeriodHasEnded = application_end_time ? timeNow > new Date(application_end_time).getTime() : false;
+
+  const closeLotteryConfirm = () => setIsLotteryConfirmOpen(false);
+
+  const handleLotteryStartBtnClick = () => {
+    if (lotteryOnClick) {
+      lotteryOnClick();
+    }
+    closeLotteryConfirm();
+  };
 
   const renderContent = () => (
     <>
@@ -81,8 +92,11 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
             <div className={styles.lotteryBtnWrap}>
               <Button
                 variant="primary"
-                onClick={lotteryOnClick}
+                ref={openLotteryConfirmDialogButtonRef}
                 disabled={!applicationPeriodHasEnded || lotteryLoading}
+                onClick={() => setIsLotteryConfirmOpen(true)}
+                isLoading={lotteryLoading}
+                loadingText={t(`${T_PATH}.lotteryLoading`)}
               >
                 {t(`${T_PATH}.startLottery`)}
               </Button>
@@ -99,6 +113,7 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
                 rel="noreferrer"
                 className="hds-button hds-button--supplementary hds-button--small"
               >
+                <IconLinkExternal aria-hidden="true" />
                 <span className="hds-button__label">{t(`${T_PATH}.showProject`)}</span>
               </a>
             </div>
@@ -108,6 +123,32 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
           </div>
         </div>
       </div>
+      {showActions && (
+        <Dialog
+          id="lottery-confirm-dialog"
+          aria-labelledby="lottery-confirm-dialog-title"
+          aria-describedby="lottery-confirm-dialog-info"
+          isOpen={isLotteryConfirmOpen}
+          focusAfterCloseRef={openLotteryConfirmDialogButtonRef}
+        >
+          <Dialog.Header
+            id="lottery-confirm-dialog-title"
+            title={t(`${T_PATH}.startLotteryConfirmTitle`)}
+            iconLeft={<IconQuestionCircle aria-hidden="true" />}
+          />
+          <Dialog.Content>
+            <p id="lottery-confirm-dialog-info" className="text-body">
+              {t(`${T_PATH}.startLotteryConfirmText`)}
+            </p>
+          </Dialog.Content>
+          <Dialog.ActionButtons>
+            <Button onClick={handleLotteryStartBtnClick}>{t(`${T_PATH}.startLottery`)}</Button>
+            <Button onClick={closeLotteryConfirm} variant="secondary">
+              {t(`${T_PATH}.startLotteryCancel`)}
+            </Button>
+          </Dialog.ActionButtons>
+        </Dialog>
+      )}
     </>
   );
 
