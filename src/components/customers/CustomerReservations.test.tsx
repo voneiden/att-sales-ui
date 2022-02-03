@@ -1,11 +1,11 @@
-import { render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import CustomerReservations from './CustomerReservations';
+import { renderWithProviders } from '../../test/test-utils';
 
 describe('CustomerReservations', () => {
   it('renders the component', () => {
-    const { container } = render(<CustomerReservations />);
-    const element = container.firstChild;
-    expect(element).toBeDefined();
+    renderWithProviders(<CustomerReservations />);
+    expect(screen.getAllByText('components.customers.CustomerReservations.position', { exact: false })).toBeDefined();
   });
 
   // TODO: Add better tests when we fetch the actual data from API
