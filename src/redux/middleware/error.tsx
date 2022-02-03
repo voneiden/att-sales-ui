@@ -4,13 +4,18 @@ import { toast } from '../../components/common/errorToast/ErrorToastManager';
 export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     const errorTitle = action.error.message;
-    const errorDetail =
-      action.payload?.data?.detail ||
-      action.payload?.data?.message ||
-      action.payload?.data[0]?.message ||
-      action.payload?.data;
+    const payloadData = action.payload.data;
+    let errorMessage = undefined;
 
-    toast.show({ type: 'error', title: errorTitle, content: errorDetail });
+    if (payloadData) {
+      if (Array.isArray(payloadData)) {
+        errorMessage = payloadData[0]?.message;
+      } else {
+        errorMessage = payloadData?.detail || payloadData?.message || payloadData;
+      }
+    }
+
+    toast.show({ type: 'error', title: errorTitle, content: errorMessage });
   }
 
   return next(action);
