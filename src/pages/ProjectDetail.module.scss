@@ -2,7 +2,7 @@
   background-color: var(--color-black-5);
   padding: var(--spacing-l) var(--spacing-m);
 
-  @media (min-width: 1248px) { // --breakpoint-l
+  @media (min-width: 1248px) { // --breakpoint-xl
     padding: var(--spacing-xl) var(--spacing-2-xl);
   }
 }

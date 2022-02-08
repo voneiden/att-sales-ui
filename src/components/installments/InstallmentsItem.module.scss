@@ -49,11 +49,11 @@
 }
 
 .formDialog {
-  @media (max-width: 1247px) { // --breakpoint-l minus 1
+  @media (max-width: 1247px) { // --breakpoint-xl minus 1
     width: 100% !important;
   }
 
-  @media (min-width: 1248px) { // --breakpoint-l
+  @media (min-width: 1248px) { // --breakpoint-xl
     width: 1200px !important;
   }
 
