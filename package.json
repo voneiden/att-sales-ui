@@ -16,7 +16,7 @@
     "@types/react-redux": "^7.1.7",
     "await-to-js": "^3.0.0",
     "classnames": "^2.3.1",
-    "hds-react": "^1.9.0",
+    "hds-react": "^1.10.0",
     "history": "^5.1.0",
     "http-status-typed": "^1.0.1",
     "i18next": "^21.3.2",
