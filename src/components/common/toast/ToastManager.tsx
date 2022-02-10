@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Toast, { ErrorToastProps } from './ErrorToast';
+import Toast, { ToastProps } from './Toast';
 
-interface ErrorToastOptions {
+interface ToastOptions {
   content?: string;
   duration?: number;
   id?: string;
@@ -10,9 +10,9 @@ interface ErrorToastOptions {
   type: 'error' | 'success';
 }
 
-export class ErrorToastManager {
+export class ToastManager {
   private containerRef: HTMLDivElement;
-  private toasts: ErrorToastProps[] = [];
+  private toasts: ToastProps[] = [];
 
   constructor() {
     const body = document.getElementsByTagName('body')[0] as HTMLBodyElement;
@@ -22,9 +22,9 @@ export class ErrorToastManager {
     this.containerRef = toastContainer;
   }
 
-  public show(options: ErrorToastOptions): void {
+  public show(options: ToastOptions): void {
     const toastId = Math.random().toString(36).substring(2, 9);
-    const toast: ErrorToastProps = {
+    const toast: ToastProps = {
       id: toastId,
       ...options, // if id is passed within options, it will overwrite the auto-generated one
       destroy: () => this.destroy(options.id ?? toastId),
@@ -35,14 +35,14 @@ export class ErrorToastManager {
   }
 
   public destroy(id: string): void {
-    this.toasts = this.toasts.filter((toast: ErrorToastProps) => toast.id !== id);
+    this.toasts = this.toasts.filter((toast: ToastProps) => toast.id !== id);
     this.render();
   }
 
   private render(): void {
-    const toastsList = this.toasts.map((toastProps: ErrorToastProps) => <Toast key={toastProps.id} {...toastProps} />);
+    const toastsList = this.toasts.map((toastProps: ToastProps) => <Toast key={toastProps.id} {...toastProps} />);
     ReactDOM.render(toastsList, this.containerRef);
   }
 }
 
-export const toast = new ErrorToastManager();
+export const toast = new ToastManager();

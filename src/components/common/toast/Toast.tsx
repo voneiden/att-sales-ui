@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-const T_PATH = 'components.common.errorToast.ErrorToast';
+const T_PATH = 'components.common.toast.Toast';
 
-export type ErrorToastProps = {
+export type ToastProps = {
   content?: string;
   destroy: () => void;
   duration?: number;
@@ -13,7 +13,7 @@ export type ErrorToastProps = {
   type: 'error' | 'success';
 };
 
-const ErrorToast = ({ content, destroy, duration = 6000, id, title, type }: ErrorToastProps): JSX.Element => {
+const Toast = ({ content, destroy, duration = 6000, id, title, type }: ToastProps): JSX.Element => {
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -65,8 +65,8 @@ const ErrorToast = ({ content, destroy, duration = 6000, id, title, type }: Erro
   );
 };
 
-const shouldRerender = (prevProps: ErrorToastProps, nextProps: ErrorToastProps) => {
+const shouldRerender = (prevProps: ToastProps, nextProps: ToastProps) => {
   return prevProps.id === nextProps.id;
 };
 
-export default React.memo(ErrorToast, shouldRerender);
+export default React.memo(Toast, shouldRerender);
