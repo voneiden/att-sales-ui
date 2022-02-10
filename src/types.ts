@@ -14,6 +14,7 @@ export type Apartment = {
   apartment_number: string;
   apartment_state_of_sale: string;
   apartment_structure: string;
+  apartment_uuid: string;
   application_url: string;
   balcony_description: string;
   bathroom_appliances: string;
@@ -37,6 +38,7 @@ export type Apartment = {
   parking_fee_explanation: string;
   price_m2: number;
   project_id: number;
+  reservations: ApartmentReservation[];
   right_of_occupancy_payment: number;
   room_count: number;
   sales_price: number;
@@ -57,6 +59,7 @@ export type Project = {
   acc_financeofficer: string;
   acc_salesperson: string;
   apartment_count: number;
+  apartments: Apartment[];
   application_end_time: string;
   application_start_time: string;
   attachment_urls: string[];
@@ -142,4 +145,22 @@ export type ApartmentInstallment = {
   due_date: string;
   remarks: string;
   laske_reference: string;
+};
+
+export type ApartmentApplicant = {
+  first_name: string;
+  last_name: string;
+  is_primary_applicant: boolean;
+  ssn: string;
+};
+
+export type ApartmentReservation = {
+  apartment_uuid: Apartment['uuid'];
+  applicants: ApartmentApplicant[];
+  has_children: boolean;
+  id: number;
+  lottery_position: number;
+  queue_position: number;
+  right_of_residence: string;
+  state: string;
 };
