@@ -9,11 +9,7 @@ import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Br
 import Container from '../components/common/container/Container';
 import ProjectCard from '../components/project/ProjectCard';
 import StatusText from '../components/common/statusText/StatusText';
-import {
-  useGetApartmentsByProjectQuery,
-  useGetProjectByIdQuery,
-  useStartLotteryForProjectMutation,
-} from '../redux/services/api';
+import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../redux/services/api';
 import { ROUTES } from '../enums';
 
 import styles from './ProjectDetail.module.scss';
@@ -24,12 +20,6 @@ const ProjectDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { projectId } = useParams();
   const { data: project, isLoading, isError, isSuccess } = useGetProjectByIdQuery(projectId || '0');
-  const {
-    data: apartments,
-    isLoading: isApartmentsLoading,
-    isError: isApartmentsError,
-    isSuccess: isApartmentsSuccess,
-  } = useGetApartmentsByProjectQuery(projectId || '0', { skip: !isSuccess });
   const [
     startLotteryForProject,
     {
@@ -94,10 +84,8 @@ const ProjectDetail = (): JSX.Element | null => {
         <div className={styles.apartmentsWrapper}>
           <ApartmentActions />
           <ApartmentTable
-            apartments={apartments}
-            isLoading={isApartmentsLoading}
-            isError={isApartmentsError}
-            isSuccess={isApartmentsSuccess}
+            apartments={project.apartments}
+            ownershipType={project.ownership_type.toLowerCase()}
             projectId={project.id}
             housingCompany={project.housing_company}
           />
