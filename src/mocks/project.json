@@ -1,0 +1,142 @@
+{
+  "acc_financeofficer": null,
+  "acc_salesperson": null,
+  "apartment_count": 31,
+  "apartments": [
+    {
+      "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704a",
+      "apartment_number": "A1",
+      "apartment_structure": "4h+kt+s",
+      "living_area": 100,
+      "reservations": [
+        {
+          "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704a",
+          "applicants": [
+            {
+              "first_name": "Maija",
+              "last_name": "Meikäläinen",
+              "is_primary_applicant": true,
+              "ssn": "333333-333B"
+            }
+          ],
+          "has_children": false,
+          "lottery_position": 0,
+          "queue_position": "1",
+          "right_of_residence": "12345",
+          "state": ""
+        },
+        {
+          "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704a",
+          "applicants": [
+            {
+              "first_name": "Testi",
+              "last_name": "Testinen",
+              "is_primary_applicant": true,
+              "ssn": "111111-111A"
+            },
+            {
+              "first_name": "Matti",
+              "last_name": "Meikäläinen",
+              "is_primary_applicant": false,
+              "ssn": "222222-2222"
+            }
+          ],
+          "has_children": true,
+          "lottery_position": 0,
+          "queue_position": "1",
+          "right_of_residence": "12345",
+          "state": ""
+        }
+      ]
+    },
+    {
+      "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704b",
+      "apartment_number": "A2",
+      "apartment_structure": "3h+kt+s",
+      "living_area": 75,
+      "reservations": []
+    },
+    {
+      "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704c",
+      "apartment_number": "A3",
+      "apartment_structure": "2h+kt+s",
+      "living_area": 50,
+      "reservations": [
+        {
+          "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704c",
+          "applicants": [
+            {
+              "first_name": "Testi",
+              "last_name": "Testinen",
+              "is_primary_applicant": true,
+              "ssn": "111111-111A"
+            },
+            {
+              "first_name": "Matti",
+              "last_name": "Meikäläinen",
+              "is_primary_applicant": false,
+              "ssn": "222222-2222"
+            }
+          ],
+          "has_children": true,
+          "lottery_position": 0,
+          "queue_position": "1",
+          "right_of_residence": "12345",
+          "state": ""
+        }
+      ]
+    }
+  ],
+  "application_end_time": 1604153583,
+  "application_start_time": null,
+  "attachment_urls": null,
+  "building_type": "Apartment house",
+  "city": "Helsinki",
+  "construction_materials": null,
+  "constructor": null,
+  "coordinate_lat": null,
+  "coordinate_lon": null,
+  "description": null,
+  "district": "Pasila",
+  "energy_class": null,
+  "estate_agent": "John Doe",
+  "estate_agent_email": null,
+  "estate_agent_phone": null,
+  "estimated_completion": "10/2022",
+  "estimated_completion_date": null,
+  "has_elevator": false,
+  "has_sauna": false,
+  "heating_options": null,
+  "holding_type": "Condominium",
+  "housing_company": "Taloyhti\u00f6 30+",
+  "housing_manager": null,
+  "id": 20,
+  "image_urls": [
+    "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2021-08/room_6.jpeg"
+  ],
+  "main_image_url": "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2021-08/room_6.jpeg",
+  "manager": null,
+  "material_choice_dl": null,
+  "new_development_status": null,
+  "new_housing": true,
+  "ownership_type": "Hitas",
+  "possession_transfer_date": null,
+  "postal_code": "00000",
+  "premarketing_end_time": null,
+  "premarketing_start_time": null,
+  "publication_end_time": null,
+  "publication_start_time": null,
+  "realty_id": "1341324-53",
+  "roof_material": null,
+  "sanitation": null,
+  "shareholder_meeting_date": null,
+  "site_area": null,
+  "site_renter": "Helsingin kaupunki",
+  "state_of_sale": "FOR_SALE",
+  "street_address": "Kolkyt 30",
+  "url": "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/fi/node/20",
+  "uuid": "9f79116b-898c-4fa0-80ba-c3870c624373",
+  "virtual_presentation_url": null,
+  "zoning_info": null,
+  "zoning_status": "Vahvistettu asemakaava"
+}
