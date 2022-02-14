@@ -1,25 +1,14 @@
 .apartmentTableRow {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid var(--color-black-20);
-
-  @media (min-width: 769px) {
-    display: table-row;
-  }
-}
-
-.apartmentTableRowButtons {
-  width: 100%;
-  position: relative;
-
-  @media (min-width: 769px) {
-    display: table-row;
-  }
+  display: flex;
+  padding: var(--spacing-xs) 0;
+  border-top: 1px solid var(--color-black-20);
 }
 
 .cellTextStyles {
   color: var(--color-black-90);
-  font-size: 18px;
+  font-size: var(--fontsize-body-m);
   font-family: var(--font-default);
   font-weight: normal;
   white-space: nowrap;
@@ -28,32 +17,25 @@
 
 .cell {
   @extend .cellTextStyles;
-  display: flex;
-  padding-bottom: var(--spacing-xs);
+  padding: var(--spacing-2-xs) 0;
+  vertical-align: top;
 
-  @media (min-width: 769px) {
-    flex: 1;
-    padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
-    border-top: 1px solid var(--color-black-20);
-    display: table-cell;
-    vertical-align: top;
+  & + .cell {
+    padding-left: var(--spacing-3-xl);
   }
 }
 
 .apartmentCell {
-  @media (min-width: 992px) and (max-width: 1099px) {
-    min-width: 200px;
-  }
+  width: 225px;
+  flex-shrink: 0;
+  flex-grow: 0;
 
   strong {
     display: inline-block;
     line-height: 1;
-    font-size: var(--fontsize-body-xl);
-    margin-right: var(--spacing-s);
-
-    @media (min-width: 992px) {
-      min-width: 40px;
-    }
+    font-size: var(--fontsize-body-l);
+    margin-right: var(--spacing-xs);
+    min-width: 35px;
   }
 
   span {
@@ -61,35 +43,91 @@
   }
 }
 
-.apartmentCellMobile {
-  @extend .cellTextStyles;
-  border: none;
-  background: none;
-  padding: var(--spacing-s);
-  display: flex;
-  align-items: center;
-  font-size: 18px;
+.buttonCell {
   width: 100%;
+  display: block;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.rowToggleButton {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: var(--spacing-2-xs) var(--spacing-xs) var(--spacing-2-xs) 0;
+  border: none;
+  background: transparent;
+  line-height: var(--lineheight-l);
   cursor: pointer;
 
-  strong {
-    font-size: var(--fontsize-heading-m);
-    min-width: 60px;
-    line-height: 1;
+  &:disabled {
+    cursor: default;
+    text-decoration: none !important;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &.open {
+    float: right;
+    width: auto;
+    padding-left: var(--spacing-xs);
+
+    > span {
+      display: none;
+    }
   }
 }
 
-.mobileCells {
+.textMuted {
+  color: var(--color-black-50);
+}
+
+.apartmentLink {
+  color: var(--color-black-90);
+  border-bottom: 1px solid transparent;
+
+  &:hover,
+  &:focus {
+    border-color: var(--color-black-90);
+  }
+}
+
+.apartmentLivingArea {
+  color: var(--color-black-60);
+}
+
+.toggleContent {
   display: none;
-  padding: 0 var(--spacing-s) var(--spacing-s) var(--spacing-s);
+  margin-right: var(--spacing-3-xl);
+  position: relative;
+  background: #fff;
 
   &.open {
     display: block;
   }
 }
 
-.cellMobileTitle {
-  flex-basis: 100%;
-  min-width: 150px;
-  max-width: 50%;
+.singleReservation {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: var(--spacing-2-xs) 0;
+  align-items: center;
+
+  & + .singleReservation {
+    border-top: 1px solid var(--color-black-20);
+    padding-top: var(--spacing-s);
+    margin-top: var(--spacing-2-xs);
+  }
+}
+
+.singleReservationColumn {
+  flex-basis: 50%;
+
+  & + .singleReservationColumn {
+    padding-left: var(--spacing-m);
+  }
 }

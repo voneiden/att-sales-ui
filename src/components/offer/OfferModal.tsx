@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProjectName from '../project/ProjectName';
 import { RootState } from '../../redux/store';
 import { formattedLivingArea } from '../../utils/formatLivingArea';
-import { toast } from '../../components/common/errorToast/ErrorToastManager';
+import { toast } from '../common/toast/ToastManager';
 import { hideOfferModal } from '../../redux/features/offerModalSlice';
 
 import styles from './OfferModal.module.scss';

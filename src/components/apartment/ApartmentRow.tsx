@@ -1,98 +1,103 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
-import { IconAngleDown, IconAngleUp } from 'hds-react';
+import { IconAngleDown, IconAngleRight, IconGroup } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import formattedLivingArea from '../../utils/formatLivingArea';
 import useSessionStorage from '../../utils/useSessionStorage';
-import { Apartment } from '../../types';
+import { Apartment, Project } from '../../types';
 import { fullURL } from '../../utils/fullURL';
 
 import styles from './ApartmentRow.module.scss';
 
-const BREAK_POINT = 768;
 const T_PATH = 'components.apartment.ApartmentRow';
 
 interface IProps {
   apartment: Apartment;
+  ownershipType: Project['ownership_type'];
 }
 
-const ApartmentRow = ({ apartment }: IProps): JSX.Element => {
-  const { apartment_number, apartment_structure, living_area, nid, url } = apartment;
-
+const ApartmentRow = ({ apartment, ownershipType }: IProps): JSX.Element => {
+  const { apartment_number, apartment_structure, living_area, reservations, url, apartment_uuid } = apartment;
+  const [rowOpen, setRowOpen] = useSessionStorage({ defaultValue: false, key: `apartmentRowOpen-${apartment_uuid}` });
   const { t } = useTranslation();
-  const [width, setWidth] = useState(window.innerWidth);
-  const [rowOpen, setRowOpen] = useSessionStorage({ defaultValue: false, key: `apartmentRowOpen-${nid}` });
 
-  const isDesktopSize = width > BREAK_POINT;
-  const isMobileSize = width <= BREAK_POINT;
-
-  const handleResize = () => setWidth(window.innerWidth);
-
-  const toggleRow = () => isMobileSize && setRowOpen(!rowOpen);
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const toggleRow = () => setRowOpen(!rowOpen);
 
   const apartmentRowBaseDetails = (
     <>
       <strong>
         <span className="hiddenFromScreen">{t(`${T_PATH}.apartment`)}: </span>
-        <a href={fullURL(url)}>{apartment_number}</a>
+        {apartment_number}
       </strong>
       <span>
         <span className="hiddenFromScreen">{t(`${T_PATH}.ariaApartmentStructure`)}: </span>
         {apartment_structure}{' '}
-        {living_area && <span style={{ color: 'var(--color-black-60)' }}>({formattedLivingArea(living_area)})</span>}
+        {living_area && <span className={styles.apartmentLivingArea}>({formattedLivingArea(living_area)})</span>}
       </span>
-      {isMobileSize &&
-        (rowOpen ? (
-          <IconAngleUp style={{ marginLeft: 'auto' }} size={'m'} aria-hidden="true" />
-        ) : (
-          <IconAngleDown style={{ marginLeft: 'auto' }} size={'m'} aria-hidden="true" />
-        ))}
     </>
   );
 
-  const apartMentRowOtherDetails = (
-    <div>
-      <span className={isDesktopSize ? 'hiddenFromScreen' : styles.cellMobileTitle}>
-        {t(`${T_PATH}.applicants`)}&nbsp;{' '}
-      </span>
-      <span>{/* TODO: show applicant data here */}-</span>
+  const renderReservationCountText = () => {
+    if (!reservations || reservations.length === 0) {
+      return <span className={styles.textMuted}>{t(`${T_PATH}.noReservations`)}</span>;
+    }
+    return <span>{t(`${T_PATH}.reservations`, { count: reservations.length })}</span>;
+  };
+
+  const renderReservations = (
+    <div className={cx(styles.cell, styles.buttonCell, rowOpen && styles.open)}>
+      <button
+        className={cx(styles.rowToggleButton, rowOpen && styles.open)}
+        onClick={toggleRow}
+        aria-controls={`apartment-row-${apartment_uuid}`}
+        aria-expanded={!!reservations.length && rowOpen ? true : false}
+        disabled={!reservations.length}
+      >
+        {renderReservationCountText()}
+        {!!reservations.length && (rowOpen ? <IconAngleDown /> : <IconAngleRight />)}
+      </button>
+
+      <div
+        className={rowOpen ? cx(styles.toggleContent, styles.open) : styles.toggleContent}
+        id={`apartment-row-${apartment_uuid}`}
+      >
+        {reservations.map((reservation) => (
+          <div className={styles.singleReservation} key={reservation.id}>
+            <div className={styles.singleReservationColumn}>
+              {reservation.applicants &&
+                reservation.applicants.map((applicant) => (
+                  <div key={applicant.ssn}>
+                    {applicant.first_name} {applicant.last_name}
+                  </div>
+                ))}
+            </div>
+            <div className={styles.singleReservationColumn}>
+              {ownershipType === 'haso' ? (
+                <span>{reservation.right_of_residence}</span>
+              ) : (
+                reservation.has_children && <IconGroup />
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 
   return (
-    <li className={styles.apartmentTableRow}>
-      {isMobileSize ? (
-        <>
-          <button
-            className={styles.apartmentCellMobile}
-            onClick={toggleRow}
-            aria-controls={`apartment-row-details-${nid}`}
-            aria-expanded={rowOpen ? true : false}
-          >
+    <div className={styles.apartmentTableRow}>
+      <div className={cx(styles.cell, styles.apartmentCell)}>
+        {url ? (
+          <a href={fullURL(url)} target="_blank" rel="noreferrer" className={styles.apartmentLink}>
             {apartmentRowBaseDetails}
-          </button>
-          <div
-            className={rowOpen ? cx(styles.mobileCells, styles.open) : styles.mobileCells}
-            id={`apartment-row-details-${nid}`}
-          >
-            {apartMentRowOtherDetails}
-          </div>
-        </>
-      ) : (
-        <>
-          <div className={cx(styles.cell, styles.apartmentCell)}>{apartmentRowBaseDetails}</div>
-          <div className={styles.cell} style={{ textAlign: 'right' }}>
-            {apartMentRowOtherDetails}
-          </div>
-        </>
-      )}
-    </li>
+          </a>
+        ) : (
+          <>{apartmentRowBaseDetails}</>
+        )}
+      </div>
+      {renderReservations}
+    </div>
   );
 };
 

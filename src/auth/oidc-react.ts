@@ -20,7 +20,7 @@ import {
 } from './index';
 import { AnyObject } from '../types';
 import createHttpPoller from './http-poller';
-import { toast } from '../components/common/errorToast/ErrorToastManager';
+import { toast } from '../components/common/toast/ToastManager';
 
 let client: Client | null = null;
 
