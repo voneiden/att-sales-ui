@@ -11,7 +11,7 @@ export const rtkQueryErrorLogger: Middleware = (api: MiddlewareAPI) => (next) =>
       if (Array.isArray(payloadData)) {
         errorMessage = payloadData[0]?.message;
       } else {
-        errorMessage = payloadData?.detail || payloadData?.message || payloadData;
+        errorMessage = payloadData?.detail || payloadData?.message;
       }
     }
 
