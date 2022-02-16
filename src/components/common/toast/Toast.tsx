@@ -30,7 +30,7 @@ const Toast = ({ content, destroy, duration = 6000, id, title, type }: ToastProp
     let label = t(`${T_PATH}.errorLabel`);
 
     if (type === 'success') {
-      label = '';
+      label = t(`${T_PATH}.successLabel`);
     }
 
     return label;
@@ -57,7 +57,7 @@ const Toast = ({ content, destroy, duration = 6000, id, title, type }: ToastProp
       label={title ? title : renderDefaultLabel()}
       onClose={destroy}
       position={'top-right'}
-      size={type === 'success' ? 'small' : 'default'}
+      size="default"
       type={type}
     >
       {content ? content : renderDefaultMessage()}
