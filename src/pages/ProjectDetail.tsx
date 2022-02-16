@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Notification } from 'hds-react';
@@ -9,6 +10,7 @@ import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Br
 import Container from '../components/common/container/Container';
 import ProjectCard from '../components/project/ProjectCard';
 import StatusText from '../components/common/statusText/StatusText';
+import { toast } from '../components/common/toast/ToastManager';
 import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../redux/services/api';
 import { ROUTES } from '../enums';
 
@@ -19,23 +21,27 @@ const T_PATH = 'pages.ProjectDetail';
 const ProjectDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { projectId } = useParams();
-  const { data: project, isLoading, isError, isSuccess } = useGetProjectByIdQuery(projectId || '0');
-  const [
-    startLotteryForProject,
-    {
-      // TODO: Use necessary items from the query
-      // data: startLotteryData,
-      // error: startLotteryError,
-      isLoading: startLotterIsLoading,
-      // isError: startLotteryIsError,
-      // isSuccess: startLotteryIsSuccess,
-    },
-  ] = useStartLotteryForProjectMutation();
+  const {
+    data: project,
+    isLoading,
+    isFetching,
+    refetch,
+    isError,
+    isSuccess,
+  } = useGetProjectByIdQuery(projectId || '0');
+  const [startLotteryForProject, { isLoading: startLotterIsLoading }] = useStartLotteryForProjectMutation();
 
   const onStartLotteryClick = async () => {
     if (!startLotterIsLoading) {
       try {
-        await startLotteryForProject({ project_uuid: project?.uuid }).unwrap();
+        await startLotteryForProject({ project_uuid: project?.uuid })
+          .unwrap()
+          .then(() => {
+            // Show success toast
+            toast.show({ type: 'success' });
+            // Refetch project data after form was successfully submitted
+            refetch();
+          });
       } catch (err) {
         console.error('Failed to post: ', err);
       }
@@ -74,7 +80,7 @@ const ProjectDetail = (): JSX.Element | null => {
       <Container>
         <Breadcrumbs current={project.housing_company} ancestors={breadcrumbAncestors} />
       </Container>
-      <Container wide>
+      <Container wide className={cx(isFetching && styles.disabled)}>
         <ProjectCard
           project={project}
           showActions
