@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
-import i18n from 'i18next';
 import { Button, Dialog, Notification, DateInput, TextArea, TextInput, ToggleButton } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ProjectName from '../project/ProjectName';
+import { getCurrentLangCode } from '../../utils/getCurrentLangCode';
 import { RootState } from '../../redux/store';
 import { formattedLivingArea } from '../../utils/formatLivingArea';
 import { toast } from '../common/toast/ToastManager';
@@ -134,21 +134,6 @@ const OfferModal = (): JSX.Element | null => {
       }
     };
 
-    const currentLanguageCode = () => {
-      let locale: 'en' | 'fi' | 'sv';
-      switch (i18n.language) {
-        case 'en':
-          locale = 'en';
-          break;
-        case 'sv':
-          locale = 'sv';
-          break;
-        default:
-          locale = 'fi';
-      }
-      return locale;
-    };
-
     return (
       <form id="offer-form" className={styles.offerDialogForm}>
         <div className={cx(styles.textareaColumn, styles.fullHeightColumn)}>
@@ -171,7 +156,7 @@ const OfferModal = (): JSX.Element | null => {
               id="offer-due-date"
               label={t(`${T_PATH}.offerDueDate`)}
               helperText={t(`${T_PATH}.dateFormatHelpText`)}
-              language={currentLanguageCode()}
+              language={getCurrentLangCode()}
               disableConfirmation
               defaultValue={formData.offerDueDate}
               onChange={(value) => setFormData({ ...formData, offerDueDate: value })}
