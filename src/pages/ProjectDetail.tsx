@@ -2,13 +2,14 @@ import React from 'react';
 import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Notification } from 'hds-react';
+import { Notification, Tabs } from 'hds-react';
 
 import ApartmentActions from '../components/apartment/ApartmentActions';
 import ApartmentTable from '../components/apartment/ApartmentTable';
 import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
 import Container from '../components/common/container/Container';
 import ProjectCard from '../components/project/ProjectCard';
+import ProjectInstallments from '../components/installments/ProjectInstallments';
 import StatusText from '../components/common/statusText/StatusText';
 import { toast } from '../components/common/toast/ToastManager';
 import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../redux/services/api';
@@ -87,15 +88,32 @@ const ProjectDetail = (): JSX.Element | null => {
           lotteryOnClick={() => onStartLotteryClick()}
           lotteryLoading={startLotterIsLoading}
         />
-        <div className={styles.apartmentsWrapper}>
-          <ApartmentActions />
-          <ApartmentTable
-            apartments={project.apartments}
-            ownershipType={project.ownership_type.toLowerCase()}
-            projectId={project.id}
-            housingCompany={project.housing_company}
-          />
-        </div>
+        <Tabs>
+          <Tabs.TabList className={styles.tabList}>
+            <Tabs.Tab>{t(`${T_PATH}.apartments`)}</Tabs.Tab>
+            <Tabs.Tab>{t(`${T_PATH}.installments`)}</Tabs.Tab>
+          </Tabs.TabList>
+          <Tabs.TabPanel>
+            <div className={styles.apartmentsWrapper}>
+              <ApartmentActions />
+              <ApartmentTable
+                apartments={project.apartments}
+                ownershipType={project.ownership_type.toLowerCase()}
+                projectId={project.id}
+                housingCompany={project.housing_company}
+              />
+            </div>
+          </Tabs.TabPanel>
+          <Tabs.TabPanel>
+            <div className={styles.installmentsWrapper}>
+              <ProjectInstallments
+                uuid={project.uuid}
+                barred_bank_account={project.barred_bank_account}
+                regular_bank_account={project.regular_bank_account}
+              />
+            </div>
+          </Tabs.TabPanel>
+        </Tabs>
       </Container>
     </>
   );
