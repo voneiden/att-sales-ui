@@ -49,6 +49,8 @@
     width: 100% !important;
     display: flex;
     justify-content: stretch;
+    padding-left: 1px;
+    padding-right: 1px;
 
     li {
       flex: 1;
@@ -58,4 +60,8 @@
 
 .singleProject {
   margin-bottom: var(--spacing-m);
+}
+
+.noProjectsText {
+  padding: var(--spacing-m) var(--spacing-2-xl);
 }

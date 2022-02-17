@@ -20,7 +20,6 @@ import ProjectCard from '../components/project/ProjectCard';
 import StatusText from '../components/common/statusText/StatusText';
 import useLocalStorage from '../utils/useLocalStorage';
 import { filterProjectsByEstateAgent } from '../utils/filterProjectsByEstateAgent';
-import { groupProjectsByState } from '../utils/groupProjectsByState';
 import { RootState } from '../redux/store';
 import { useGetProjectsQuery } from '../redux/services/api';
 
@@ -99,42 +98,57 @@ const Index = (): JSX.Element => {
       );
     }
 
-    const { UPCOMING: upcoming, FOR_SALE: forSale } = groupProjectsByState(visibleProjects);
+    const noProjects = () => (
+      <div className={styles.noProjectsText}>
+        <StatusText>{t(`${T_PATH}.noProjects`)}</StatusText>
+      </div>
+    );
 
-    const upcomingCount = upcoming ? upcoming.length : 0;
-    const forSaleCount = forSale ? forSale.length : 0;
+    const archivedProjects = visibleProjects.filter((p) => p.archived);
+    const publishedProjects = visibleProjects.filter((p) => !p.archived && p.published);
+    const unpublishedProjects = visibleProjects.filter((p) => !p.archived && !p.published);
 
     return (
       <Container wide>
         <Tabs>
           <TabList className={styles.tabLinks} style={{ marginBottom: 'var(--spacing-m)' }}>
             <Tab>
-              {t(`${T_PATH}.tabPublished`)} ({forSaleCount})
+              {t(`${T_PATH}.tabPublished`)} ({publishedProjects.length})
             </Tab>
             <Tab>
-              {t(`${T_PATH}.tabUpcoming`)} ({upcomingCount})
+              {t(`${T_PATH}.tabUnpublished`)} ({unpublishedProjects.length})
             </Tab>
-            <Tab>{t(`${T_PATH}.tabUnpublished`)} (0)</Tab>
-            <Tab>{t(`${T_PATH}.tabArchived`)} (0)</Tab>
+            <Tab>
+              {t(`${T_PATH}.tabArchived`)} ({archivedProjects.length})
+            </Tab>
           </TabList>
           <TabPanel>
-            {forSale &&
-              forSale.map((project) => (
-                <div key={project.uuid} className={styles.singleProject}>
-                  <ProjectCard project={project} renderAsLink />
-                </div>
-              ))}
+            {!!publishedProjects.length
+              ? publishedProjects.map((project) => (
+                  <div key={project.uuid} className={styles.singleProject}>
+                    <ProjectCard project={project} renderAsLink />
+                  </div>
+                ))
+              : noProjects()}
           </TabPanel>
           <TabPanel>
-            {upcoming &&
-              upcoming.map((project) => (
-                <div key={project.uuid} className={styles.singleProject}>
-                  <ProjectCard project={project} renderAsLink />
-                </div>
-              ))}
+            {!!unpublishedProjects.length
+              ? unpublishedProjects.map((project) => (
+                  <div key={project.uuid} className={styles.singleProject}>
+                    <ProjectCard project={project} renderAsLink />
+                  </div>
+                ))
+              : noProjects()}
           </TabPanel>
-          <TabPanel>Unpublished: TODO</TabPanel>
-          <TabPanel>Archived: TODO</TabPanel>
+          <TabPanel>
+            {!!archivedProjects.length
+              ? archivedProjects.map((project) => (
+                  <div key={project.uuid} className={styles.singleProject}>
+                    <ProjectCard project={project} renderAsLink />
+                  </div>
+                ))
+              : noProjects()}
+          </TabPanel>
         </Tabs>
       </Container>
     );

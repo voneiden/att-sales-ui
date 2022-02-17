@@ -62,6 +62,7 @@ export type Project = {
   apartments: Apartment[];
   application_end_time: string;
   application_start_time: string;
+  archived: boolean;
   attachment_urls: string[];
   building_type: string;
   city: string;
@@ -97,6 +98,7 @@ export type Project = {
   premarketing_start_time: string;
   publication_end_time: string;
   publication_start_time: string;
+  published: boolean;
   realty_id: string;
   roof_material: string;
   sanitation: string;
