@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 
 import ApartmentRow from './ApartmentRow';
-import mockApartments from '../../mocks/apartments.json';
+import mockProject from '../../mocks/project.json';
 import { Apartment } from '../../types';
 
-const mockApartment = mockApartments[0] as Apartment;
+const mockApartment = mockProject.apartments[0] as Apartment;
 
 describe('ApartmentRow', () => {
   it('renders ApartmentRow component', () => {
