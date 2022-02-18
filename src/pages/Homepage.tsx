@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cx from 'classnames';
 import {
   Button,
   IconGroup,
@@ -33,6 +34,7 @@ const Index = (): JSX.Element => {
   const { data: projects, isLoading, isError, isSuccess } = useGetProjectsQuery();
   const user = useSelector((state: RootState) => state.auth.user);
   const userFullName = user ? (user.name as string) : '';
+  const [searchTerm, setSearchTerm] = useState('');
 
   const renderToolbar = () => {
     return (
@@ -56,10 +58,12 @@ const Index = (): JSX.Element => {
           </div>
           <div className={styles.toolbarSearch}>
             <SearchInput
-              label={t(`${T_PATH}.searchLabel`)}
+              label=""
+              placeholder={t(`${T_PATH}.searchLabel`)}
               searchButtonAriaLabel={t(`${T_PATH}.searchbtnAriaLabel`)}
               clearButtonAriaLabel={t(`${T_PATH}.searchClearBtnLabel`)}
               onSubmit={() => null}
+              onChange={(value) => setSearchTerm(value)}
             />
           </div>
         </div>
@@ -90,19 +94,44 @@ const Index = (): JSX.Element => {
       visibleProjects = filterProjectsByEstateAgent(projects, userFullName);
     }
 
+    const noProjects = (removeStyling?: boolean) => (
+      <div className={cx(!removeStyling && styles.noProjectsText)}>
+        <StatusText>{t(`${T_PATH}.noProjects`)}</StatusText>
+      </div>
+    );
+
     if (!visibleProjects.length) {
       return (
         <Container>
-          <StatusText>{t(`${T_PATH}.noAssignedProjects`)}</StatusText>
+          {showMyProjects ? <StatusText>{t(`${T_PATH}.noAssignedProjects`)}</StatusText> : noProjects(true)}
         </Container>
       );
     }
 
-    const noProjects = () => (
-      <div className={styles.noProjectsText}>
-        <StatusText>{t(`${T_PATH}.noProjects`)}</StatusText>
-      </div>
-    );
+    if (searchTerm.length > 0) {
+      const searchResults = visibleProjects.filter((project) =>
+        project.housing_company.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      return (
+        <>
+          <Container>
+            <h2 className={styles.searchText}>
+              <span>{t(`${T_PATH}.searchResultsFor`)}:</span> <em>{`"${searchTerm}"`}</em>{' '}
+              <span>&ndash;&nbsp; {t(`${T_PATH}.resultCount`, { count: searchResults.length })}</span>
+            </h2>
+          </Container>
+          <Container wide>
+            {!!searchResults.length
+              ? searchResults.map((project) => (
+                  <div key={project.uuid} className={styles.singleProject}>
+                    <ProjectCard project={project} renderAsLink />
+                  </div>
+                ))
+              : noProjects()}
+          </Container>
+        </>
+      );
+    }
 
     const archivedProjects = visibleProjects.filter((p) => p.archived);
     const publishedProjects = visibleProjects.filter((p) => !p.archived && p.published);
