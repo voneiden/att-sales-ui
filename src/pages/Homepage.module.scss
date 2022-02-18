@@ -12,8 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: var(--spacing-2-xl);
-  margin-bottom: var(--spacing-4-xl);
+  margin: var(--spacing-4-xl) auto;
 }
 
 .toolbarLeft {
@@ -64,4 +63,13 @@
 
 .noProjectsText {
   padding: var(--spacing-m) var(--spacing-2-xl);
+}
+
+.searchText {
+  margin-top: 0;
+  margin-bottom: var(--spacing-xl);
+
+  span {
+    font-weight: normal;
+  }
 }
