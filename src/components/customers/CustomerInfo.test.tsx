@@ -1,10 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import CustomerInfo from './CustomerInfo';
 
-import dummyCustomers from '../../mocks/customers.json';
-
-const customerWithCoApplicant = dummyCustomers[0];
-const customerWithoutCoApplicant = dummyCustomers[2];
+import dummyCustomer from '../../mocks/customer.json';
 
 describe('CustomerInfo', () => {
   it('renders the component', () => {
@@ -19,14 +16,16 @@ describe('CustomerInfo', () => {
   });
 
   it('renders customer details', () => {
-    render(<CustomerInfo customer={customerWithCoApplicant} />);
+    render(<CustomerInfo customer={dummyCustomer} />);
     expect(screen.queryAllByText('components.customers.CustomerInfo.contactDetails')).toBeDefined();
   });
 
   it('renders customer co-applicant details', () => {
-    render(<CustomerInfo customer={customerWithCoApplicant} />);
+    render(<CustomerInfo customer={dummyCustomer} />);
     expect(screen.getByText('components.customers.CustomerInfo.coApplicant')).toBeDefined();
   });
+
+  const customerWithoutCoApplicant = { ...dummyCustomer, secondary_profile: null };
 
   it('does not render non-existent co-applicant details', () => {
     render(<CustomerInfo customer={customerWithoutCoApplicant} />);
