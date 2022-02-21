@@ -10,6 +10,7 @@
       "living_area": 100,
       "reservations": [
         {
+          "id": 1,
           "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704a",
           "applicants": [
             {
@@ -26,6 +27,7 @@
           "state": ""
         },
         {
+          "id": 2,
           "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704a",
           "applicants": [
             {
@@ -63,6 +65,7 @@
       "living_area": 50,
       "reservations": [
         {
+          "id": 1,
           "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704c",
           "applicants": [
             {

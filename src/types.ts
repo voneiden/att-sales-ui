@@ -1,4 +1,4 @@
-import { StateOfSale, InstallmentTypes } from './enums';
+import { StateOfSale, InstallmentTypes, InstallmentPercentageSpecifiers } from './enums';
 
 export type AnyObject = Record<string, unknown>;
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -64,6 +64,7 @@ export type Project = {
   application_start_time: string;
   archived: boolean;
   attachment_urls: string[];
+  barred_bank_account: string;
   building_type: string;
   city: string;
   construction_materials: string[];
@@ -100,6 +101,7 @@ export type Project = {
   publication_start_time: string;
   published: boolean;
   realty_id: string;
+  regular_bank_account: string;
   roof_material: string;
   sanitation: string;
   shareholder_meeting_date: string;
@@ -137,16 +139,21 @@ export type Customer = CustomerBaseDetails & {
   project: string;
 };
 
-// TODO: Define these after we have a working API
 export type ApartmentInstallment = {
   type: `${InstallmentTypes}`;
   amount?: number;
-  percentage?: string;
-  unit_specifier: string;
   account_number: string;
-  due_date: string;
-  remarks: string;
-  laske_reference: string;
+  due_date: string | null;
+  reference_number?: string;
+};
+
+export type ProjectInstallment = {
+  type: `${InstallmentTypes}`;
+  amount?: number;
+  percentage?: string;
+  percentage_specifier?: `${InstallmentPercentageSpecifiers}`;
+  account_number: string;
+  due_date: string | null;
 };
 
 export type ApartmentApplicant = {

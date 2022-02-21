@@ -37,6 +37,9 @@ const Index = (): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const renderToolbar = () => {
+    const hasDrupalLink = !!process.env[`REACT_APP_DRUPAL_BASE_URL`];
+    const drupalAdminLink = hasDrupalLink ? `${String(process.env[`REACT_APP_DRUPAL_BASE_URL`])}/admin/content` : '#';
+
     return (
       <Container className={styles.toolbar}>
         <div className={styles.toolbarLeft}>
@@ -68,7 +71,12 @@ const Index = (): JSX.Element => {
           </div>
         </div>
         <div className={styles.toolbarRight}>
-          <a href="#todo" className="hds-button hds-button--primary">
+          <a
+            href={drupalAdminLink}
+            className="hds-button hds-button--primary"
+            target={hasDrupalLink ? '_blank' : ''}
+            rel="noreferrer"
+          >
             <span aria-hidden="true" className="hds-icon">
               <IconPlus />
             </span>

@@ -25,8 +25,14 @@ export enum InstallmentTypes {
   Refund = 'REFUND',
   DownPayment = 'DOWN_PAYMENT',
   LatePaymentInterest = 'LATE_PAYMENT_INTEREST',
-  RightOfOccupancyFee = 'RIGHT_OF_OCCUPANCY_FEE',
-  Invoiceable = 'INVOICEABLE',
+  RightOResidenceFee = 'RIGHT_OF_RESIDENCE_FEE',
+  ForInvoicing = 'FOR_INVOICING',
   Deposit = 'DEPOSIT',
   ReservationFee = 'RESERVATION_FEE',
+}
+
+export enum InstallmentPercentageSpecifiers {
+  SalesPrice = 'SALES_PRICE',
+  DebtFreeSalesPrice = 'DEBT_FREE_SALES_PRICE',
+  DebtFreeSalesPriceFlexible = 'DEBT_FREE_SALES_PRICE_FLEXIBLE',
 }

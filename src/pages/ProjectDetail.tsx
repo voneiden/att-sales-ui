@@ -1,14 +1,17 @@
 import React from 'react';
+import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Notification } from 'hds-react';
+import { Notification, Tabs } from 'hds-react';
 
 import ApartmentActions from '../components/apartment/ApartmentActions';
 import ApartmentTable from '../components/apartment/ApartmentTable';
 import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
 import Container from '../components/common/container/Container';
 import ProjectCard from '../components/project/ProjectCard';
+import ProjectInstallments from '../components/installments/ProjectInstallments';
 import StatusText from '../components/common/statusText/StatusText';
+import { toast } from '../components/common/toast/ToastManager';
 import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../redux/services/api';
 import { ROUTES } from '../enums';
 
@@ -19,23 +22,27 @@ const T_PATH = 'pages.ProjectDetail';
 const ProjectDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { projectId } = useParams();
-  const { data: project, isLoading, isError, isSuccess } = useGetProjectByIdQuery(projectId || '0');
-  const [
-    startLotteryForProject,
-    {
-      // TODO: Use necessary items from the query
-      // data: startLotteryData,
-      // error: startLotteryError,
-      isLoading: startLotterIsLoading,
-      // isError: startLotteryIsError,
-      // isSuccess: startLotteryIsSuccess,
-    },
-  ] = useStartLotteryForProjectMutation();
+  const {
+    data: project,
+    isLoading,
+    isFetching,
+    refetch,
+    isError,
+    isSuccess,
+  } = useGetProjectByIdQuery(projectId || '0');
+  const [startLotteryForProject, { isLoading: startLotterIsLoading }] = useStartLotteryForProjectMutation();
 
   const onStartLotteryClick = async () => {
     if (!startLotterIsLoading) {
       try {
-        await startLotteryForProject({ project_uuid: project?.uuid }).unwrap();
+        await startLotteryForProject({ project_uuid: project?.uuid })
+          .unwrap()
+          .then(() => {
+            // Show success toast
+            toast.show({ type: 'success' });
+            // Refetch project data after form was successfully submitted
+            refetch();
+          });
       } catch (err) {
         console.error('Failed to post: ', err);
       }
@@ -74,22 +81,39 @@ const ProjectDetail = (): JSX.Element | null => {
       <Container>
         <Breadcrumbs current={project.housing_company} ancestors={breadcrumbAncestors} />
       </Container>
-      <Container wide>
+      <Container wide className={cx(isFetching && styles.disabled)}>
         <ProjectCard
           project={project}
           showActions
           lotteryOnClick={() => onStartLotteryClick()}
           lotteryLoading={startLotterIsLoading}
         />
-        <div className={styles.apartmentsWrapper}>
-          <ApartmentActions />
-          <ApartmentTable
-            apartments={project.apartments}
-            ownershipType={project.ownership_type.toLowerCase()}
-            projectId={project.id}
-            housingCompany={project.housing_company}
-          />
-        </div>
+        <Tabs>
+          <Tabs.TabList className={styles.tabList}>
+            <Tabs.Tab>{t(`${T_PATH}.apartments`)}</Tabs.Tab>
+            <Tabs.Tab>{t(`${T_PATH}.installments`)}</Tabs.Tab>
+          </Tabs.TabList>
+          <Tabs.TabPanel>
+            <div className={styles.apartmentsWrapper}>
+              <ApartmentActions />
+              <ApartmentTable
+                apartments={project.apartments}
+                ownershipType={project.ownership_type.toLowerCase()}
+                projectId={project.id}
+                housingCompany={project.housing_company}
+              />
+            </div>
+          </Tabs.TabPanel>
+          <Tabs.TabPanel>
+            <div className={styles.installmentsWrapper}>
+              <ProjectInstallments
+                uuid={project.uuid}
+                barred_bank_account={project.barred_bank_account}
+                regular_bank_account={project.regular_bank_account}
+              />
+            </div>
+          </Tabs.TabPanel>
+        </Tabs>
       </Container>
     </>
   );

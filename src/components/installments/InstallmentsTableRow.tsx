@@ -55,7 +55,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
               </tr>
               <tr>
                 <th style={{ textAlign: 'right' }}>{t(`${T_PATH}.referenceNumber`)}</th>
-                <td>{installment.laske_reference}</td>
+                <td>{installment.reference_number}</td>
               </tr>
             </tbody>
           </table>
@@ -84,7 +84,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
       <td style={{ textAlign: 'right' }}>{installment.amount ? formattedCurrency(installment.amount) : '- €'}</td>
       <td>{installment.due_date ? formatDateTime(installment.due_date, true) : '-'}</td>
       <td>{installment.account_number}</td>
-      <td>{installment.laske_reference}</td>
+      <td>{installment.reference_number}</td>
       <td className={styles.buttonCell}>
         <Button
           variant="secondary"
