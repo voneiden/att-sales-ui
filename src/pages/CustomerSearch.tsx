@@ -14,8 +14,9 @@ const T_PATH = 'pages.CustomerSearch';
 
 const CustomerSearch = (): JSX.Element => {
   const { t } = useTranslation();
+  // TODO: get actual customers data
+  const customers: any = dummyCustomers;
   // TODO: get success, loading and error states from the actual query
-  const isSuccess = false;
   const isLoading = false;
   const isError = false;
   // TODO: get boolean value from url search parameters
@@ -40,12 +41,7 @@ const CustomerSearch = (): JSX.Element => {
       {!isError && (
         <Container wide>
           <div className={styles.customerTableContainer}>
-            <CustomerTable
-              customers={dummyCustomers}
-              hasSearchQuery={hasSearchQuery}
-              isLoading={isLoading}
-              isSuccess={isSuccess}
-            />
+            <CustomerTable customers={customers} hasSearchQuery={hasSearchQuery} isLoading={isLoading} />
           </div>
         </Container>
       )}

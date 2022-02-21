@@ -6,7 +6,7 @@ import { IconSortAscending, IconSortDescending } from 'hds-react';
 import CustomerTableRow from './CustomerTableRow';
 import StatusText from '../../components/common/statusText/StatusText';
 import useSessionStorage from '../../utils/useSessionStorage';
-import { Customer } from '../../types';
+import { CustomerListItem } from '../../types';
 import { sortAlphanumeric } from '../../utils/sortList';
 
 import styles from './CustomerTable.module.scss';
@@ -14,19 +14,23 @@ import styles from './CustomerTable.module.scss';
 const T_PATH = 'components.customers.CustomerTable';
 
 interface IProps {
-  customers: Customer[] | undefined;
+  customers: CustomerListItem[] | undefined;
   hasSearchQuery: boolean;
   isLoading: boolean;
-  isSuccess: boolean;
 }
 
-const CustomerTable = ({ customers, hasSearchQuery, isLoading, isSuccess }: IProps): JSX.Element => {
+const CustomerTable = ({ customers, hasSearchQuery, isLoading }: IProps): JSX.Element | null => {
   const { t } = useTranslation();
   const [sortDirection, setSortDirection] = useSessionStorage({
     defaultValue: 'ascending',
     key: 'customerTableSort',
   });
-  const sortedCustomers = sortAlphanumeric(customers ? customers : [], 'fullName', sortDirection) as Customer[];
+  const sortedByFirstname = customers?.sort((a, b) => a.primary_first_name.localeCompare(b.primary_first_name));
+  const sortedCustomers: CustomerListItem[] = sortAlphanumeric(
+    sortedByFirstname ? sortedByFirstname : [],
+    'primary_last_name',
+    sortDirection
+  );
 
   const requestSort = () => {
     if (sortDirection === 'ascending') {
@@ -51,32 +55,39 @@ const CustomerTable = ({ customers, hasSearchQuery, isLoading, isSuccess }: IPro
   };
 
   const renderTableHeaders = () => (
-    <div className={styles.customerTableHeader}>
-      <div className={cx(styles.customerTableHeaderCell, styles.customerTableHeaderCellButton)}>
-        <button data-testid="sortButton" type="button" onClick={() => requestSort()} className={apartmentSortClasses()}>
-          <span>{t(`${T_PATH}.customer`)}</span>
-          {getSortIcon('lastName')}
-        </button>
-      </div>
-      <div className={styles.customerTableHeaderCell}>{t(`${T_PATH}.nin`)}</div>
-      <div className={styles.customerTableHeaderCell}>{t(`${T_PATH}.email`)}</div>
-      <div className={styles.customerTableHeaderCell}>{t(`${T_PATH}.phone`)}</div>
-      <div className={styles.customerTableHeaderCell}>{t(`${T_PATH}.project`)}</div>
-      <div className={styles.customerTableHeaderCell}>{t(`${T_PATH}.coApplicant`)}</div>
-    </div>
+    <thead className={styles.customerTableHeader}>
+      <tr>
+        <th className={cx(styles.customerTableHeaderCell, styles.customerTableHeaderCellButton)}>
+          <button
+            data-testid="sortButton"
+            type="button"
+            onClick={() => requestSort()}
+            className={apartmentSortClasses()}
+          >
+            <span>{t(`${T_PATH}.customer`)}</span>
+            {getSortIcon('lastName')}
+          </button>
+        </th>
+        <th className={styles.customerTableHeaderCell}>{t(`${T_PATH}.email`)}</th>
+        <th className={styles.customerTableHeaderCell}>{t(`${T_PATH}.phone`)}</th>
+        <th className={styles.customerTableHeaderCell}>{t(`${T_PATH}.coApplicant`)}</th>
+      </tr>
+    </thead>
   );
 
   return (
     <>
       <div className={styles.customerTableWrapper}>
-        <div className={styles.customerTable}>
+        <table className={styles.customerTable}>
           {renderTableHeaders()}
-          {hasSearchQuery &&
-            !isLoading &&
-            sortedCustomers &&
-            !!sortedCustomers.length &&
-            sortedCustomers.map((c) => <CustomerTableRow key={c.id} customer={c} />)}
-        </div>
+          {hasSearchQuery && !isLoading && !!sortedCustomers.length && (
+            <tbody>
+              {sortedCustomers.map((c) => (
+                <CustomerTableRow key={c.id} customer={c} />
+              ))}
+            </tbody>
+          )}
+        </table>
       </div>
       {!hasSearchQuery && (
         <div className={styles.messageWrapper}>
@@ -88,7 +99,7 @@ const CustomerTable = ({ customers, hasSearchQuery, isLoading, isSuccess }: IPro
           <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
         </div>
       )}
-      {hasSearchQuery && !isLoading && (!sortedCustomers || sortedCustomers?.length === 0) && (
+      {hasSearchQuery && !isLoading && sortedCustomers?.length === 0 && (
         <div className={styles.messageWrapper}>
           <StatusText>{t(`${T_PATH}.noResults`)}</StatusText>
         </div>

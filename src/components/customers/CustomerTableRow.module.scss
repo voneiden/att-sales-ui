@@ -1,5 +1,5 @@
 .customerTableRow {
-  display: table-row;
+  width: 100%;
 }
 
 .customerTableRow + .customerTableRow {
@@ -7,13 +7,10 @@
 }
 
 .customerTableCell {
-  display: table-cell;
-  padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
+  padding: var(--spacing-m) var(--spacing-l) var(--spacing-m) 0;
 }
 
 .nameCell {
-  min-width: 220px;
-
   a {
     color: inherit;
   }
