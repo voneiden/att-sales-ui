@@ -119,6 +119,7 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
             </div>
           )}
           <div className={styles.projectAssignee}>
+            <span className={styles.tooltip}>{estate_agent ? estate_agent : t(`${T_PATH}.noEstateAgent`)}</span>
             <span className={styles.assigneeCircle}>{getInitials(estate_agent)}</span>
           </div>
         </div>

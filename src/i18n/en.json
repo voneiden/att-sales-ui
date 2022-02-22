@@ -179,6 +179,7 @@
   "components.project.ProjectCard.startLotteryConfirmTitle": "Are you sure you want to continue?",
   "components.project.ProjectCard.startLotteryConfirmText": "You are about to start a lottery for a project. This operation can only be done once and cannot be undone!",
   "components.project.ProjectCard.startLotteryCancel": "Cancel",
+  "components.project.ProjectCard.noEstateAgent": "No assigned salesperson",
   "pages.AuthError.authError": "Error with authentication",
   "pages.AuthError.errorTitle": "Error",
   "pages.CustomerDetail.customerDetails": "Customer details",

@@ -179,6 +179,7 @@
   "components.project.ProjectCard.startLotteryConfirmTitle": "Haluatko varmasti käynnistää arvonnan?",
   "components.project.ProjectCard.startLotteryConfirmText": "Olet käynnistämässä kyseiselle kohteelle arvonnan. Arvonnan voi suorittaa vain kerran, eikä tätä toimintoa voi peruuttaa!",
   "components.project.ProjectCard.startLotteryCancel": "Peruuta",
+  "components.project.ProjectCard.noEstateAgent": "Ei määritettyä myyjää",
   "pages.AuthError.authError": "Kirjautumisessa tapahtui virhe",
   "pages.AuthError.errorTitle": "Virhe",
   "pages.CustomerDetail.customerDetails": "Asiakkaan tiedot",
