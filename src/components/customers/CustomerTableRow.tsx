@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { Customer } from '../../types';
+import { CustomerListItem } from '../../types';
 import { ROUTES } from '../../enums';
 
 import styles from './CustomerTableRow.module.scss';
@@ -11,41 +11,37 @@ import styles from './CustomerTableRow.module.scss';
 const T_PATH = 'components.customers.CustomerTableRow';
 
 interface IProps {
-  customer: Customer | undefined;
+  customer: CustomerListItem | undefined;
 }
 
 const CustomerTableRow = ({ customer }: IProps): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.customerTableRow}>
-      <div className={cx(`${styles.customerTableCell} ${styles.nameCell}`)}>
+    <tr className={styles.customerTableRow}>
+      <td className={cx(`${styles.customerTableCell} ${styles.nameCell}`)}>
         <Link to={`/${ROUTES.CUSTOMERS}/${customer?.id}`}>
           <span className="hiddenFromScreen">{t(`${T_PATH}.customer`)}:</span>
-          {customer?.fullName}
+          {customer?.primary_last_name}, {customer?.primary_first_name}
         </Link>
-      </div>
-      <div className={styles.customerTableCell}>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.nin`)}:</span>
-        {customer?.nin}
-      </div>
-      <div className={styles.customerTableCell}>
+      </td>
+      <td className={styles.customerTableCell}>
         <span className="hiddenFromScreen">{t(`${T_PATH}.email`)}:</span>
-        {customer?.email}
-      </div>
-      <div className={styles.customerTableCell}>
+        {customer?.primary_email}
+      </td>
+      <td className={styles.customerTableCell}>
         <span className="hiddenFromScreen">{t(`${T_PATH}.phone`)}:</span>
-        {customer?.phone}
-      </div>
-      <div className={styles.customerTableCell}>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.project`)}:</span>
-        {customer?.project}
-      </div>
-      <div className={styles.customerTableCell}>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.coApplicant`)}:</span>
-        {customer?.coApplicant?.fullName}
-      </div>
-    </div>
+        {customer?.primary_phone_number}
+      </td>
+      <td className={styles.customerTableCell}>
+        {customer?.secondary_last_name && customer?.secondary_first_name && (
+          <>
+            <span className="hiddenFromScreen">{t(`${T_PATH}.coApplicant`)}:</span>
+            {customer.secondary_last_name}, {customer.secondary_first_name}
+          </>
+        )}
+      </td>
+    </tr>
   );
 };
 

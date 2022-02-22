@@ -9,24 +9,18 @@ import CustomerInfo from '../components/customers/CustomerInfo';
 import Installments from '../components/installments/Installments';
 import CustomerReservations from '../components/customers/CustomerReservations';
 import StatusText from '../components/common/statusText/StatusText';
-import { Customer } from '../types';
 import { ROUTES } from '../enums';
+import { useGetCustomerByIdQuery } from '../redux/services/api';
+import { Customer } from '../types';
 
 import styles from './CustomerDetail.module.scss';
-
-import dummyCustomer from '../mocks/customers.json'; // TODO: remove and replace with real data
 
 const T_PATH = 'pages.CustomerDetail';
 
 const CustomerDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { customerId } = useParams();
-
-  // TODO: get data, success loading and error states from the actual query
-  const customer = dummyCustomer[0] as Customer;
-  const isSuccess = true;
-  const isLoading = false;
-  const isError = false;
+  const { data: customer, isLoading, isError, isSuccess } = useGetCustomerByIdQuery(customerId || '0');
 
   const breadcrumbAncestors: BreadcrumbItem[] = [
     {
@@ -35,45 +29,52 @@ const CustomerDetail = (): JSX.Element | null => {
     },
   ];
 
-  const renderPageContent = () => {
-    if (isLoading) {
-      return <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>;
+  const currentBreadcrumb = (customer?: Customer) => {
+    let breadcrumb = '';
+
+    if (customerId) {
+      breadcrumb = customerId;
     }
 
-    if (isError) {
-      return (
+    if (customer) {
+      const primary = `${customer.primary_profile.last_name}, ${customer.primary_profile.first_name}`;
+      let combined = primary;
+      if (customer.secondary_profile) {
+        combined = primary + ` (${customer.secondary_profile.last_name}, ${customer.secondary_profile.first_name})`;
+      }
+      breadcrumb = combined;
+    }
+
+    return breadcrumb;
+  };
+
+  const renderBreadcrumb = () => <Breadcrumbs current={currentBreadcrumb(customer)} ancestors={breadcrumbAncestors} />;
+
+  if (isLoading) {
+    return (
+      <Container>
+        {renderBreadcrumb()}
+        <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
+      </Container>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Container>
+        {renderBreadcrumb()}
         <Notification type="error" size="small" style={{ marginTop: 15 }}>
           {t(`${T_PATH}.errorLoadingCustomer`)}
         </Notification>
-      );
-    }
-
-    if (!isSuccess || !customer) return null;
-
-    return (
-      <>
-        <CustomerInfo customer={customer} />
-        <div className={styles.tabsWrapper}>
-          <Tabs>
-            <TabList className={styles.tabs}>
-              <Tab>{t(`${T_PATH}.tabReservations`)}</Tab>
-              <Tab>{t(`${T_PATH}.tabInstallments`)}</Tab>
-            </TabList>
-            <TabPanel className={styles.tabPanel}>
-              <CustomerReservations />
-            </TabPanel>
-            <TabPanel className={styles.tabPanel}>
-              <Installments />
-            </TabPanel>
-          </Tabs>
-        </div>
-      </>
+      </Container>
     );
-  };
+  }
+
+  if (!isSuccess || !customer) return null;
 
   return (
     <Container>
-      <Breadcrumbs current={customer.fullName || customerId || ''} ancestors={breadcrumbAncestors} />
+      {renderBreadcrumb()}
       <div className={styles.titleRow}>
         <h1>{t(`${T_PATH}.customerDetails`)}</h1>
         <div className={styles.customerEditLink}>
@@ -82,7 +83,21 @@ const CustomerDetail = (): JSX.Element | null => {
           </Button>
         </div>
       </div>
-      {renderPageContent()}
+      <CustomerInfo customer={customer} />
+      <div className={styles.tabsWrapper}>
+        <Tabs>
+          <TabList className={styles.tabs}>
+            <Tab>{t(`${T_PATH}.tabReservations`)}</Tab>
+            <Tab>{t(`${T_PATH}.tabInstallments`)}</Tab>
+          </TabList>
+          <TabPanel className={styles.tabPanel}>
+            <CustomerReservations />
+          </TabPanel>
+          <TabPanel className={styles.tabPanel}>
+            <Installments />
+          </TabPanel>
+        </Tabs>
+      </div>
     </Container>
   );
 };

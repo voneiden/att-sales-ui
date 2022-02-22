@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import getApiBaseUrl from '../../utils/getApiBaseUrl';
-import { Apartment, Project, ProjectInstallment } from '../../types';
+import { Apartment, Customer, Project, ProjectInstallment } from '../../types';
 import type { RootState } from '../store';
 
 // Define a service using a base URL and expected endpoints
@@ -47,6 +47,11 @@ export const api = createApi({
       }),
     }),
 
+    // GET: Fetch single customer's details
+    getCustomerById: builder.query<Customer, string>({
+      query: (id) => `customers/${id}`,
+    }),
+
     // GET: Fetch saved installments for a project
     getProjectInstallments: builder.query<ProjectInstallment[], string>({
       query: (id) => `projects/${id}/installment_templates`,
@@ -78,4 +83,5 @@ export const {
   useStartLotteryForProjectMutation,
   useGetProjectInstallmentsQuery,
   useSetProjectInstallmentsMutation,
+  useGetCustomerByIdQuery,
 } = api;

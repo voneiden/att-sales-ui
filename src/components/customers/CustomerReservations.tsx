@@ -12,7 +12,7 @@ import styles from './CustomerReservations.module.scss';
 
 import dummyProjects from '../../mocks/projects.json'; // TODO: Get actual project data
 import dummyApartments from '../../mocks/apartments.json'; // TODO: Get actual apartment data
-import dummyCustomers from '../../mocks/customers.json'; // TODO: Get actual project data
+import dummyCustomer from '../../mocks/customer.json'; // TODO: Get actual project data
 
 const T_PATH = 'components.customers.CustomerReservations';
 
@@ -73,7 +73,7 @@ const CustomerReservations = () => {
         {!!dummyApartments1.length &&
           dummyApartments1.map((a: any) => (
             <div key={a.uuid} className={styles.singleApartment}>
-              {renderApartmentRow(a, dummyCustomers[0], dummyProjects[0] as any)}
+              {renderApartmentRow(a, dummyCustomer as any, dummyProjects[0] as any)}
             </div>
           ))}
       </div>
@@ -82,7 +82,7 @@ const CustomerReservations = () => {
         {!!dummyApartments2.length &&
           dummyApartments2.map((a: any) => (
             <div key={a.uuid} className={styles.singleApartment}>
-              {renderApartmentRow(a, dummyCustomers[0], dummyProjects[1] as any)}
+              {renderApartmentRow(a, dummyCustomer as any, dummyProjects[1] as any)}
             </div>
           ))}
       </div>

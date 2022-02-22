@@ -2,6 +2,7 @@ import { rest } from 'msw';
 
 import mockProjects from '../../mocks/projects.json';
 import mockApartments from '../../mocks/apartments.json';
+import mockCustomer from '../../mocks/customer.json';
 
 const handlers = [
   rest.get(`${process.env.REACT_APP_API_BASE_URL}/apartments`, (req, res, ctx) => {
@@ -12,6 +13,9 @@ const handlers = [
   }),
   rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects/:projectId`, (req, res, ctx) => {
     return res(ctx.json(mockProjects[0]));
+  }),
+  rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/:customerId`, (req, res, ctx) => {
+    return res(ctx.json(mockCustomer));
   }),
 ];
 

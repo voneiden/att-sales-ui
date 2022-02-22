@@ -1,0 +1,35 @@
+{
+  "id": 0,
+  "additional_information": "lorem ipsum dolor sit amet",
+  "created_at": "2019-08-24T14:15:22Z",
+  "has_children": true,
+  "has_hitas_ownership": null,
+  "is_age_over_55": null,
+  "is_right_of_occupancy_housing_changer": true,
+  "last_contact_date": "2019-08-24",
+  "primary_profile": {
+    "city": "Helsinki",
+    "contact_language": "fi",
+    "email": "matti.meikalainen@example.com",
+    "first_name": "Matti",
+    "id": "197f6eca-6276-4993-bfeb-53cbbbba6f01",
+    "last_name": "Meikäläinen",
+    "national_identification_number": "123456-1234",
+    "phone_number": "+358501234567",
+    "postal_code": "00100",
+    "street_address": "Testikatu 12 A 1"
+  },
+  "right_of_residence": 12320,
+  "secondary_profile": {
+    "city": "Helsinki",
+    "contact_language": "en",
+    "email": "matti.meikalainen@example.com",
+    "first_name": "Maija",
+    "id": "297f6eca-6276-4993-bfeb-53cbbbba6f02",
+    "last_name": "Meikäläinen",
+    "national_identification_number": "654321-4321",
+    "phone_number": "+358501234567",
+    "postal_code": "00100",
+    "street_address": "Testikatu 12 A 1"
+  }
+}

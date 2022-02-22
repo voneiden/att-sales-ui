@@ -116,27 +116,41 @@ export type Project = {
   zoning_status: string;
 };
 
-// TODO: Define these after we have a working API
-export type CustomerBaseDetails = {
-  address: string;
+export type CustomerProfile = {
+  city?: string;
+  contact_language?: 'en' | 'fi' | 'sv';
   email: string;
-  firstName: string;
-  fullName: string;
-  lastName: string;
-  nin: string;
-  phone: string;
+  first_name: string;
+  id: string;
+  last_name: string;
+  national_identification_number?: string;
+  phone_number: string;
+  postal_code?: string;
+  street_address?: string;
 };
 
-// TODO: Define these after we have a working API
-export type Customer = CustomerBaseDetails & {
-  coApplicant: CustomerBaseDetails | undefined | null;
-  family_with_children: boolean;
-  haso_number: string;
-  has_haso_ownership: boolean;
-  has_hitas_ownership: boolean;
+export type Customer = {
+  additional_information: string;
+  created_at: string;
+  has_children?: boolean;
+  has_hitas_ownership?: boolean;
   id: number;
-  is_over_55_years_old: boolean;
-  project: string;
+  is_age_over_55?: boolean;
+  is_right_of_occupancy_housing_changer?: boolean;
+  last_contact_date?: string;
+  primary_profile: CustomerProfile;
+  right_of_residence?: number;
+  secondary_profile?: CustomerProfile;
+};
+
+export type CustomerListItem = {
+  id: number;
+  primary_first_name: string;
+  primary_last_name: string;
+  primary_email: string;
+  primary_phone_number: string;
+  secondary_first_name?: string;
+  secondary_last_name?: string;
 };
 
 export type ApartmentInstallment = {

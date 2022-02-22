@@ -3,7 +3,8 @@ import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Checkbox, Notification } from 'hds-react';
 
-import { Customer, CustomerBaseDetails } from '../../types';
+import formatDateTime from '../../utils/formatDateTime';
+import { Customer } from '../../types';
 
 import styles from './CustomerInfo.module.scss';
 
@@ -16,7 +17,7 @@ interface IProps {
 interface InfoItemProps {
   label: string;
   largeFont?: boolean;
-  children?: string | JSX.Element;
+  children?: string | React.ReactNode;
 }
 
 const CustomerInfo = ({ customer }: IProps): JSX.Element => {
@@ -37,47 +38,60 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
     </div>
   );
 
-  const renderCustomerInfo = (
-    customer: CustomerBaseDetails,
-    showExtraInfo: boolean,
-    familyWithChildren?: Customer['family_with_children']
-  ) => (
-    <>
-      <div className={styles.customerInfoColumn}>
-        <InfoItem label={t(`${T_PATH}.name`)} largeFont>
-          {customer.fullName}
-        </InfoItem>
-        <InfoItem label={t(`${T_PATH}.nin`)}>{customer.nin}</InfoItem>
-      </div>
-      <div className={styles.customerInfoColumn}>
-        <InfoItem label={t(`${T_PATH}.contactDetails`)}>
-          <>
-            <div>{customer.address}</div>
-            <div>{customer.phone}</div>
-            <div>{customer.email}</div>
-          </>
-        </InfoItem>
-        {familyWithChildren !== undefined && (
-          <InfoItem label={t(`${T_PATH}.familyWithChildren`)}>
-            {familyWithChildren ? t(`${T_PATH}.yes`) : t(`${T_PATH}.no`)}
-          </InfoItem>
-        )}
-      </div>
-      {showExtraInfo && (
+  const renderProfileInfo = (customer: Customer, isPrimary: boolean) => {
+    const profile = isPrimary ? customer.primary_profile : customer.secondary_profile;
+
+    if (!profile) return;
+
+    return (
+      <>
         <div className={styles.customerInfoColumn}>
-          <InfoItem label={t(`${T_PATH}.registered`)}>-</InfoItem>
-          <InfoItem label={t(`${T_PATH}.lastContactDate`)}>-</InfoItem>
-          <InfoItem label={t(`${T_PATH}.extraInfo`)}>-</InfoItem>
+          <InfoItem label={t(`${T_PATH}.name`)} largeFont>
+            {profile.last_name}, {profile.first_name}
+          </InfoItem>
+          <InfoItem label={t(`${T_PATH}.nin`)}>{profile.national_identification_number || '-'}</InfoItem>
         </div>
-      )}
-    </>
-  );
+        <div className={styles.customerInfoColumn}>
+          <InfoItem label={t(`${T_PATH}.contactDetails`)}>
+            <>
+              <div>
+                {profile.street_address && `${profile.street_address},`} {profile.postal_code} {profile.city}
+              </div>
+              <div>{profile.phone_number}</div>
+              <div>{profile.email}</div>
+            </>
+          </InfoItem>
+          <InfoItem label={t(`${T_PATH}.contactLanguage`)}>
+            {profile.contact_language ? t(`${T_PATH}.contactLanguage_${profile.contact_language}`) : '-'}
+          </InfoItem>
+          {isPrimary && (
+            <InfoItem label={t(`${T_PATH}.familyWithChildren`)}>
+              {customer.has_children === null
+                ? t(`${T_PATH}.unknown`)
+                : customer.has_children
+                ? t(`${T_PATH}.yes`)
+                : t(`${T_PATH}.no`)}
+            </InfoItem>
+          )}
+        </div>
+        {isPrimary && (
+          <div className={styles.customerInfoColumn}>
+            <InfoItem label={t(`${T_PATH}.registered`)}>
+              {customer.created_at ? formatDateTime(customer.created_at) : '-'}
+            </InfoItem>
+            <InfoItem label={t(`${T_PATH}.lastContactDate`)}>
+              {customer.last_contact_date ? formatDateTime(customer.last_contact_date, true) : '-'}
+            </InfoItem>
+            <InfoItem label={t(`${T_PATH}.extraInfo`)}>{customer.additional_information || '-'}</InfoItem>
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <>
-      <div className={styles.customerInfoWrapper}>
-        {renderCustomerInfo(customer, true, customer.family_with_children)}
-      </div>
+      <div className={styles.customerInfoWrapper}>{renderProfileInfo(customer, true)}</div>
 
       <div className={styles.extraInfoRow}>
         <div className={styles.extraInfoRowItem}>
@@ -97,7 +111,7 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
               <Checkbox
                 id="customerIsOver55"
                 label={t(`${T_PATH}.customerIsOver55`)}
-                checked={customer.is_over_55_years_old}
+                checked={customer.is_age_over_55}
                 readOnly
                 disabled
                 style={{ marginRight: 'var(--spacing-l)' }}
@@ -105,7 +119,7 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
               <Checkbox
                 id="customerHasHitasOwnership"
                 label={t(`${T_PATH}.customerHasHasoOwnership`)}
-                checked={customer.has_haso_ownership}
+                checked={customer.is_right_of_occupancy_housing_changer}
                 readOnly
                 disabled
               />
@@ -113,14 +127,16 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
           </InfoItem>
         </div>
         <div className={styles.extraInfoRowItem}>
-          <InfoItem label={t(`${T_PATH}.hasoNumber`)}>{customer.haso_number}</InfoItem>
+          <InfoItem label={t(`${T_PATH}.hasoNumber`)}>
+            {customer.right_of_residence ? customer.right_of_residence.toString() : '-'}
+          </InfoItem>
         </div>
       </div>
 
-      {!!customer.coApplicant && (
+      {customer.secondary_profile && (
         <>
           <h2 className={styles.coApplcantTitle}>{t(`${T_PATH}.coApplicant`)}</h2>
-          <div className={styles.customerInfoWrapper}>{renderCustomerInfo(customer.coApplicant, false)}</div>
+          <div className={styles.customerInfoWrapper}>{renderProfileInfo(customer, false)}</div>
         </>
       )}
     </>
