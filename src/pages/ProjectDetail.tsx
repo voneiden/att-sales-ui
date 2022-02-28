@@ -101,6 +101,7 @@ const ProjectDetail = (): JSX.Element | null => {
                 ownershipType={project.ownership_type.toLowerCase()}
                 projectId={project.id}
                 housingCompany={project.housing_company}
+                lotteryCompleted={project.lottery_completed}
               />
             </div>
           </Tabs.TabPanel>

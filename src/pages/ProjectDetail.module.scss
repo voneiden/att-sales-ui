@@ -7,7 +7,7 @@
   padding: var(--spacing-l) var(--spacing-m);
 
   @media (min-width: 1248px) { // --breakpoint-xl
-    padding: var(--spacing-xl) var(--spacing-2-xl);
+    padding: var(--spacing-l) var(--spacing-2-xl) var(--spacing-xl) var(--spacing-2-xl);
   }
 }
 
@@ -16,7 +16,7 @@
   padding: var(--spacing-l) var(--spacing-m);
 
   @media (min-width: 1248px) { // --breakpoint-xl
-    padding: var(--spacing-xl) var(--spacing-2-xl);
+    padding: var(--spacing-l) var(--spacing-2-xl) var(--spacing-xl) var(--spacing-2-xl);
   }
 }
 
