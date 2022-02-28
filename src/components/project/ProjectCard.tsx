@@ -31,6 +31,7 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
     estimated_completion,
     district,
     housing_company,
+    lottery_completed,
     main_image_url,
     ownership_type,
     state_of_sale,
@@ -88,7 +89,7 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
             &nbsp;
             {application_end_time ? formatDateTime(application_end_time) : '-'}
           </div>
-          {showActions && (
+          {showActions && !lottery_completed && (
             <div className={styles.lotteryBtnWrap}>
               <Button
                 variant="primary"
@@ -96,9 +97,15 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
                 disabled={!applicationPeriodHasEnded || lotteryLoading}
                 onClick={() => setIsLotteryConfirmOpen(true)}
                 isLoading={lotteryLoading}
-                loadingText={t(`${T_PATH}.lotteryLoading`)}
+                loadingText={
+                  ownership_type.toLowerCase() === 'haso'
+                    ? t(`${T_PATH}.hasoLotteryLoading`)
+                    : t(`${T_PATH}.hitasLotteryLoading`)
+                }
               >
-                {t(`${T_PATH}.startLottery`)}
+                {ownership_type.toLowerCase() === 'haso'
+                  ? t(`${T_PATH}.startHasoLottery`)
+                  : t(`${T_PATH}.startHitasLottery`)}
               </Button>
             </div>
           )}
@@ -124,7 +131,7 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
           </div>
         </div>
       </div>
-      {showActions && (
+      {showActions && !lottery_completed && (
         <Dialog
           id="lottery-confirm-dialog"
           aria-labelledby="lottery-confirm-dialog-title"
