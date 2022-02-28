@@ -95,7 +95,7 @@ const ProjectDetail = (): JSX.Element | null => {
           </Tabs.TabList>
           <Tabs.TabPanel>
             <div className={styles.apartmentsWrapper}>
-              <ApartmentActions />
+              <ApartmentActions lotteryCompleted={project.lottery_completed} />
               <ApartmentTable
                 apartments={project.apartments}
                 ownershipType={project.ownership_type.toLowerCase()}
