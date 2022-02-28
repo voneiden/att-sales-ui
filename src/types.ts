@@ -1,4 +1,4 @@
-import { StateOfSale, InstallmentTypes, InstallmentPercentageSpecifiers } from './enums';
+import { StateOfSale, InstallmentTypes, InstallmentPercentageSpecifiers, ApartmentReservationStates } from './enums';
 
 export type AnyObject = Record<string, unknown>;
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -12,6 +12,7 @@ export type Apartment = {
   apartment_address: string;
   apartment_holding_type: string;
   apartment_number: string;
+  apartment_state: string;
   apartment_state_of_sale: string;
   apartment_structure: string;
   apartment_uuid: string;
@@ -87,6 +88,7 @@ export type Project = {
   housing_manager: string;
   id: number;
   image_urls: string[];
+  lottery_completed: boolean;
   main_image_url: string;
   manager: string;
   material_choice_dl: string;
@@ -174,16 +176,35 @@ export type ApartmentApplicant = {
   first_name: string;
   last_name: string;
   is_primary_applicant: boolean;
-  ssn: string;
+  email: string;
+};
+
+export type ApartmentReservationState = {
+  value: `${ApartmentReservationStates}`;
+  extra_info?: string;
+};
+
+export type ApartmentReservationCancellation = {
+  cancellation_reason: string;
+  date: string;
+};
+
+export type ApartmentReservationOfferInfo = {
+  accept_date?: string;
+  due_date: string;
 };
 
 export type ApartmentReservation = {
   apartment_uuid: Apartment['uuid'];
   applicants: ApartmentApplicant[];
+  cancellation_info?: ApartmentReservationCancellation;
+  current_state: ApartmentReservationState;
+  customer_id: number;
   has_children: boolean;
   id: number;
   lottery_position: number;
+  offer_info?: ApartmentReservationOfferInfo;
   queue_position: number;
   right_of_residence: string;
-  state: string;
+  state: `${ApartmentReservationStates}`; // TODO: Remove when API gets updated
 };
