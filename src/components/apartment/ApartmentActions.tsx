@@ -3,27 +3,45 @@ import { Button, IconDownload, Select } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ApartmentActions.module.scss';
+import { Project } from '../../types';
 
 const T_PATH = 'components.apartment.ApartmentActions';
 
-const ApartmentActions = (): JSX.Element => {
+interface IProps {
+  lotteryCompleted: Project['lottery_completed'];
+}
+
+const ApartmentActions = ({ lotteryCompleted }: IProps): JSX.Element => {
   const { t } = useTranslation();
 
   return (
     <div className={styles.apartmentActions}>
-      <Select label={t(`${T_PATH}.show`)} placeholder={t(`${T_PATH}.allApartments`)} options={[]} disabled />
-      <div className={styles.action}>
-        <span>
-          {/* TODO: hide after lottery */}
-          <p className={styles.actionLabel}>{t(`${T_PATH}.action`)}</p>
-          <Button variant="secondary" disabled>
-            {t(`${T_PATH}.createBuyerMailingList`)}
-          </Button>
-        </span>
-        {/* TODO: show button after lottery */}
-        <Button variant="primary" iconRight={<IconDownload />} disabled>
-          {t(`${T_PATH}.downloadLotteryResults`)} (PDF)
-        </Button>
+      <div className={styles.selectWrapper}>
+        {lotteryCompleted && (
+          <Select label={t(`${T_PATH}.show`)} placeholder={t(`${T_PATH}.allApartments`)} options={[]} />
+        )}
+      </div>
+      <div>
+        {lotteryCompleted ? (
+          <>
+            <span className={styles.action}>
+              <Button variant="primary" iconRight={<IconDownload />} theme="black">
+                {t(`${T_PATH}.createBuyerMailingList`)}
+              </Button>
+            </span>
+            <span className={styles.action}>
+              <Button variant="primary" iconRight={<IconDownload />} theme="black">
+                {t(`${T_PATH}.downloadLotteryResults`)}
+              </Button>
+            </span>
+          </>
+        ) : (
+          <span className={styles.action}>
+            <Button variant="secondary" iconRight={<IconDownload />} theme="black">
+              {t(`${T_PATH}.downloadApplicantList`)}
+            </Button>
+          </span>
+        )}
       </div>
     </div>
   );

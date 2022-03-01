@@ -9,13 +9,18 @@ describe('ApartmentActions', () => {
     expect(element).toBeDefined();
   });
 
-  it('renders select element label', () => {
-    render(<ApartmentActions />);
+  it('renders select element label when lottery is completed', () => {
+    render(<ApartmentActions lotteryCompleted />);
     expect(screen.getByText('components.apartment.ApartmentActions.show')).toBeDefined();
   });
 
-  it('renders action button label', () => {
-    render(<ApartmentActions />);
-    expect(screen.getByText('components.apartment.ApartmentActions.action')).toBeDefined();
+  it('renders download lottery results button when lottery is completed', () => {
+    render(<ApartmentActions lotteryCompleted />);
+    expect(screen.getByText('components.apartment.ApartmentActions.downloadLotteryResults')).toBeDefined();
+  });
+
+  it('renders download applicant list button when lottery is not yet completed', () => {
+    render(<ApartmentActions lotteryCompleted={false} />);
+    expect(screen.getByText('components.apartment.ApartmentActions.downloadApplicantList')).toBeDefined();
   });
 });

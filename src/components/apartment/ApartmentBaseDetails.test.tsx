@@ -1,17 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-import ApartmentRow from './ApartmentRow';
+import ApartmentBaseDetails from './ApartmentBaseDetails';
 import mockProject from '../../mocks/project.json';
 import { Apartment } from '../../types';
 
 const mockApartment: Apartment = mockProject.apartments[0];
 
-describe('ApartmentRow', () => {
-  it('renders ApartmentRow component', () => {
+describe('ApartmentBaseDetails', () => {
+  it('renders ApartmentBaseDetails component', () => {
     const { container } = render(
       <BrowserRouter>
-        <ApartmentRow apartment={mockApartment} />
+        <ApartmentBaseDetails apartment={mockApartment} />
       </BrowserRouter>
     );
     const element = container.firstChild;
@@ -21,7 +21,7 @@ describe('ApartmentRow', () => {
   it('renders apartment details', () => {
     render(
       <BrowserRouter>
-        <ApartmentRow apartment={mockApartment} />
+        <ApartmentBaseDetails apartment={mockApartment} isLotteryResult showState />
       </BrowserRouter>
     );
 

@@ -1,12 +1,14 @@
 import React from 'react';
 import cx from 'classnames';
-import { IconAngleDown, IconAngleRight, IconGroup } from 'hds-react';
+import { Link } from 'react-router-dom';
+import { Button, IconAngleDown, IconAngleRight, IconBell, IconGroup, IconPlus } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import formattedLivingArea from '../../utils/formatLivingArea';
+import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
-import { Apartment, Project } from '../../types';
-import { fullURL } from '../../utils/fullURL';
+import formatDateTime from '../../utils/formatDateTime';
+import { Apartment, ApartmentReservation, Project } from '../../types';
+import { ApartmentReservationStates, ROUTES } from '../../enums';
 
 import styles from './ApartmentRow.module.scss';
 
@@ -15,88 +17,261 @@ const T_PATH = 'components.apartment.ApartmentRow';
 interface IProps {
   apartment: Apartment;
   ownershipType: Project['ownership_type'];
+  lotteryCompleted: Project['lottery_completed'];
 }
 
-const ApartmentRow = ({ apartment, ownershipType }: IProps): JSX.Element => {
-  const { apartment_number, apartment_structure, living_area, reservations, url, apartment_uuid } = apartment;
-  const [rowOpen, setRowOpen] = useSessionStorage({ defaultValue: false, key: `apartmentRowOpen-${apartment_uuid}` });
+const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): JSX.Element => {
+  const { reservations, apartment_uuid } = apartment;
+  const [applicationRowOpen, setApplicationRowOpen] = useSessionStorage({
+    defaultValue: false,
+    key: `applicationRowOpen-${apartment_uuid}`,
+  });
+  const [resultRowOpen, setResultRowOpen] = useSessionStorage({
+    defaultValue: false,
+    key: `resultRowOpen-${apartment_uuid}`,
+  });
   const { t } = useTranslation();
 
-  const toggleRow = () => setRowOpen(!rowOpen);
+  const toggleApplicationRow = () => setApplicationRowOpen(!applicationRowOpen);
+  const toggleResultRow = () => setResultRowOpen(!resultRowOpen);
 
-  const apartmentRowBaseDetails = (
-    <>
-      <strong>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.apartment`)}: </span>
-        {apartment_number}
-      </strong>
-      <span>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.ariaApartmentStructure`)}: </span>
-        {apartment_structure}{' '}
-        {living_area && <span className={styles.apartmentLivingArea}>({formattedLivingArea(living_area)})</span>}
-      </span>
-    </>
-  );
-
-  const renderReservationCountText = () => {
-    if (!reservations || reservations.length === 0) {
-      return <span className={styles.textMuted}>{t(`${T_PATH}.noReservations`)}</span>;
-    }
-    return <span>{t(`${T_PATH}.reservations`, { count: reservations.length })}</span>;
+  const isCanceled = (reservation: ApartmentReservation): boolean => {
+    // TODO: Remove 'reservation.state' when API gets updated
+    return (
+      reservation.current_state?.value === ApartmentReservationStates.CANCELED ||
+      reservation.state === ApartmentReservationStates.CANCELED
+    );
   };
 
-  const renderReservations = (
-    <div className={cx(styles.cell, styles.buttonCell, rowOpen && styles.open)}>
-      <button
-        className={cx(styles.rowToggleButton, rowOpen && styles.open)}
-        onClick={toggleRow}
-        aria-controls={`apartment-row-${apartment_uuid}`}
-        aria-expanded={!!reservations.length && rowOpen ? true : false}
-        disabled={!reservations.length}
-      >
-        {renderReservationCountText()}
-        {!!reservations.length && (rowOpen ? <IconAngleDown /> : <IconAngleRight />)}
-      </button>
+  const renderApplicants = (reservation: ApartmentReservation, isLotteryResult: boolean) => {
+    if (reservation.applicants) {
+      const sortedApplicants = [...reservation.applicants];
 
-      <div
-        className={rowOpen ? cx(styles.toggleContent, styles.open) : styles.toggleContent}
-        id={`apartment-row-${apartment_uuid}`}
-      >
-        {reservations.map((reservation) => (
-          <div className={styles.singleReservation} key={reservation.id}>
-            <div className={styles.singleReservationColumn}>
-              {reservation.applicants &&
-                reservation.applicants.map((applicant) => (
-                  <div key={applicant.ssn}>
-                    {applicant.first_name} {applicant.last_name}
-                  </div>
-                ))}
-            </div>
-            <div className={styles.singleReservationColumn}>
-              {ownershipType === 'haso' ? (
-                <span>{reservation.right_of_residence}</span>
-              ) : (
-                reservation.has_children && <IconGroup />
-              )}
-            </div>
-          </div>
-        ))}
+      if (sortedApplicants.length > 1) {
+        // Sort primary applicants to be shown first
+        sortedApplicants.sort((a, b) => {
+          return a.is_primary_applicant < b.is_primary_applicant
+            ? 1
+            : a.is_primary_applicant > b.is_primary_applicant
+            ? -1
+            : 0;
+        });
+      }
+
+      const renderOfferInfo = () => {
+        return <span className={styles.offer}>TODO: Offers</span>;
+      };
+
+      return (
+        <div className={cx(styles.customer, isLotteryResult && styles.isLottery)}>
+          <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer_id || 0}`} className={styles.customerLink}>
+            {sortedApplicants.map((applicant, index) => (
+              <div key={index}>
+                {isLotteryResult && (
+                  <span className={styles.queueNumberSpacer}>
+                    {index === 0 &&
+                      (isCanceled(reservation)
+                        ? `00${reservation.lottery_position}`
+                        : `${reservation.queue_position}.`)}
+                  </span>
+                )}
+                {applicant.last_name}, {applicant.first_name}{' '}
+                {isLotteryResult && applicant.email && `\xa0 ${applicant.email}`}
+              </div>
+            ))}
+            {isLotteryResult && reservation.offer_info && (
+              <div>
+                <span className={styles.queueNumberSpacer} />
+                {renderOfferInfo()}
+              </div>
+            )}
+          </Link>
+          {isLotteryResult && renderReviewNotification(reservation)}
+        </div>
+      );
+    }
+  };
+
+  const renderHasoNumberOrFamilyIcon = (reservation: ApartmentReservation) => {
+    if (ownershipType === 'haso') {
+      return reservation.right_of_residence;
+    }
+    if (reservation.has_children) {
+      return <IconGroup />;
+    }
+  };
+
+  const renderReviewNotification = (reservation: ApartmentReservation) => {
+    // TODO: Remove 'reservation.state' when API gets updated
+    if (
+      reservation.current_state?.value === ApartmentReservationStates.REVIEW ||
+      reservation.state === ApartmentReservationStates.REVIEW
+    ) {
+      return (
+        <span className={cx(styles.bellIcon, resultRowOpen && styles.rowOpen)}>
+          <IconBell />
+        </span>
+      );
+    }
+  };
+
+  const renderLotteryResults = () => {
+    const sortedReservations = [...reservations];
+
+    // Sort results by initial lottery position
+    sortedReservations.sort((a, b) => a.lottery_position - b.lottery_position);
+
+    const addReservation = () => (
+      <div className={styles.addNewReservationButton}>
+        <Button size="small" variant="supplementary" iconLeft={<IconPlus size="xs" />}>
+          {t(`${T_PATH}.btnAddApplicant`)}
+        </Button>
       </div>
-    </div>
-  );
+    );
+
+    const renderActionButtons = (reservation: ApartmentReservation, showAllButtons: boolean) => (
+      <div className={styles.actionButtons}>
+        {isCanceled(reservation) ? (
+          <div className={styles.cancellationReason}>
+            {reservation.cancellation_info?.cancellation_reason}{' '}
+            {reservation.cancellation_info?.date ? formatDateTime(reservation.cancellation_info.date, true) : '-'}
+          </div>
+        ) : (
+          <>
+            <Button variant="supplementary" size="small" iconLeft={''}>
+              {t(`${T_PATH}.btnCancel`)}
+            </Button>
+            {showAllButtons && (
+              <>
+                <Button variant="supplementary" size="small" iconLeft={''}>
+                  {t(`${T_PATH}.btnEdit`)}
+                </Button>
+                <Button variant="secondary" size="small">
+                  {t(`${T_PATH}.btnOffer`)}
+                </Button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+
+    const renderFirstInQueue = () => {
+      // Find the applicant that is currently first in the reservation queue
+      const firstInQueue = sortedReservations.find((r) => r.queue_position === 1);
+
+      // If there's no one in the queue or the reservation is canceled, show "add new reservation" button
+      if (!firstInQueue || isCanceled(firstInQueue)) return addReservation();
+
+      return (
+        <>
+          {renderApplicants(firstInQueue, true)}
+          <div className={styles.rowActions}>
+            <span>{renderHasoNumberOrFamilyIcon(firstInQueue)}</span>
+            {renderActionButtons(firstInQueue, true)}
+          </div>
+        </>
+      );
+    };
+
+    return (
+      <div className={cx(styles.cell, styles.buttonCell, resultRowOpen && styles.open)}>
+        <div className={cx(styles.firstResultRow, !resultRowOpen && styles.closed)}>
+          <div className={cx(styles.firstResultRowApplicant, resultRowOpen && styles.open)}>{renderFirstInQueue()}</div>
+          <button
+            className={cx(styles.smallToggleButton, resultRowOpen && styles.open)}
+            onClick={toggleResultRow}
+            aria-controls={`apartment-row-${apartment_uuid}`}
+            aria-expanded={resultRowOpen}
+          >
+            {resultRowOpen ? <IconAngleDown /> : <IconAngleRight />}
+          </button>
+        </div>
+        <div
+          className={resultRowOpen ? cx(styles.toggleContent, styles.open) : styles.toggleContent}
+          id={`apartment-row-${apartment_uuid}`}
+        >
+          {!!sortedReservations.length ? (
+            <>
+              {sortedReservations.map((reservation) => (
+                <div
+                  className={cx(
+                    styles.singleReservation,
+                    styles.resultReservation,
+                    isCanceled(reservation) && styles.disabledRow
+                  )}
+                  key={reservation.id}
+                >
+                  <div className={styles.singleReservationColumn}>{renderApplicants(reservation, true)}</div>
+                  <div className={styles.singleReservationColumn}>
+                    <div className={cx(styles.rowActions, resultRowOpen && styles.rowOpen)}>
+                      <span>{renderHasoNumberOrFamilyIcon(reservation)}</span>
+                      {renderActionButtons(reservation, reservation.queue_position === 1)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div className={cx(styles.singleReservation, styles.resultReservation)}>{addReservation()}</div>
+            </>
+          ) : (
+            addReservation()
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderReservations = () => {
+    const renderReservationCountText = () => {
+      if (!reservations || reservations.length === 0) {
+        return <span className={styles.textMuted}>{t(`${T_PATH}.noApplicants`)}</span>;
+      }
+      return <span>{t(`${T_PATH}.applicants`, { count: reservations.length })}</span>;
+    };
+
+    return (
+      <div className={cx(styles.cell, styles.buttonCell, applicationRowOpen && styles.open)}>
+        <button
+          className={cx(styles.rowToggleButton, applicationRowOpen && styles.open)}
+          onClick={toggleApplicationRow}
+          aria-controls={`apartment-row-${apartment_uuid}`}
+          aria-expanded={!!reservations.length && applicationRowOpen ? true : false}
+        >
+          {renderReservationCountText()}
+          {applicationRowOpen ? <IconAngleDown /> : <IconAngleRight />}
+        </button>
+
+        <div
+          className={applicationRowOpen ? cx(styles.toggleContent, styles.open) : styles.toggleContent}
+          id={`apartment-row-${apartment_uuid}`}
+        >
+          {!!reservations.length ? (
+            reservations.map((reservation) => (
+              <div className={styles.singleReservation} key={reservation.id}>
+                <div className={styles.singleReservationColumn}>{renderApplicants(reservation, false)}</div>
+                <div className={styles.singleReservationColumn}>{renderHasoNumberOrFamilyIcon(reservation)}</div>
+              </div>
+            ))
+          ) : (
+            <div className={styles.singleReservation}>
+              <span className={styles.textMuted}>{t(`${T_PATH}.noApplicants`)}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.apartmentTableRow}>
       <div className={cx(styles.cell, styles.apartmentCell)}>
-        {url ? (
-          <a href={fullURL(url)} target="_blank" rel="noreferrer" className={styles.apartmentLink}>
-            {apartmentRowBaseDetails}
-          </a>
-        ) : (
-          <>{apartmentRowBaseDetails}</>
-        )}
+        <ApartmentBaseDetails
+          apartment={apartment}
+          isLotteryResult={lotteryCompleted}
+          showState={lotteryCompleted ? resultRowOpen : false}
+        />
       </div>
-      {renderReservations}
+      {lotteryCompleted ? renderLotteryResults() : renderReservations()}
     </div>
   );
 };

@@ -17,9 +17,16 @@ interface IProps {
   projectId: Project['id'];
   ownershipType: Project['ownership_type'];
   housingCompany: Project['housing_company'];
+  lotteryCompleted: Project['lottery_completed'];
 }
 
-const ApartmentTable = ({ apartments, housingCompany, ownershipType, projectId }: IProps): JSX.Element => {
+const ApartmentTable = ({
+  apartments,
+  housingCompany,
+  ownershipType,
+  projectId,
+  lotteryCompleted,
+}: IProps): JSX.Element => {
   const { t } = useTranslation();
   const { sortedApartments, requestSort, sortConfig } = SortApartments(
     apartments ? apartments : [],
@@ -89,14 +96,21 @@ const ApartmentTable = ({ apartments, housingCompany, ownershipType, projectId }
                 {tableHeadButton('apartment_number', t(`${T_PATH}.apartment`), true)}
               </div>
               <div className={styles.headerCellParent}>
-                <div className={cx(styles.headerCell, styles.headerCellHalf)}>{t(`${T_PATH}.applicants`)}</div>
+                <div className={cx(styles.headerCell, styles.headerCellHalf)}>
+                  {lotteryCompleted ? t(`${T_PATH}.priorityOrder`) : t(`${T_PATH}.applicants`)}
+                </div>
                 <div className={cx(styles.headerCell, styles.headerCellHalf)}>
                   {ownershipType === 'haso' ? t(`${T_PATH}.hasoNumber`) : t(`${T_PATH}.familyWithChildren`)}
                 </div>
               </div>
             </li>
             {sortedApartments.map((apartment, index) => (
-              <ApartmentRow key={index} apartment={apartment} ownershipType={ownershipType} />
+              <ApartmentRow
+                key={index}
+                apartment={apartment}
+                ownershipType={ownershipType}
+                lotteryCompleted={lotteryCompleted}
+              />
             ))}
           </>
         )}

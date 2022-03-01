@@ -36,3 +36,11 @@ export enum InstallmentPercentageSpecifiers {
   DebtFreeSalesPrice = 'DEBT_FREE_SALES_PRICE',
   DebtFreeSalesPriceFlexible = 'DEBT_FREE_SALES_PRICE_FLEXIBLE',
 }
+
+export enum ApartmentReservationStates {
+  SUBMITTED = 'submitted',
+  RESERVED = 'reserved',
+  OFFERED = 'offered',
+  CANCELED = 'canceled',
+  REVIEW = 'review',
+}
