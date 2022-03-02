@@ -143,6 +143,7 @@ export type Customer = {
   primary_profile: CustomerProfile;
   right_of_residence?: number;
   secondary_profile?: CustomerProfile;
+  apartment_reservations?: CustomerReservation[];
 };
 
 export type CustomerListItem = {
@@ -207,4 +208,24 @@ export type ApartmentReservation = {
   queue_position: number;
   right_of_residence: string;
   state: `${ApartmentReservationStates}`; // TODO: Remove when API gets updated
+};
+
+export type CustomerReservation = {
+  id: number;
+  apartment_uuid: Apartment['uuid'];
+  apartment_number: Apartment['apartment_number'];
+  apartment_structure: Apartment['apartment_structure'];
+  apartment_living_area: Apartment['living_area'];
+  apartment_debt_free_sales_price?: Apartment['debt_free_sales_price'];
+  apartment_right_of_occupancy_payment?: Apartment['right_of_occupancy_payment'];
+  apartment_sales_price?: Apartment['sales_price'];
+  apartment_installments?: ApartmentInstallment[];
+  lottery_position: number;
+  project_uuid: Project['uuid'];
+  project_housing_company: Project['housing_company'];
+  project_street_address: Project['street_address'];
+  project_district: Project['district'];
+  project_ownership_type: Project['ownership_type'];
+  queue_position: number;
+  state: `${ApartmentReservationStates}`;
 };

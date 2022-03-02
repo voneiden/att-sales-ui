@@ -31,5 +31,87 @@
     "phone_number": "+358501234567",
     "postal_code": "00100",
     "street_address": "Testikatu 12 A 1"
-  }
+  },
+  "apartment_reservations": [
+    {
+      "id": 1,
+      "project_uuid": "bdb19b55-5cb8-4f36-816a-000000000000",
+      "project_housing_company": "Asunto Oy Tuleva S",
+      "project_ownership_type": "Hitas",
+      "project_street_address": "Pellervontie 24",
+      "project_district": "Käpylä",
+      "apartment_uuid": "48ba3236-464b-4f5d-8c2a-1bfb994a7571",
+      "apartment_number": "B16",
+      "apartment_structure": "1h+k+s",
+      "apartment_living_area": 29.0,
+      "apartment_debt_free_sales_price": 10000000,
+      "apartment_right_of_occupancy_payment": null,
+      "apartment_sales_price": 7500000,
+      "apartment_installments": [
+        {
+          "type": "PAYMENT_2",
+          "amount": 2000000,
+          "account_number": "74754745",
+          "due_date": "2022-02-19",
+          "reference_number": "referefe"
+        },
+        {
+          "type": "PAYMENT_1",
+          "amount": 1370000,
+          "account_number": "123123123-1234",
+          "due_date": "2022-02-18",
+          "reference_number": "REF-432423"
+        }
+      ],
+      "lottery_position": null,
+      "queue_position": 2,
+      "state": "reserved"
+    },
+    {
+      "id": 2,
+      "project_uuid": "bdb19b55-5cb8-4f36-816a-000000000000",
+      "project_housing_company": "Asunto Oy Tuleva S",
+      "project_ownership_type": "Hitas",
+      "project_street_address": "Pellervontie 24",
+      "project_district": "Käpylä",
+      "apartment_uuid": "48ba3236-464b-4f5d-8c2a-1bfb994a7572",
+      "apartment_number": "A10",
+      "apartment_structure": "2h+k+s",
+      "apartment_living_area": 39.0,
+      "apartment_debt_free_sales_price": 12000000,
+      "apartment_right_of_occupancy_payment": null,
+      "apartment_sales_price": 9000000,
+      "apartment_installments": null,
+      "lottery_position": null,
+      "queue_position": 1,
+      "state": "submitted"
+    },
+    {
+      "id": 3,
+      "project_uuid": "bdb19b55-5cb8-4f36-816a-111111111111",
+      "project_housing_company": "Haso Vanha Mylly",
+      "project_ownership_type": "HASO",
+      "project_street_address": "Yläkiventie 16",
+      "project_district": "Myllypuro",
+      "apartment_uuid": "48ba3236-464b-4f5d-8c2a-1bfb994a7573",
+      "apartment_number": "A1",
+      "apartment_structure": "1h+k+s",
+      "apartment_living_area": 25.7,
+      "apartment_debt_free_sales_price": null,
+      "apartment_right_of_occupancy_payment": 4900000,
+      "apartment_sales_price": null,
+      "apartment_installments": [
+        {
+          "type": "RIGHT_OF_RESIDENCE_FEE",
+          "amount": 4900000,
+          "account_number": "74754745",
+          "due_date": "2022-02-19",
+          "reference_number": "referefe"
+        }
+      ],
+      "lottery_position": 2,
+      "queue_position": 2,
+      "state": "submitted"
+    }
+  ]
 }
