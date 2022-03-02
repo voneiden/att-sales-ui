@@ -91,7 +91,7 @@ const CustomerDetail = (): JSX.Element | null => {
             <Tab>{t(`${T_PATH}.tabInstallments`)}</Tab>
           </TabList>
           <TabPanel className={styles.tabPanel}>
-            <CustomerReservations />
+            <CustomerReservations customer={customer} />
           </TabPanel>
           <TabPanel className={styles.tabPanel}>
             <Installments />

@@ -80,6 +80,8 @@
   "components.customers.CustomerReservations.offerDueDate": "Tarjous voimassa",
   "components.customers.CustomerReservations.position": "Sijalla",
   "components.customers.CustomerReservations.priority": "Prioriteetti",
+  "components.customers.CustomerReservations.lotteryUncompleted": "Ei arvottu",
+  "components.customers.CustomerReservations.noReservations": "Ei varauksia",
   "components.customers.CustomerSearchForm.btnSearch": "Etsi",
   "components.customers.CustomerSearchForm.email": "Sähköposti",
   "components.customers.CustomerSearchForm.firstName": "Etunimi",

@@ -1,92 +1,145 @@
 import React from 'react';
-import { Button, IconArrowRight } from 'hds-react';
+import cx from 'classnames';
+import { Button, IconAngleDown, IconAngleRight, IconArrowRight } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
 import ProjectName from '../project/ProjectName';
 import formattedLivingArea from '../../utils/formatLivingArea';
-import { Apartment, Customer, Project } from '../../types';
+import StatusText from '../common/statusText/StatusText';
+import useSessionStorage from '../../utils/useSessionStorage';
+import {
+  groupReservationsByProject,
+  getReservationApartmentData,
+  getReservationProjectData,
+} from '../../utils/mapReservationData';
+import { Customer, CustomerReservation } from '../../types';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 
 import styles from './CustomerReservations.module.scss';
 
-import dummyProjects from '../../mocks/projects.json'; // TODO: Get actual project data
-import dummyApartments from '../../mocks/apartments.json'; // TODO: Get actual apartment data
-import dummyCustomer from '../../mocks/customer.json'; // TODO: Get actual project data
-
 const T_PATH = 'components.customers.CustomerReservations';
 
-const dummyApartments1 = dummyApartments.slice(0, 2); // Get 1. and 2. for demo
-const dummyApartments2 = dummyApartments.slice(2, 3); // Get 3. for demo
+interface CustomerReservationsProps {
+  customer: Customer;
+}
 
-const CustomerReservations = () => {
+interface ReservationsByProjectProps {
+  customer: Customer;
+  reservations: CustomerReservation[];
+}
+
+const CustomerReservations = ({ customer }: CustomerReservationsProps): JSX.Element => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const reservationsByProject = groupReservationsByProject(customer.apartment_reservations || []);
 
-  const renderApartmentRow = (apartment: Apartment, customer: Customer, project: Project) => (
-    <div className={styles.row}>
-      <div className={styles.apartmentRow}>
-        <div className={styles.apartmentRowLeft}>
-          <div className={styles.apartmentStructure}>
-            <span className={styles.emphasized}>{apartment.apartment_number}</span>
-            <span>
-              {apartment.apartment_structure} ({formattedLivingArea(apartment.living_area)})
-            </span>
-          </div>
-          <div>1. {t(`${T_PATH}.position`)}</div>
-          <div>{t(`${T_PATH}.priority`)}: 3</div>
-        </div>
-        <div className={styles.apartmentRowRight}>
-          <div className={styles.offer}>
-            <span className={styles.offerTitle}>{t(`${T_PATH}.offerDueDate`)}</span>{' '}
-            <IconArrowRight className={styles.offerArrowIcon} size="xs" aria-hidden /> <span>DD.MM.YYYY</span>
-          </div>
-        </div>
+  if (!reservationsByProject.length) {
+    return (
+      <div className={styles.singleProject}>
+        <StatusText>{t(`${T_PATH}.noReservations`)}</StatusText>
       </div>
-      <div className={styles.buttons}>
-        <Button
-          variant="secondary"
-          size="small"
-          onClick={() =>
-            dispatch(
-              showOfferModal({
-                project: project,
-                apartment: apartment,
-                customer: customer,
-              })
-            )
-          }
-        >
-          {t(`${T_PATH}.createOffer`)}
-        </Button>
-        <Button variant="secondary" size="small" disabled>
-          {t(`${T_PATH}.createContract`)}
-        </Button>
-      </div>
-    </div>
-  );
+    );
+  }
+
+  // Sort reservation groups alphabetically by project name
+  const sortedReservationsByProject = [...reservationsByProject];
+  sortedReservationsByProject.sort((a, b) => a[0].project_housing_company.localeCompare(b[0].project_housing_company));
 
   return (
     <>
-      <div className={styles.singleProject}>
-        <ProjectName project={dummyProjects[0] as any} />
-        {!!dummyApartments1.length &&
-          dummyApartments1.map((a: any) => (
-            <div key={a.uuid} className={styles.singleApartment}>
-              {renderApartmentRow(a, dummyCustomer as any, dummyProjects[0] as any)}
-            </div>
-          ))}
-      </div>
-      <div className={styles.singleProject}>
-        <ProjectName project={dummyProjects[1] as any} />
-        {!!dummyApartments2.length &&
-          dummyApartments2.map((a: any) => (
-            <div key={a.uuid} className={styles.singleApartment}>
-              {renderApartmentRow(a, dummyCustomer as any, dummyProjects[1] as any)}
-            </div>
-          ))}
-      </div>
+      {sortedReservationsByProject.map((projectReservations, index) => (
+        <ReservationsByProject key={index} customer={customer} reservations={projectReservations} />
+      ))}
     </>
+  );
+};
+
+export const ReservationsByProject = ({ customer, reservations }: ReservationsByProjectProps): JSX.Element => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const [projectOpen, setProjectOpen] = useSessionStorage({
+    defaultValue: false,
+    key: `reservationProjectRowOpen-${reservations[0].project_uuid}`,
+  });
+  const toggleProject = () => setProjectOpen(!projectOpen);
+
+  // Sort reservations by queue position
+  const sortedReservations = [...reservations];
+  sortedReservations.sort((a, b) => a.queue_position - b.queue_position);
+
+  const renderApartmentRow = (reservation: CustomerReservation) => {
+    const apartment = getReservationApartmentData(reservation);
+    const project = getReservationProjectData(reservation);
+
+    return (
+      <div className={styles.row}>
+        <div className={styles.apartmentRow}>
+          <div className={styles.apartmentRowLeft}>
+            <div className={styles.apartmentStructure}>
+              <span className={styles.emphasized}>{apartment.apartment_number}</span>
+              <span>
+                {apartment.apartment_structure} ({formattedLivingArea(apartment.living_area)})
+              </span>
+            </div>
+            <div>
+              {reservation.lottery_position === null
+                ? t(`${T_PATH}.lotteryUncompleted`)
+                : reservation.queue_position + '. ' + t(`${T_PATH}.position`)}
+            </div>
+            <div>{t(`${T_PATH}.priority`)}: TODO</div>
+          </div>
+          <div className={styles.apartmentRowRight}>
+            <div className={styles.offer}>
+              <span className={styles.offerTitle}>{t(`${T_PATH}.offerDueDate`)}</span>{' '}
+              <IconArrowRight className={styles.offerArrowIcon} size="xs" aria-hidden /> <span>TODO</span>
+            </div>
+          </div>
+        </div>
+        <div className={styles.buttons}>
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={() =>
+              dispatch(
+                showOfferModal({
+                  project: project,
+                  apartment: apartment,
+                  customer: customer,
+                })
+              )
+            }
+          >
+            {t(`${T_PATH}.createOffer`)}
+          </Button>
+          <Button variant="secondary" size="small" disabled>
+            {t(`${T_PATH}.createContract`)}
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className={cx(styles.singleProject, projectOpen && styles.open)}>
+      <div className={styles.projectRow}>
+        <ProjectName project={getReservationProjectData(sortedReservations[0])} />
+        <Button
+          variant="secondary"
+          theme="black"
+          className={styles.accordionButton}
+          onClick={toggleProject}
+          iconLeft={projectOpen ? <IconAngleDown /> : <IconAngleRight />}
+        >
+          <span />
+        </Button>
+      </div>
+      {projectOpen &&
+        sortedReservations.map((reservation) => (
+          <div key={reservation.id} className={styles.singleApartment}>
+            {renderApartmentRow(reservation)}
+          </div>
+        ))}
+    </div>
   );
 };
 
