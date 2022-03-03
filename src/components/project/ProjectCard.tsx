@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Label from '../common/label/Label';
 import formatDateTime from '../../utils/formatDateTime';
 import { getInitials } from '../../utils/getInitials';
+import { getProjectState } from '../../utils/getProjectState';
 import { Project } from '../../types';
 import { ROUTES } from '../../enums';
 
@@ -34,7 +35,6 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
     lottery_completed,
     main_image_url,
     ownership_type,
-    state_of_sale,
     street_address,
     url,
     uuid,
@@ -80,10 +80,7 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
       <div className={styles.projectActions}>
         <div className={styles.projectStatusColumn}>
           <IconArrowRight className={styles.statusArrowIcon} />
-          <div className={styles.stateOfProject}>
-            {/* TODO: Format values for state_of_sale */}
-            {state_of_sale}
-          </div>
+          <div className={styles.stateOfProject}>{getProjectState(project)}</div>
           <div>
             {applicationPeriodHasEnded ? t(`${T_PATH}.applicationTimeHasEnded`) : t(`${T_PATH}.applicationEndTime`)}
             &nbsp;

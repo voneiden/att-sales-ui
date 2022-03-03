@@ -11,6 +11,8 @@ export enum ROUTES {
 export enum StateOfSale {
   ForSale = 'FOR_SALE',
   PreMarketing = 'PRE_MARKETING',
+  Processing = 'PROCESSING',
+  Ready = 'READY',
   Upcoming = 'UPCOMING',
 }
 

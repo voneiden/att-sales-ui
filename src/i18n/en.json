@@ -234,6 +234,8 @@
   "pages.ProjectDetail.projects": "Projects",
   "pages.ProjectDetail.apartments": "Apartments",
   "pages.ProjectDetail.installments": "Installments",
+  "utils.getProjectState.archived": "Archived",
+  "utils.getProjectState.unpublished": "Unpublished",
   "ENUMS": {
     "DEPOSIT": "Deposit",
     "DOWN_PAYMENT": "Down payment",
@@ -251,6 +253,11 @@
     "RIGHT_OF_RESIDENCE_FEE": "Right of residence fee",
     "SALES_PRICE": "Sales price",
     "DEBT_FREE_SALES_PRICE": "Debt-free sales price",
-    "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Debt-free sales price (flexible)"
+    "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Debt-free sales price (flexible)",
+    "FOR_SALE": "For sale",
+    "PRE_MARKETING": "Pre-marketing",
+    "PROCESSING": "Processing",
+    "READY": "Ready",
+    "UPCOMING": "Upcoming"
   }
 }

@@ -234,6 +234,8 @@
   "pages.ProjectDetail.projects": "Kohteet",
   "pages.ProjectDetail.apartments": "Huoneistot",
   "pages.ProjectDetail.installments": "Maksuerät",
+  "utils.getProjectState.archived": "Arkistoitu",
+  "utils.getProjectState.unpublished": "Julkaisematon",
   "ENUMS": {
     "DEPOSIT": "Vakuusmaksu",
     "DOWN_PAYMENT": "Käsiraha",
@@ -251,6 +253,11 @@
     "RIGHT_OF_RESIDENCE_FEE": "AO-maksu",
     "SALES_PRICE": "Myyntihinta",
     "DEBT_FREE_SALES_PRICE": "Velaton hinta",
-    "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Velaton hinta (joustoerä)"
+    "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Velaton hinta (joustoerä)",
+    "FOR_SALE": "Myynnissä",
+    "PRE_MARKETING": "Ennakkomarkkinoinnissa",
+    "PROCESSING": "Käsittelyssä",
+    "READY": "Valmis",
+    "UPCOMING": "Tuleva"
   }
 }
