@@ -23,6 +23,8 @@ import useLocalStorage from '../utils/useLocalStorage';
 import { filterProjectsByEstateAgent } from '../utils/filterProjectsByEstateAgent';
 import { RootState } from '../redux/store';
 import { useGetProjectsQuery } from '../redux/services/api';
+import { Project } from '../types';
+import { StateOfSale } from '../enums';
 
 import styles from './Homepage.module.scss';
 
@@ -108,6 +110,18 @@ const Index = (): JSX.Element => {
       </div>
     );
 
+    const renderProjectList = (visibleProjects: Project[]) => {
+      if (!!visibleProjects.length) {
+        return visibleProjects.map((project) => (
+          <div key={project.uuid} className={styles.singleProject}>
+            <ProjectCard project={project} renderAsLink />
+          </div>
+        ));
+      }
+
+      return noProjects();
+    };
+
     if (!visibleProjects.length) {
       return (
         <Container>
@@ -128,21 +142,18 @@ const Index = (): JSX.Element => {
               <span>&ndash;&nbsp; {t(`${T_PATH}.resultCount`, { count: searchResults.length })}</span>
             </h2>
           </Container>
-          <Container wide>
-            {!!searchResults.length
-              ? searchResults.map((project) => (
-                  <div key={project.uuid} className={styles.singleProject}>
-                    <ProjectCard project={project} renderAsLink />
-                  </div>
-                ))
-              : noProjects()}
-          </Container>
+          <Container wide>{renderProjectList(searchResults)}</Container>
         </>
       );
     }
 
     const archivedProjects = visibleProjects.filter((p) => p.archived);
-    const publishedProjects = visibleProjects.filter((p) => !p.archived && p.published);
+    const upomingProjects = visibleProjects.filter(
+      (p) => !p.archived && p.published && p.state_of_sale === StateOfSale.Upcoming
+    );
+    const publishedProjects = visibleProjects.filter(
+      (p) => !p.archived && p.published && p.state_of_sale !== StateOfSale.Upcoming
+    );
     const unpublishedProjects = visibleProjects.filter((p) => !p.archived && !p.published);
 
     return (
@@ -153,39 +164,19 @@ const Index = (): JSX.Element => {
               {t(`${T_PATH}.tabPublished`)} ({publishedProjects.length})
             </Tab>
             <Tab>
+              {t(`${T_PATH}.tabUpcoming`)} ({upomingProjects.length})
+            </Tab>
+            <Tab>
               {t(`${T_PATH}.tabUnpublished`)} ({unpublishedProjects.length})
             </Tab>
             <Tab>
               {t(`${T_PATH}.tabArchived`)} ({archivedProjects.length})
             </Tab>
           </TabList>
-          <TabPanel>
-            {!!publishedProjects.length
-              ? publishedProjects.map((project) => (
-                  <div key={project.uuid} className={styles.singleProject}>
-                    <ProjectCard project={project} renderAsLink />
-                  </div>
-                ))
-              : noProjects()}
-          </TabPanel>
-          <TabPanel>
-            {!!unpublishedProjects.length
-              ? unpublishedProjects.map((project) => (
-                  <div key={project.uuid} className={styles.singleProject}>
-                    <ProjectCard project={project} renderAsLink />
-                  </div>
-                ))
-              : noProjects()}
-          </TabPanel>
-          <TabPanel>
-            {!!archivedProjects.length
-              ? archivedProjects.map((project) => (
-                  <div key={project.uuid} className={styles.singleProject}>
-                    <ProjectCard project={project} renderAsLink />
-                  </div>
-                ))
-              : noProjects()}
-          </TabPanel>
+          <TabPanel>{renderProjectList(publishedProjects)}</TabPanel>
+          <TabPanel>{renderProjectList(upomingProjects)}</TabPanel>
+          <TabPanel>{renderProjectList(unpublishedProjects)}</TabPanel>
+          <TabPanel>{renderProjectList(archivedProjects)}</TabPanel>
         </Tabs>
       </Container>
     );
