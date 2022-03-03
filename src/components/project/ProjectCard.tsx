@@ -147,7 +147,11 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
             </p>
           </Dialog.Content>
           <Dialog.ActionButtons>
-            <Button onClick={handleLotteryStartBtnClick}>{t(`${T_PATH}.startLottery`)}</Button>
+            <Button onClick={handleLotteryStartBtnClick}>
+              {ownership_type.toLowerCase() === 'haso'
+                ? t(`${T_PATH}.startHasoLottery`)
+                : t(`${T_PATH}.startHitasLottery`)}
+            </Button>
             <Button onClick={closeLotteryConfirm} variant="secondary">
               {t(`${T_PATH}.startLotteryCancel`)}
             </Button>
