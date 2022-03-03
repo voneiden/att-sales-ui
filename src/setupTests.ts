@@ -14,8 +14,8 @@ beforeAll(() => {
   Enzyme.configure({ adapter: new Adapter() });
 });
 
-// Mock localstorage
 beforeEach(() => {
+  // Mock localstorage
   const localStorageMock = (() => {
     let store = new Map();
     return {
@@ -34,6 +34,26 @@ beforeEach(() => {
     };
   })();
   Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+
+  // Mock sessionstorage
+  const sessionStorageMock = (() => {
+    let store = new Map();
+    return {
+      getItem(key: string): string {
+        return store.get(key);
+      },
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+      clear: () => {
+        store = new Map();
+      },
+      removeItem: (key: string) => {
+        store.delete(key);
+      },
+    };
+  })();
+  Object.defineProperty(window, 'sessionStorage', { value: sessionStorageMock });
 });
 
 afterEach(() => {
@@ -41,6 +61,8 @@ afterEach(() => {
   server.resetHandlers();
   // Clear localstorage values
   window.localStorage.clear();
+  // Clear sessionstorage values
+  window.sessionStorage.clear();
 });
 
 // Disable API mocking after the tests are done.

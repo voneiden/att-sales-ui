@@ -91,6 +91,12 @@
       display: none;
     }
   }
+
+  &.noApplicants {
+    text-decoration: none !important;
+    cursor: unset;
+    color: var(--color-black-30);
+  }
 }
 
 .textMuted {

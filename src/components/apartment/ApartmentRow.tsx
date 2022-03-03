@@ -222,8 +222,10 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
   };
 
   const renderReservations = () => {
+    const noApplicants = !reservations || reservations.length === 0;
+
     const renderReservationCountText = () => {
-      if (!reservations || reservations.length === 0) {
+      if (noApplicants) {
         return <span className={styles.textMuted}>{t(`${T_PATH}.noApplicants`)}</span>;
       }
       return <span>{t(`${T_PATH}.applicants`, { count: reservations.length })}</span>;
@@ -232,10 +234,11 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
     return (
       <div className={cx(styles.cell, styles.buttonCell, applicationRowOpen && styles.open)}>
         <button
-          className={cx(styles.rowToggleButton, applicationRowOpen && styles.open)}
+          className={cx(styles.rowToggleButton, applicationRowOpen && styles.open, noApplicants && styles.noApplicants)}
           onClick={toggleApplicationRow}
           aria-controls={`apartment-row-${apartment_uuid}`}
           aria-expanded={!!reservations.length && applicationRowOpen ? true : false}
+          disabled={noApplicants}
         >
           {renderReservationCountText()}
           {applicationRowOpen ? <IconAngleDown /> : <IconAngleRight />}

@@ -80,6 +80,8 @@
   "components.customers.CustomerReservations.offerDueDate": "Offer valid until",
   "components.customers.CustomerReservations.position": "Position",
   "components.customers.CustomerReservations.priority": "Priority",
+  "components.customers.CustomerReservations.lotteryUncompleted": "Lottery uncompleted",
+  "components.customers.CustomerReservations.noReservations": "No reservations",
   "components.customers.CustomerSearchForm.btnSearch": "Search",
   "components.customers.CustomerSearchForm.email": "Email",
   "components.customers.CustomerSearchForm.firstName": "Fistname",
