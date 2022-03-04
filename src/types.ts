@@ -39,7 +39,7 @@ export type Apartment = {
   parking_fee_explanation: string;
   price_m2: number;
   project_id: number;
-  reservations: ApartmentReservation[];
+  reservations: ApartmentReservationWithCustomer[];
   right_of_occupancy_payment: number;
   room_count: number;
   sales_price: number;
@@ -164,6 +164,8 @@ export type ApartmentInstallment = {
   reference_number?: string;
 };
 
+export type ApartmentInstallmentCandidate = Omit<ApartmentInstallment, 'reference_number'>;
+
 export type ProjectInstallment = {
   type: `${InstallmentTypes}`;
   amount?: number;
@@ -197,17 +199,25 @@ export type ApartmentReservationOfferInfo = {
 
 export type ApartmentReservation = {
   apartment_uuid: Apartment['uuid'];
-  applicants: ApartmentApplicant[];
   cancellation_info?: ApartmentReservationCancellation;
   current_state: ApartmentReservationState;
-  customer_id: number;
-  has_children: boolean;
   id: number;
   lottery_position: number;
   offer_info?: ApartmentReservationOfferInfo;
   queue_position: number;
-  right_of_residence: string;
   state: `${ApartmentReservationStates}`; // TODO: Remove when API gets updated
+};
+
+export type ApartmentReservationWithCustomer = ApartmentReservation & {
+  applicants: ApartmentApplicant[];
+  customer_id: number;
+  has_children: boolean;
+  right_of_residence: string;
+};
+
+export type ApartmentReservationWithInstallments = ApartmentReservation & {
+  installment_candidates: ApartmentInstallmentCandidate[];
+  installments: ApartmentInstallment[];
 };
 
 export type CustomerReservation = {

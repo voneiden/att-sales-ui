@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
 import formatDateTime from '../../utils/formatDateTime';
-import { Apartment, ApartmentReservation, Project } from '../../types';
+import { Apartment, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
 
 import styles from './ApartmentRow.module.scss';
@@ -35,7 +35,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
   const toggleApplicationRow = () => setApplicationRowOpen(!applicationRowOpen);
   const toggleResultRow = () => setResultRowOpen(!resultRowOpen);
 
-  const isCanceled = (reservation: ApartmentReservation): boolean => {
+  const isCanceled = (reservation: ApartmentReservationWithCustomer): boolean => {
     // TODO: Remove 'reservation.state' when API gets updated
     return (
       reservation.current_state?.value === ApartmentReservationStates.CANCELED ||
@@ -43,7 +43,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
     );
   };
 
-  const renderApplicants = (reservation: ApartmentReservation, isLotteryResult: boolean) => {
+  const renderApplicants = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
     if (reservation.applicants) {
       const sortedApplicants = [...reservation.applicants];
 
@@ -92,7 +92,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
     }
   };
 
-  const renderHasoNumberOrFamilyIcon = (reservation: ApartmentReservation) => {
+  const renderHasoNumberOrFamilyIcon = (reservation: ApartmentReservationWithCustomer) => {
     if (ownershipType === 'haso') {
       return reservation.right_of_residence;
     }
@@ -101,7 +101,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
     }
   };
 
-  const renderReviewNotification = (reservation: ApartmentReservation) => {
+  const renderReviewNotification = (reservation: ApartmentReservationWithCustomer) => {
     // TODO: Remove 'reservation.state' when API gets updated
     if (
       reservation.current_state?.value === ApartmentReservationStates.REVIEW ||
@@ -129,7 +129,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
       </div>
     );
 
-    const renderActionButtons = (reservation: ApartmentReservation, showAllButtons: boolean) => (
+    const renderActionButtons = (reservation: ApartmentReservationWithCustomer, showAllButtons: boolean) => (
       <div className={styles.actionButtons}>
         {isCanceled(reservation) ? (
           <div className={styles.cancellationReason}>
