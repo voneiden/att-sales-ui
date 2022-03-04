@@ -82,6 +82,7 @@
   "components.customers.CustomerReservations.priority": "Priority",
   "components.customers.CustomerReservations.lotteryUncompleted": "Lottery uncompleted",
   "components.customers.CustomerReservations.noReservations": "No reservations",
+  "components.customers.CustomerReservations.canceled": "Canceled",
   "components.customers.CustomerSearchForm.btnSearch": "Search",
   "components.customers.CustomerSearchForm.email": "Email",
   "components.customers.CustomerSearchForm.firstName": "Fistname",

@@ -17,6 +17,7 @@ import { Customer, CustomerReservation } from '../../types';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 
 import styles from './CustomerReservations.module.scss';
+import { ApartmentReservationStates } from '../../enums';
 
 const T_PATH = 'components.customers.CustomerReservations';
 
@@ -70,10 +71,11 @@ export const ReservationsByProject = ({ customer, reservations }: ReservationsBy
   const renderApartmentRow = (reservation: CustomerReservation) => {
     const apartment = getReservationApartmentData(reservation);
     const project = getReservationProjectData(reservation);
+    const isCanceled = reservation.state === ApartmentReservationStates.CANCELED;
 
     return (
       <div className={styles.row}>
-        <div className={styles.apartmentRow}>
+        <div className={cx(styles.apartmentRow, isCanceled && styles.disabledRow)}>
           <div className={styles.apartmentRowLeft}>
             <div className={styles.apartmentStructure}>
               <span className={styles.emphasized}>{apartment.apartment_number}</span>
@@ -81,40 +83,51 @@ export const ReservationsByProject = ({ customer, reservations }: ReservationsBy
                 {apartment.apartment_structure} ({formattedLivingArea(apartment.living_area)})
               </span>
             </div>
-            <div>
-              {reservation.lottery_position === null
-                ? t(`${T_PATH}.lotteryUncompleted`)
-                : reservation.queue_position + '. ' + t(`${T_PATH}.position`)}
-            </div>
-            <div>{t(`${T_PATH}.priority`)}: TODO</div>
+            {isCanceled ? (
+              // TODO: Add cancellation reason and cancel dates
+              <div>{t(`${T_PATH}.canceled`)}</div>
+            ) : (
+              <>
+                <div>
+                  {reservation.lottery_position === null
+                    ? t(`${T_PATH}.lotteryUncompleted`)
+                    : reservation.queue_position + '. ' + t(`${T_PATH}.position`)}
+                </div>
+                <div>{t(`${T_PATH}.priority`)}: TODO</div>
+              </>
+            )}
           </div>
           <div className={styles.apartmentRowRight}>
-            <div className={styles.offer}>
-              <span className={styles.offerTitle}>{t(`${T_PATH}.offerDueDate`)}</span>{' '}
-              <IconArrowRight className={styles.offerArrowIcon} size="xs" aria-hidden /> <span>TODO</span>
-            </div>
+            {!isCanceled && (
+              <div className={styles.offer}>
+                <span className={styles.offerTitle}>{t(`${T_PATH}.offerDueDate`)}</span>{' '}
+                <IconArrowRight className={styles.offerArrowIcon} size="xs" aria-hidden /> <span>TODO</span>
+              </div>
+            )}
           </div>
         </div>
-        <div className={styles.buttons}>
-          <Button
-            variant="secondary"
-            size="small"
-            onClick={() =>
-              dispatch(
-                showOfferModal({
-                  project: project,
-                  apartment: apartment,
-                  customer: customer,
-                })
-              )
-            }
-          >
-            {t(`${T_PATH}.createOffer`)}
-          </Button>
-          <Button variant="secondary" size="small" disabled>
-            {t(`${T_PATH}.createContract`)}
-          </Button>
-        </div>
+        {!isCanceled && reservation.queue_position === 1 && (
+          <div className={styles.buttons}>
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={() =>
+                dispatch(
+                  showOfferModal({
+                    project: project,
+                    apartment: apartment,
+                    customer: customer,
+                  })
+                )
+              }
+            >
+              {t(`${T_PATH}.createOffer`)}
+            </Button>
+            <Button variant="secondary" size="small" disabled>
+              {t(`${T_PATH}.createContract`)}
+            </Button>
+          </div>
+        )}
       </div>
     );
   };

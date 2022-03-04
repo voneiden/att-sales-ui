@@ -82,6 +82,7 @@
   "components.customers.CustomerReservations.priority": "Prioriteetti",
   "components.customers.CustomerReservations.lotteryUncompleted": "Ei arvottu",
   "components.customers.CustomerReservations.noReservations": "Ei varauksia",
+  "components.customers.CustomerReservations.canceled": "Peruttu",
   "components.customers.CustomerSearchForm.btnSearch": "Etsi",
   "components.customers.CustomerSearchForm.email": "Sähköposti",
   "components.customers.CustomerSearchForm.firstName": "Etunimi",
