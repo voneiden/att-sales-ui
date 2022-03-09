@@ -18,6 +18,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
   const { t } = useTranslation();
   const openConfirmationDialogButtonRef = useRef(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const installmentAmount = installment.amount / 100;
   const closeConfirmation = () => setIsConfirmationOpen(false);
 
   const renderConfirmationDialog = () => (
@@ -43,7 +44,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
               </tr>
               <tr>
                 <th style={{ textAlign: 'right' }}>{t(`${T_PATH}.sum`)}</th>
-                <td>{installment.amount ? formattedCurrency(installment.amount) : '- €'}</td>
+                <td>{formattedCurrency(installmentAmount)}</td>
               </tr>
               <tr>
                 <th style={{ textAlign: 'right' }}>{t(`${T_PATH}.dueDate`)}</th>
@@ -81,7 +82,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
   return (
     <tr>
       <td>{t(`ENUMS.${installment.type}`)}</td>
-      <td style={{ textAlign: 'right' }}>{installment.amount ? formattedCurrency(installment.amount) : '- €'}</td>
+      <td style={{ textAlign: 'right' }}>{formattedCurrency(installmentAmount)}</td>
       <td>{installment.due_date ? formatDateTime(installment.due_date, true) : '-'}</td>
       <td>{installment.account_number}</td>
       <td>{installment.reference_number}</td>
