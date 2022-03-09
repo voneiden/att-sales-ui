@@ -1,0 +1,38 @@
+
+{
+  "installments": [
+    {
+      "type": "PAYMENT_1",
+      "amount": 2000000,
+      "account_number": "string",
+      "due_date": "2019-08-24",
+      "reference_number": "reference-1"
+    },
+    {
+      "type": "PAYMENT_2",
+      "amount": 4500000,
+      "account_number": "string",
+      "due_date": "2019-08-24",
+      "reference_number": "reference-2"
+    }
+  ],
+  "installment_candidates": [
+    {
+      "type": "PAYMENT_1",
+      "amount": 2000000,
+      "account_number": "string",
+      "due_date": "2019-08-24"
+    },
+    {
+      "type": "PAYMENT_2",
+      "amount": 1000000,
+      "account_number": "string",
+      "due_date": "2019-08-24"
+    }
+  ],
+  "id": 1,
+  "apartment_uuid": "a29f766c-5652-4649-ad8f-c022cb3eea35",
+  "lottery_position": 1,
+  "queue_position": 1,
+  "state": "submitted"
+}
