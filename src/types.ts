@@ -175,6 +175,15 @@ export type ProjectInstallment = {
   due_date: string | null;
 };
 
+export type ProjectInstallmentInputRow = {
+  type: string;
+  unit: string;
+  sum: string;
+  percentage_specifier: string;
+  account_number: string;
+  due_date: string;
+};
+
 export type ApartmentApplicant = {
   first_name: string;
   last_name: string;
@@ -238,4 +247,10 @@ export type CustomerReservation = {
   project_ownership_type: Project['ownership_type'];
   queue_position: number;
   state: `${ApartmentReservationStates}`;
+};
+
+export type SelectOption = {
+  label: string;
+  name: string;
+  selectValue: string;
 };
