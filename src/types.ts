@@ -158,7 +158,7 @@ export type CustomerListItem = {
 
 export type ApartmentInstallment = {
   type: `${InstallmentTypes}`;
-  amount?: number;
+  amount: number;
   account_number: string;
   due_date: string | null;
   reference_number?: string;
