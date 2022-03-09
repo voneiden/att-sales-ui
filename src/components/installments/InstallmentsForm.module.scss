@@ -59,14 +59,52 @@
     background-color: var(--color-info-light);
     border: solid var(--color-black-20) !important;
     border-width: 1px 0 !important;
+
+    th {
+      font-weight: normal;
+    }
+
+    strong {
+      font-size: var(--fontsize-body-l);
+    }
   }
 }
 
 .totalWithIcon {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  margin-right: var(--spacing-2-xl);
 
   strong {
     margin-right: var(--spacing-xs);
+  }
+}
+
+.errorInSum {
+  color: var(--color-error);
+}
+
+.installmentCandidatesWrapper {
+  padding: var(--spacing-xs) var(--spacing-l);
+}
+
+.installmentCandidatesTable {
+  margin-top: var(--spacing-xs);
+  margin-bottom: var(--spacing-m);
+}
+
+.toggleButton {
+  margin-bottom: var(--spacing-2-xs);
+}
+
+.accordionTitle {
+  font-size: var(--fontsize-heading-xs);
+}
+
+.errorWrapper {
+  padding: 0 var(--spacing-l);
+
+  ul {
+    margin: 0;
   }
 }

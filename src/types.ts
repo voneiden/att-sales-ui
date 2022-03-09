@@ -166,6 +166,14 @@ export type ApartmentInstallment = {
 
 export type ApartmentInstallmentCandidate = Omit<ApartmentInstallment, 'reference_number'>;
 
+export type ApartmentInstallmentInputRow = {
+  type: string;
+  amount: string;
+  due_date: string;
+  account_number: string;
+  reference_number: string;
+};
+
 export type ProjectInstallment = {
   type: `${InstallmentTypes}`;
   amount?: number;
