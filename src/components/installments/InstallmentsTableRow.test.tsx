@@ -8,13 +8,25 @@ const installment = dummyInstallments[0] as ApartmentInstallment;
 
 describe('InstallmentsTableRow', () => {
   it('renders InstallmentsTableRow component', () => {
-    const { container } = render(<InstallmentsTableRow installment={installment} />);
+    const { container } = render(
+      <table>
+        <tbody>
+          <InstallmentsTableRow installment={installment} />
+        </tbody>
+      </table>
+    );
     const element = container.firstChild;
     expect(element).toBeDefined();
   });
 
   it('renders installment details', () => {
-    render(<InstallmentsTableRow installment={installment} />);
+    render(
+      <table>
+        <tbody>
+          <InstallmentsTableRow installment={installment} />
+        </tbody>
+      </table>
+    );
     expect(screen.getByText('ENUMS.DOWN_PAYMENT')).toBeDefined();
     expect(screen.getByText('18.1.2025')).toBeDefined();
     expect(screen.getByText('FI90 5345 4353 4012 10')).toBeDefined();
@@ -22,7 +34,13 @@ describe('InstallmentsTableRow', () => {
   });
 
   it('renders send to SAP button', () => {
-    render(<InstallmentsTableRow installment={installment} />);
+    render(
+      <table>
+        <tbody>
+          <InstallmentsTableRow installment={installment} />
+        </tbody>
+      </table>
+    );
     expect(screen.getByText('components.installments.InstallmentsTableRow.sendToSAP')).toBeDefined();
   });
 });
