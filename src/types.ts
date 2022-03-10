@@ -262,3 +262,10 @@ export type SelectOption = {
   name: string;
   selectValue: string;
 };
+
+export type CustomerSearchFormFields = {
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  email: string;
+};

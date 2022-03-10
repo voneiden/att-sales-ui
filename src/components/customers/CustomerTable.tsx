@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { IconSortAscending, IconSortDescending } from 'hds-react';
+import { IconSortAscending, IconSortDescending, LoadingSpinner } from 'hds-react';
 
 import CustomerTableRow from './CustomerTableRow';
 import StatusText from '../../components/common/statusText/StatusText';
@@ -14,7 +14,7 @@ import styles from './CustomerTable.module.scss';
 const T_PATH = 'components.customers.CustomerTable';
 
 interface IProps {
-  customers: CustomerListItem[] | undefined;
+  customers?: CustomerListItem[];
   hasSearchQuery: boolean;
   isLoading: boolean;
 }
@@ -25,7 +25,8 @@ const CustomerTable = ({ customers, hasSearchQuery, isLoading }: IProps): JSX.El
     defaultValue: 'ascending',
     key: 'customerTableSort',
   });
-  const sortedByFirstname = customers?.sort((a, b) => a.primary_first_name.localeCompare(b.primary_first_name));
+  const customersCopy = customers ? [...customers] : [];
+  const sortedByFirstname = customersCopy.sort((a, b) => a.primary_first_name.localeCompare(b.primary_first_name));
   const sortedCustomers: CustomerListItem[] = sortAlphanumeric(
     sortedByFirstname ? sortedByFirstname : [],
     'primary_last_name',
@@ -96,7 +97,7 @@ const CustomerTable = ({ customers, hasSearchQuery, isLoading }: IProps): JSX.El
       )}
       {hasSearchQuery && isLoading && (
         <div className={styles.messageWrapper}>
-          <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
+          <LoadingSpinner loadingText={t(`${T_PATH}.loading`)} />
         </div>
       )}
       {hasSearchQuery && !isLoading && sortedCustomers?.length === 0 && (
