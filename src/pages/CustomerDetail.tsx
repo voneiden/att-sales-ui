@@ -94,7 +94,7 @@ const CustomerDetail = (): JSX.Element | null => {
             <CustomerReservations customer={customer} />
           </TabPanel>
           <TabPanel className={styles.tabPanel}>
-            <Installments />
+            <Installments customer={customer} />
           </TabPanel>
         </Tabs>
       </div>

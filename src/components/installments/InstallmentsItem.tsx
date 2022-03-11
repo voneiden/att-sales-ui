@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import cx from 'classnames';
-import { Button, Dialog, IconAngleDown, IconAngleRight, IconPenLine, useAccordion } from 'hds-react';
+import { Button, Dialog, IconAngleDown, IconAngleRight, IconPenLine, Notification, useAccordion } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import formattedLivingArea from '../../utils/formatLivingArea';
@@ -8,7 +8,8 @@ import formattedSalesPrice from '../../utils/formatSalesPrice';
 import InstallmentsForm from './InstallmentsForm';
 import InstallmentsTable from './InstallmentsTable';
 import ProjectName from '../project/ProjectName';
-import { Apartment, ApartmentInstallment, Project } from '../../types';
+import { Apartment, ApartmentReservation, Project } from '../../types';
+import { useGetApartmentReservationQuery } from '../../redux/services/api';
 
 import styles from './InstallmentsItem.module.scss';
 
@@ -16,11 +17,11 @@ const T_PATH = 'components.installments.InstallmentsItem';
 
 interface IProps {
   apartment: Apartment;
-  installments: ApartmentInstallment[];
   project: Project;
+  reservationId: ApartmentReservation['id'];
 }
 
-const InstallmentsItem = ({ apartment, installments, project }: IProps) => {
+const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.Element | null => {
   const { t } = useTranslation();
   const openFormDialogButtonRef = useRef(null);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
@@ -29,10 +30,51 @@ const InstallmentsItem = ({ apartment, installments, project }: IProps) => {
     buttonProps: accordionButtonProps,
     contentProps: accordionContentProps,
   } = useAccordion({ initiallyOpen: false });
+  const {
+    data: reservation,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+    refetch,
+  } = useGetApartmentReservationQuery(reservationId);
+  const installments = reservation?.installments || [];
+  const installmentCandidates = reservation?.installment_candidates || [];
+  const accordionIcon = isAccordionOpen ? <IconAngleDown aria-hidden /> : <IconAngleRight aria-hidden />;
 
   const closeFormDialog = () => setIsFormDialogOpen(false);
 
-  const accordionIcon = isAccordionOpen ? <IconAngleDown aria-hidden /> : <IconAngleRight aria-hidden />;
+  const handleFormCallBack = () => {
+    closeFormDialog();
+    refetch();
+  };
+
+  if (isLoading || isFetching) {
+    return (
+      <div className={styles.apartmentRow}>
+        <span className="hiddenFromScreen">{t(`${T_PATH}.loading`)}...</span>
+        <div className={styles.loadingPlaceholder}>
+          <span className={styles.item} />
+          <span className={styles.item} />
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className={styles.apartmentRow}>
+        <Notification type="error" size="small" style={{ marginTop: 15 }}>
+          {t(`${T_PATH}.errorLoadingInstallments`)}
+        </Notification>
+      </div>
+    );
+  }
+
+  if (!isLoading && !isError && !isSuccess) return null;
+
+  const targetPrice =
+    project.ownership_type.toLowerCase() === 'haso' ? apartment.right_of_occupancy_payment : apartment.sales_price;
 
   const renderApartmentDetails = () => (
     <div className={styles.apartmentStructure}>
@@ -79,7 +121,7 @@ const InstallmentsItem = ({ apartment, installments, project }: IProps) => {
     if (!!installments?.length) {
       return (
         <div {...accordionContentProps}>
-          <InstallmentsTable installments={installments} />
+          <InstallmentsTable installments={installments} targetPrice={targetPrice} />
         </div>
       );
     }
@@ -107,7 +149,7 @@ const InstallmentsItem = ({ apartment, installments, project }: IProps) => {
           >
             <span className={cx(styles.toggleButtonLabel, 'hds-button__label')}>
               <span className="hiddenFromScreen">
-                {isAccordionOpen ? t(`${T_PATH}.openAccordion`) : t(`${T_PATH}.closeAccordion`)}
+                {isAccordionOpen ? t(`${T_PATH}.closeAccordion`) : t(`${T_PATH}.openAccordion`)}
               </span>
               {accordionIcon}
             </span>
@@ -144,22 +186,16 @@ const InstallmentsItem = ({ apartment, installments, project }: IProps) => {
         </div>
         <div className={styles.formWrapper}>
           <InstallmentsForm
+            handleFormCallback={handleFormCallBack}
             installments={installments}
-            targetPrice={
-              project.ownership_type.toLowerCase() === 'haso'
-                ? apartment.right_of_occupancy_payment
-                : apartment.sales_price
-            }
+            installmentCandidates={installmentCandidates}
+            reservationId={reservationId}
+            targetPrice={targetPrice}
           />
         </div>
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button
-          onClick={() => {
-            // Add operations here
-            closeFormDialog();
-          }}
-        >
+        <Button form={`apartmentInstallmentForm-${reservationId}`} type="submit">
           {t(`${T_PATH}.save`)}
         </Button>
       </Dialog.ActionButtons>

@@ -1,12 +1,19 @@
-import { render } from '@testing-library/react';
+import { shallow } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+
+import ProjectName from '../../components/project/ProjectName';
 import Installments from './Installments';
+import mockCustomer from '../../mocks/customer.json';
 
 describe('Installments', () => {
   it('renders the component', () => {
-    const { container } = render(<Installments />);
-    const element = container.firstChild;
-    expect(element).toBeDefined();
+    const wrapper = shallow(<Installments customer={mockCustomer} />);
+    expect(wrapper.find(ProjectName)).toHaveLength(2);
   });
 
-  // TODO: Add better tests when we fetch the actual data from API
+  it('renders empty reservations message', () => {
+    const mockCustomerNoReservations = { ...mockCustomer, apartment_reservations: [] };
+    render(<Installments customer={mockCustomerNoReservations} />);
+    expect(screen.getByText('components.installments.Installments.noReservations')).toBeDefined();
+  });
 });

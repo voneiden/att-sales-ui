@@ -1,24 +1,63 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import { Button, Dialog, IconPrinter } from 'hds-react';
+import { Button, Dialog, IconPrinter, IconAlertCircleFill, IconCheckCircleFill } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
+import formattedCurrency from '../../utils/formatCurrency';
+import InstallmentsTableRow from './InstallmentsTableRow';
 import { ApartmentInstallment } from '../../types';
+import { InstallmentTypes } from '../../enums';
 
 import styles from './InstallmentsTable.module.scss';
-import InstallmentsTableRow from './InstallmentsTableRow';
 
 const T_PATH = 'components.installments.InstallmentsTable';
 
 interface IProps {
   installments: ApartmentInstallment[];
+  targetPrice?: number;
 }
 
-const InstallmentsTable = ({ installments }: IProps) => {
+const InstallmentsTable = ({ installments, targetPrice }: IProps) => {
   const { t } = useTranslation();
   const [isPrintDialogOpen, setIsPrintDialogOpen] = useState(false);
+  const [totalSum, setTotalSum] = useState(0);
   const openPrintDialogButtonRef = useRef(null);
   const closePrintDialog = () => setIsPrintDialogOpen(false);
+
+  // Calculate total sum of all amount fields
+  useEffect(() => {
+    const sum = installments.reduce((previousValue, currentValue) => {
+      return previousValue + currentValue.amount;
+    }, 0);
+    setTotalSum(sum);
+  }, [installments]);
+
+  // Sort rows in the order of the InstallmentTypes ENUM list
+  const sortedInstallments = () => {
+    const InstallmentOrder = Object.values(InstallmentTypes);
+    const installmentsCopy = [...installments];
+    return installmentsCopy.sort((a, b) =>
+      a.type
+        ? b.type
+          ? InstallmentOrder.indexOf(a.type as InstallmentTypes) - InstallmentOrder.indexOf(b.type as InstallmentTypes)
+          : -1
+        : 1
+    );
+  };
+
+  const sumsMatch = (value: number, target: number) => {
+    if (value === target) return true;
+    return false;
+  };
+
+  const renderSumMatchIcon = () => {
+    if (targetPrice) {
+      if (!sumsMatch(totalSum, targetPrice)) {
+        return <IconAlertCircleFill size="xs" color="var(--color-error)" style={{ marginBottom: -2 }} />;
+      }
+      return <IconCheckCircleFill size="xs" color="var(--color-tram)" style={{ marginBottom: -2 }} />;
+    }
+  };
 
   const renderTableHeaders = () => (
     <thead className="hds-table__header-row">
@@ -35,8 +74,10 @@ const InstallmentsTable = ({ installments }: IProps) => {
 
   const renderTableContent = () => (
     <tbody className="hds-table__content">
-      {!!installments.length &&
-        installments.map((installment) => <InstallmentsTableRow key={installment.type} installment={installment} />)}
+      {!!sortedInstallments().length &&
+        sortedInstallments().map((installment) => (
+          <InstallmentsTableRow key={installment.type} installment={installment} />
+        ))}
     </tbody>
   );
 
@@ -47,7 +88,9 @@ const InstallmentsTable = ({ installments }: IProps) => {
           <strong>{t(`${T_PATH}.total`)}</strong>
         </td>
         <td style={{ textAlign: 'right' }}>
-          <strong>&euro;</strong>
+          <strong>
+            {renderSumMatchIcon()} {formattedCurrency(totalSum / 100)}
+          </strong>
         </td>
         <td colSpan={4}></td>
       </tr>

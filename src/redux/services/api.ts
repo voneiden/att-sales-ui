@@ -1,7 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import getApiBaseUrl from '../../utils/getApiBaseUrl';
-import { Apartment, Customer, Project, ProjectInstallment } from '../../types';
+import {
+  Apartment,
+  ApartmentInstallment,
+  ApartmentReservationWithInstallments,
+  Customer,
+  Project,
+  ProjectInstallment,
+} from '../../types';
 import type { RootState } from '../store';
 
 // Define a service using a base URL and expected endpoints
@@ -73,6 +80,28 @@ export const api = createApi({
         };
       },
     }),
+
+    // GET: Fetch single apartment reservation that includes installments
+    getApartmentReservation: builder.query<ApartmentReservationWithInstallments, number>({
+      query: (id) => `apartment_reservations/${id}`,
+    }),
+
+    // POST: Set apartment installments for a reservation
+    setApartmentInstallments: builder.mutation<
+      any,
+      {
+        formData: Partial<ApartmentInstallment>[];
+        id: number;
+      }
+    >({
+      query: (params) => {
+        return {
+          url: `apartment_reservations/${params.id}/installments/`,
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+    }),
   }),
 });
 
@@ -84,4 +113,6 @@ export const {
   useGetProjectInstallmentsQuery,
   useSetProjectInstallmentsMutation,
   useGetCustomerByIdQuery,
+  useGetApartmentReservationQuery,
+  useSetApartmentInstallmentsMutation,
 } = api;

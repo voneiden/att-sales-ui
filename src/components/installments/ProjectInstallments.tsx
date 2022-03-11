@@ -6,7 +6,7 @@ import { Button, Notification, Select, TextInput } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import StatusText from '../common/statusText/StatusText';
-import { Project, ProjectInstallment } from '../../types';
+import { Project, ProjectInstallment, ProjectInstallmentInputRow, SelectOption } from '../../types';
 import { InstallmentTypes, InstallmentPercentageSpecifiers } from '../../enums';
 import { useGetProjectInstallmentsQuery, useSetProjectInstallmentsMutation } from '../../redux/services/api';
 import { toast } from '../common/toast/ToastManager';
@@ -19,21 +19,6 @@ interface IProps {
   uuid: Project['uuid'];
   barred_bank_account?: Project['barred_bank_account'];
   regular_bank_account?: Project['regular_bank_account'];
-}
-
-interface SelectOption {
-  label: string;
-  name: string;
-  selectValue: string;
-}
-
-interface InputRow {
-  type: string;
-  unit: string;
-  sum: string;
-  percentage_specifier: string;
-  account_number: string;
-  due_date: string;
 }
 
 const unitOptions = {
@@ -53,13 +38,13 @@ const ProjectInstallments = ({ uuid, barred_bank_account, regular_bank_account }
   } = useGetProjectInstallmentsQuery(uuid);
   const [setProjectInstallments, { isLoading: postInstallmentsLoading }] = useSetProjectInstallmentsMutation();
   const [formData, setFormData] = useState<ProjectInstallment[]>([]); // Form data to be sent to the API
-  const [inputFields, setInputFields] = useState<InputRow[]>([]); // Form input field values
+  const [inputFields, setInputFields] = useState<ProjectInstallmentInputRow[]>([]); // Form input field values
   const [errorMessages, setErrorMessages] = useState([]);
 
   // Render saved installment data into inputFields
   useEffect(() => {
     if (installments) {
-      const emptyInputRow: InputRow = {
+      const emptyInputRow: ProjectInstallmentInputRow = {
         type: '',
         unit: '',
         sum: '',
@@ -200,13 +185,13 @@ const ProjectInstallments = ({ uuid, barred_bank_account, regular_bank_account }
 
   const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
     const inputs = [...inputFields];
-    inputs[index][event.target.name as keyof InputRow] = event.target.value;
+    inputs[index][event.target.name as keyof ProjectInstallmentInputRow] = event.target.value;
     setInputFields(inputs);
   };
 
   const handleSelectChange = (index: number, selectedOption: SelectOption) => {
     const inputs = [...inputFields];
-    inputs[index][selectedOption.name as keyof InputRow] = selectedOption.selectValue;
+    inputs[index][selectedOption.name as keyof ProjectInstallmentInputRow] = selectedOption.selectValue;
     setInputFields(inputs);
   };
 

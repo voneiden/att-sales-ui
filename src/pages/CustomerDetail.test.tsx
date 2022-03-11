@@ -26,7 +26,7 @@ describe('CustomerDetail Page', () => {
 
     screen.getByText('pages.CustomerDetail.loading...');
 
-    expect(screen.queryByText('pages.ProjectDetail.customerDetails')).toBeNull();
+    expect(screen.queryByText('pages.CustomerDetail.customerDetails')).toBeNull();
   });
 
   it('handles error response', async () => {

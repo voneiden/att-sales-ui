@@ -24,7 +24,7 @@
 
 .accordionButton {
   [class*=Button-module_icon] {
-    margin: 0;
+    margin: 0 !important;
   }
 
   [class*=Button-module_label] {
@@ -46,6 +46,10 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
+
+  &.disabledRow {
+    color: var(--color-black-40);
+  }
 }
 
 .apartmentRowLeft {
@@ -64,6 +68,8 @@
 }
 
 .apartmentStructure {
+  min-width: 200px;
+
   .emphasized {
     margin-right: var(--spacing-xs);
   }
