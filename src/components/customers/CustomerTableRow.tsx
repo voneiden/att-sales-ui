@@ -11,7 +11,7 @@ import styles from './CustomerTableRow.module.scss';
 const T_PATH = 'components.customers.CustomerTableRow';
 
 interface IProps {
-  customer: CustomerListItem | undefined;
+  customer?: CustomerListItem;
 }
 
 const CustomerTableRow = ({ customer }: IProps): JSX.Element => {

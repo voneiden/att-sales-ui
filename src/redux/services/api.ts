@@ -6,6 +6,7 @@ import {
   ApartmentInstallment,
   ApartmentReservationWithInstallments,
   Customer,
+  CustomerListItem,
   Project,
   ProjectInstallment,
 } from '../../types';
@@ -52,6 +53,11 @@ export const api = createApi({
         method: 'POST',
         body: params,
       }),
+    }),
+
+    // GET: Search for customers with search params
+    getCustomers: builder.query<CustomerListItem[], string>({
+      query: (params) => `customers?${params}`,
     }),
 
     // GET: Fetch single customer's details
@@ -112,6 +118,7 @@ export const {
   useStartLotteryForProjectMutation,
   useGetProjectInstallmentsQuery,
   useSetProjectInstallmentsMutation,
+  useGetCustomersQuery,
   useGetCustomerByIdQuery,
   useGetApartmentReservationQuery,
   useSetApartmentInstallmentsMutation,
