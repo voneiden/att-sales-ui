@@ -4,6 +4,7 @@
   margin-bottom: var(--spacing-s);
 
   > * {
-      margin-right: var(--spacing-s);
+    margin-right: var(--spacing-s);
+    max-width: 200px;
   }
 }
