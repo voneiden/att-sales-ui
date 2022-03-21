@@ -270,3 +270,17 @@ export type CustomerSearchFormFields = {
   phone_number: string;
   email: string;
 };
+
+export type AddEditCustomerFormFields = {
+  additional_information: string;
+  created_at: string;
+  has_children: boolean | null;
+  has_hitas_ownership: boolean | null;
+  has_secondary_profile: boolean;
+  is_age_over_55: boolean | null;
+  is_right_of_occupancy_housing_changer: boolean | null;
+  last_contact_date: string | null;
+  primary_profile: Omit<CustomerProfile, 'id'>;
+  right_of_residence: number | null;
+  secondary_profile: Omit<CustomerProfile, 'id'> | null;
+};
