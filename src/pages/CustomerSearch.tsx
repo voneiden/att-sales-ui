@@ -23,7 +23,7 @@ const CustomerSearch = (): JSX.Element => {
     isLoading,
     isFetching,
     refetch,
-  } = useGetCustomersQuery(new URLSearchParams(searchParams).toString());
+  } = useGetCustomersQuery(new URLSearchParams(searchParams).toString(), { skip: !hasSearchQuery });
 
   const handleFormCallback = (formValues: CustomerSearchFormFields) => {
     // Filter out all of the unfilled input fields from the formValues object
