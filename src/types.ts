@@ -121,6 +121,7 @@ export type Project = {
 export type CustomerProfile = {
   city?: string;
   contact_language?: 'en' | 'fi' | 'sv';
+  date_of_birth: string;
   email: string;
   first_name: string;
   id: string;
