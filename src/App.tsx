@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Routes, Route } from 'react-router-dom';
 
+import AddEditCustomer from './pages/AddEditCustomer';
 import AuthError from './pages/AuthError';
 import Index from './pages/Homepage';
 import Login from './pages/Login';
@@ -23,6 +24,8 @@ const Authenticated = (): JSX.Element => (
       <Route path={`${ROUTES.PROJECTS}/:projectId`} element={<ProjectDetail />} />
       <Route path={ROUTES.CUSTOMERS} element={<CustomerSearch />} />
       <Route path={`${ROUTES.CUSTOMERS}/:customerId`} element={<CustomerDetail />} />
+      <Route path={`${ROUTES.ADD_CUSTOMER}`} element={<AddEditCustomer isEditMode={false} />} />
+      <Route path={`${ROUTES.EDIT_CUSTOMER}/:customerId`} element={<AddEditCustomer isEditMode />} />
       <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
