@@ -9,6 +9,7 @@
   td {
     border: 0 !important;
     padding: var(--spacing-3-xs) !important;
+    background-color: inherit !important;
 
     &.moreHorizontalPadding {
       padding-left: var(--spacing-xs) !important;
@@ -91,6 +92,10 @@
 .installmentCandidatesTable {
   margin-top: var(--spacing-xs);
   margin-bottom: var(--spacing-m);
+
+  thead tr {
+    background-color: var(--color-bus) !important;
+  }
 }
 
 .toggleButton {

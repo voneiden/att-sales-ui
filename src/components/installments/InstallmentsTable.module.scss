@@ -12,6 +12,10 @@
 
   tfoot {
     background-color: var(--color-info-light);
+
+    td, th {
+      background-color: inherit !important;
+    }
   }
 
   th {
