@@ -1,7 +1,8 @@
 import React from 'react';
+import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Button, IconPenLine, Notification, Tabs, TabList, Tab, TabPanel } from 'hds-react';
+import { IconPenLine, Notification, Tabs, TabList, Tab, TabPanel } from 'hds-react';
 
 import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
 import Container from '../components/common/container/Container';
@@ -78,9 +79,15 @@ const CustomerDetail = (): JSX.Element | null => {
       <div className={styles.titleRow}>
         <h1>{t(`${T_PATH}.customerDetails`)}</h1>
         <div className={styles.customerEditLink}>
-          <Button size="small" variant="secondary" color="primary" iconLeft={<IconPenLine />}>
-            {t(`${T_PATH}.editCustomerBtn`)}
-          </Button>
+          <a
+            href={`/${ROUTES.CUSTOMERS}/edit/${customerId}`}
+            className={cx(styles.editBtn, 'hds-button hds-button--secondary hds-button--small')}
+          >
+            <span aria-hidden="true" className="hds-icon">
+              <IconPenLine />
+            </span>
+            <span className="hds-button__label">{t(`${T_PATH}.editCustomerBtn`)}</span>
+          </a>
         </div>
       </div>
       <CustomerInfo customer={customer} />
