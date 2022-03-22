@@ -228,7 +228,7 @@ export type ApartmentReservation = {
 
 export type ApartmentReservationWithCustomer = ApartmentReservation & {
   applicants: ApartmentApplicant[];
-  customer_id: number;
+  customer: number;
   has_children: boolean;
   right_of_residence: string;
 };

@@ -26,11 +26,11 @@ const ApartmentBaseDetails = ({ apartment, isLotteryResult, showState }: IProps)
         // TODO: Show correct dot colors and icons based on apartment state
         <span className={styles.stateIncicator} />
       )}
-      <strong>
+      <strong className={styles.apartmentNumber}>
         <span className="hiddenFromScreen">{t(`${T_PATH}.apartment`)}: </span>
         {apartment_number}
       </strong>
-      <span>
+      <span className={styles.apartmentExtra}>
         <span className="hiddenFromScreen">{t(`${T_PATH}.ariaApartmentStructure`)}: </span>
         {apartment_structure}{' '}
         {living_area && <span className={styles.apartmentLivingArea}>({formattedLivingArea(living_area)})</span>}
