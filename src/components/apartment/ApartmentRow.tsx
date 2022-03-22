@@ -64,7 +64,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
 
       return (
         <div className={cx(styles.customer, isLotteryResult && styles.isLottery)}>
-          <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer_id || 0}`} className={styles.customerLink}>
+          <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer || 0}`} className={styles.customerLink}>
             {sortedApplicants.map((applicant, index) => (
               <div key={index}>
                 {isLotteryResult && (
