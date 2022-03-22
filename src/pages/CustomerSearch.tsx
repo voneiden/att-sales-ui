@@ -1,13 +1,14 @@
 import React from 'react';
-import { Button, Notification } from 'hds-react';
+import { Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import Container from '../components/common/container/Container';
 import CustomerSearchForm from '../components/customers/CustomerSearchForm';
 import CustomerTable from '../components/customers/CustomerTable';
 import { useGetCustomersQuery } from '../redux/services/api';
 import { CustomerSearchFormFields } from '../types';
+import { ROUTES } from '../enums';
 
 import styles from './CustomerSearch.module.scss';
 
@@ -23,7 +24,7 @@ const CustomerSearch = (): JSX.Element => {
     isLoading,
     isFetching,
     refetch,
-  } = useGetCustomersQuery(new URLSearchParams(searchParams).toString());
+  } = useGetCustomersQuery(new URLSearchParams(searchParams).toString(), { skip: !hasSearchQuery });
 
   const handleFormCallback = (formValues: CustomerSearchFormFields) => {
     // Filter out all of the unfilled input fields from the formValues object
@@ -40,9 +41,9 @@ const CustomerSearch = (): JSX.Element => {
         <h1 className={styles.pageHeader}>{t(`${T_PATH}.pageTitle`)}</h1>
         <div className={styles.customerFormWrapper}>
           <CustomerSearchForm searchParams={searchParams} handleFormCallback={handleFormCallback} />
-          <Button variant="secondary" className={styles.createNewBtn}>
-            {t(`${T_PATH}.btnCreateCustomer`)}
-          </Button>
+          <Link to={`/${ROUTES.ADD_CUSTOMER}`} className={`${styles.createNewBtn} hds-button hds-button--secondary`}>
+            <span className="hds-button__label">{t(`${T_PATH}.btnCreateCustomer`)}</span>
+          </Link>
         </div>
       </Container>
       {!isLoading && !isFetching && isError && (

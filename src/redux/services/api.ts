@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import getApiBaseUrl from '../../utils/getApiBaseUrl';
 import {
+  AddEditCustomerFormFields,
   Apartment,
   ApartmentInstallment,
   ApartmentReservationWithInstallments,
@@ -29,7 +30,7 @@ export const api = createApi({
       return headers;
     },
   }),
-
+  tagTypes: ['Customer'],
   endpoints: (builder) => ({
     // GET: Fetch all projects
     getProjects: builder.query<Project[], void>({
@@ -58,11 +59,43 @@ export const api = createApi({
     // GET: Search for customers with search params
     getCustomers: builder.query<CustomerListItem[], string>({
       query: (params) => `customers?${params}`,
+      providesTags: [{ type: 'Customer', id: 'LIST' }],
     }),
 
     // GET: Fetch single customer's details
     getCustomerById: builder.query<Customer, string>({
-      query: (id) => `customers/${id}`,
+      query: (id) => `customers/${id}/`,
+      providesTags: (result, error, arg) => [{ type: 'Customer', id: arg }],
+    }),
+
+    // POST: Create a new customer
+    createCustomer: builder.mutation<Customer, { formData: Partial<AddEditCustomerFormFields> }>({
+      query: (params) => {
+        return {
+          url: `customers/`,
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: ['Customer'],
+    }),
+
+    // PUT: Update customer details
+    updateCustomerById: builder.mutation<
+      Customer,
+      {
+        formData: Partial<AddEditCustomerFormFields>;
+        id: string;
+      }
+    >({
+      query: (params) => {
+        return {
+          url: `customers/${params.id}/`,
+          method: 'PUT',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [{ type: 'Customer', id: arg.id }],
     }),
 
     // GET: Fetch saved installments for a project
@@ -120,6 +153,8 @@ export const {
   useSetProjectInstallmentsMutation,
   useGetCustomersQuery,
   useGetCustomerByIdQuery,
+  useCreateCustomerMutation,
+  useUpdateCustomerByIdMutation,
   useGetApartmentReservationQuery,
   useSetApartmentInstallmentsMutation,
 } = api;

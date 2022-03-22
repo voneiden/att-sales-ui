@@ -1,6 +1,8 @@
 export enum ROUTES {
   AUTH_ERROR = 'auth-error',
   CUSTOMERS = 'customers',
+  ADD_CUSTOMER = 'customers/add',
+  EDIT_CUSTOMER = 'customers/edit',
   INDEX = '/',
   LOGIN = 'login',
   LOGOUT = 'logout',

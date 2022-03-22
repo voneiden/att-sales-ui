@@ -276,9 +276,9 @@ const InstallmentsForm = ({
   };
 
   const renderTableHeader = (isCandidateTableHeader: boolean) => (
-    <thead className={cx(isCandidateTableHeader && 'hds-table__header-row')}>
+    <thead>
       {isCandidateTableHeader ? (
-        <tr>
+        <tr className="hds-table__header-row">
           <th>{t(`${T_PATH}.installmentType`)}</th>
           <th>{t(`${T_PATH}.sum`)} &euro;</th>
           <th>{t(`${T_PATH}.dueDate`)}</th>

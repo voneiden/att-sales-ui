@@ -21,6 +21,7 @@
 
 .singleInfoItemContent {
   font-size: var(--fontsize-body-l);
+  white-space: pre-line;
 
   &.largeFont {
     font-size: var(--fontsize-body-xl);

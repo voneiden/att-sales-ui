@@ -50,6 +50,9 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
             {profile.last_name}, {profile.first_name}
           </InfoItem>
           <InfoItem label={t(`${T_PATH}.nin`)}>{profile.national_identification_number || '-'}</InfoItem>
+          <InfoItem label={t(`${T_PATH}.dateOfBirth`)}>
+            {profile.date_of_birth ? formatDateTime(profile.date_of_birth, true) : '-'}
+          </InfoItem>
         </div>
         <div className={styles.customerInfoColumn}>
           <InfoItem label={t(`${T_PATH}.contactDetails`)}>
@@ -64,15 +67,6 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
           <InfoItem label={t(`${T_PATH}.contactLanguage`)}>
             {profile.contact_language ? t(`${T_PATH}.contactLanguage_${profile.contact_language}`) : '-'}
           </InfoItem>
-          {isPrimary && (
-            <InfoItem label={t(`${T_PATH}.familyWithChildren`)}>
-              {customer.has_children === null
-                ? t(`${T_PATH}.unknown`)
-                : customer.has_children
-                ? t(`${T_PATH}.yes`)
-                : t(`${T_PATH}.no`)}
-            </InfoItem>
-          )}
         </div>
         {isPrimary && (
           <div className={styles.customerInfoColumn}>
@@ -95,14 +89,24 @@ const CustomerInfo = ({ customer }: IProps): JSX.Element => {
 
       <div className={styles.extraInfoRow}>
         <div className={styles.extraInfoRowItem}>
-          <InfoItem label={t(`${T_PATH}.hitasOwnership`)}>
-            <Checkbox
-              id="customerHasHitasOwnership"
-              label={t(`${T_PATH}.customerHasHitasOwnership`)}
-              checked={customer.has_hitas_ownership}
-              readOnly
-              disabled
-            />
+          <InfoItem label={t(`${T_PATH}.hitas`)}>
+            <div className={styles.checkBoxRow}>
+              <Checkbox
+                id="customerHasHitasOwnership"
+                label={t(`${T_PATH}.customerHasHitasOwnership`)}
+                checked={customer.has_hitas_ownership}
+                readOnly
+                disabled
+                style={{ marginRight: 'var(--spacing-l)' }}
+              />
+              <Checkbox
+                id="customerHasChildren"
+                label={t(`${T_PATH}.familyWithChildren`)}
+                checked={customer.has_children}
+                readOnly
+                disabled
+              />
+            </div>
           </InfoItem>
         </div>
         <div className={styles.extraInfoRowItem}>

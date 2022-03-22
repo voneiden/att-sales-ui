@@ -15,6 +15,16 @@ describe('CustomerSearch Page', () => {
   });
 
   it('handles error response', async () => {
+    // Mock search params so that we don't have an empty search query
+    const location = {
+      ...window.location,
+      search: '?test=test',
+    };
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: location,
+    });
+
     // force msw to return error response
     server.use(
       rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers`, (req, res, ctx) => {
