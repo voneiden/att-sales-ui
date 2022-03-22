@@ -1,10 +1,14 @@
 .apartmentLink {
   color: var(--color-black-90);
-  border-bottom: 1px solid transparent;
+  text-decoration: none;
 
   &:hover,
   &:focus {
-    border-color: var(--color-black-90);
+    .apartmentNumber,
+    .apartmentExtra {
+      text-decoration: underline !important;
+      text-decoration-color: var(--color-black-90) !important;
+    }
   }
 }
 
