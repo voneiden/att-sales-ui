@@ -1,0 +1,60 @@
+.customerInfoWrapper {
+  background-color: var(--color-black-5);
+  margin-bottom: var(--spacing-m);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.customerInfoColumn {
+  flex: 0 0 33.33333%;
+  padding: var(--spacing-m);
+}
+
+.singleInfoItem + .singleInfoItem {
+  margin-top: var(--spacing-m);
+}
+
+.singleInfoItemLabel {
+  font-weight: 500;
+  margin-bottom: var(--spacing-3-xs);
+}
+
+.singleInfoItemContent {
+  font-size: var(--fontsize-body-l);
+  white-space: pre-line;
+
+  &.largeFont {
+    font-size: var(--fontsize-body-xl);
+  }
+
+  > div + div {
+    margin-top: var(--spacing-3-xs);
+  }
+}
+
+.extraInfoRow {
+  margin: var(--spacing-l) 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .singleInfoItemLabel {
+    margin-bottom: var(--spacing-xs);
+  }
+}
+
+.extraInfoRowItem {
+  margin-right: var(--spacing-4-xl);
+}
+
+.coApplcantTitle {
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.checkBoxRow {
+  display: flex;
+  align-items: flex-start;
+
+  * {
+    margin-top: 0 !important;
+  }
+}

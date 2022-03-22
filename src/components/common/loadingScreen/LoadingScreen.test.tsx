@@ -10,6 +10,6 @@ describe('LoadingScreen', () => {
 
   it('renders loading message', () => {
     render(<LoadingScreen />);
-    expect(screen.getByText('common.loadingScreen.LoadingScreen.loading...')).toBeDefined();
+    expect(screen.getByText('components.common.loadingScreen.LoadingScreen.loading...')).toBeDefined();
   });
 });

@@ -1,98 +1,281 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
-import { IconAngleDown, IconAngleUp } from 'hds-react';
+import { Link } from 'react-router-dom';
+import { Button, IconAngleDown, IconAngleRight, IconBell, IconGroup, IconPlus } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import formattedLivingArea from '../../utils/formatLivingArea';
+import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
-import { Apartment } from '../../types';
-import { fullURL } from '../../utils/fullURL';
+import formatDateTime from '../../utils/formatDateTime';
+import { Apartment, ApartmentReservationWithCustomer, Project } from '../../types';
+import { ApartmentReservationStates, ROUTES } from '../../enums';
 
 import styles from './ApartmentRow.module.scss';
 
-const BREAK_POINT = 768;
 const T_PATH = 'components.apartment.ApartmentRow';
 
 interface IProps {
   apartment: Apartment;
+  ownershipType: Project['ownership_type'];
+  lotteryCompleted: Project['lottery_completed'];
 }
 
-const ApartmentRow = ({ apartment }: IProps): JSX.Element => {
-  const { apartment_number, apartment_structure, living_area, nid, url } = apartment;
-
+const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): JSX.Element => {
+  const { reservations, apartment_uuid } = apartment;
+  const [applicationRowOpen, setApplicationRowOpen] = useSessionStorage({
+    defaultValue: false,
+    key: `applicationRowOpen-${apartment_uuid}`,
+  });
+  const [resultRowOpen, setResultRowOpen] = useSessionStorage({
+    defaultValue: false,
+    key: `resultRowOpen-${apartment_uuid}`,
+  });
   const { t } = useTranslation();
-  const [width, setWidth] = useState(window.innerWidth);
-  const [rowOpen, setRowOpen] = useSessionStorage({ defaultValue: false, key: `apartmentRowOpen-${nid}` });
 
-  const isDesktopSize = width > BREAK_POINT;
-  const isMobileSize = width <= BREAK_POINT;
+  const toggleApplicationRow = () => setApplicationRowOpen(!applicationRowOpen);
+  const toggleResultRow = () => setResultRowOpen(!resultRowOpen);
 
-  const handleResize = () => setWidth(window.innerWidth);
+  const isCanceled = (reservation: ApartmentReservationWithCustomer): boolean => {
+    // TODO: Remove 'reservation.state' when API gets updated
+    return (
+      reservation.current_state?.value === ApartmentReservationStates.CANCELED ||
+      reservation.state === ApartmentReservationStates.CANCELED
+    );
+  };
 
-  const toggleRow = () => isMobileSize && setRowOpen(!rowOpen);
+  const renderApplicants = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
+    if (reservation.applicants) {
+      const sortedApplicants = [...reservation.applicants];
 
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+      if (sortedApplicants.length > 1) {
+        // Sort primary applicants to be shown first
+        sortedApplicants.sort((a, b) => {
+          return a.is_primary_applicant < b.is_primary_applicant
+            ? 1
+            : a.is_primary_applicant > b.is_primary_applicant
+            ? -1
+            : 0;
+        });
+      }
 
-  const apartmentRowBaseDetails = (
-    <>
-      <strong>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.apartment`)}: </span>
-        <a href={fullURL(url)}>{apartment_number}</a>
-      </strong>
-      <span>
-        <span className="hiddenFromScreen">{t(`${T_PATH}.ariaApartmentStructure`)}: </span>
-        {apartment_structure}{' '}
-        {living_area && <span style={{ color: 'var(--color-black-60)' }}>({formattedLivingArea(living_area)})</span>}
-      </span>
-      {isMobileSize &&
-        (rowOpen ? (
-          <IconAngleUp style={{ marginLeft: 'auto' }} size={'m'} aria-hidden="true" />
+      const renderOfferInfo = () => {
+        return <span className={styles.offer}>TODO: Offers</span>;
+      };
+
+      return (
+        <div className={cx(styles.customer, isLotteryResult && styles.isLottery)}>
+          <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer_id || 0}`} className={styles.customerLink}>
+            {sortedApplicants.map((applicant, index) => (
+              <div key={index}>
+                {isLotteryResult && (
+                  <span className={styles.queueNumberSpacer}>
+                    {index === 0 &&
+                      (isCanceled(reservation)
+                        ? `00${reservation.lottery_position}`
+                        : `${reservation.queue_position}.`)}
+                  </span>
+                )}
+                {applicant.last_name}, {applicant.first_name}{' '}
+                {isLotteryResult && applicant.email && `\xa0 ${applicant.email}`}
+              </div>
+            ))}
+            {isLotteryResult && reservation.offer_info && (
+              <div>
+                <span className={styles.queueNumberSpacer} />
+                {renderOfferInfo()}
+              </div>
+            )}
+          </Link>
+          {isLotteryResult && renderReviewNotification(reservation)}
+        </div>
+      );
+    }
+  };
+
+  const renderHasoNumberOrFamilyIcon = (reservation: ApartmentReservationWithCustomer) => {
+    if (ownershipType === 'haso') {
+      return reservation.right_of_residence;
+    }
+    if (reservation.has_children) {
+      return <IconGroup />;
+    }
+  };
+
+  const renderReviewNotification = (reservation: ApartmentReservationWithCustomer) => {
+    // TODO: Remove 'reservation.state' when API gets updated
+    if (
+      reservation.current_state?.value === ApartmentReservationStates.REVIEW ||
+      reservation.state === ApartmentReservationStates.REVIEW
+    ) {
+      return (
+        <span className={cx(styles.bellIcon, resultRowOpen && styles.rowOpen)}>
+          <IconBell />
+        </span>
+      );
+    }
+  };
+
+  const renderLotteryResults = () => {
+    const sortedReservations = [...reservations];
+
+    // Sort results by initial lottery position
+    sortedReservations.sort((a, b) => a.lottery_position - b.lottery_position);
+
+    const addReservation = () => (
+      <div className={styles.addNewReservationButton}>
+        <Button size="small" variant="supplementary" iconLeft={<IconPlus size="xs" />}>
+          {t(`${T_PATH}.btnAddApplicant`)}
+        </Button>
+      </div>
+    );
+
+    const renderActionButtons = (reservation: ApartmentReservationWithCustomer, showAllButtons: boolean) => (
+      <div className={styles.actionButtons}>
+        {isCanceled(reservation) ? (
+          <div className={styles.cancellationReason}>
+            {reservation.cancellation_info?.cancellation_reason}{' '}
+            {reservation.cancellation_info?.date ? formatDateTime(reservation.cancellation_info.date, true) : '-'}
+          </div>
         ) : (
-          <IconAngleDown style={{ marginLeft: 'auto' }} size={'m'} aria-hidden="true" />
-        ))}
-    </>
-  );
+          <>
+            <Button variant="supplementary" size="small" iconLeft={''}>
+              {t(`${T_PATH}.btnCancel`)}
+            </Button>
+            {showAllButtons && (
+              <>
+                <Button variant="supplementary" size="small" iconLeft={''}>
+                  {t(`${T_PATH}.btnEdit`)}
+                </Button>
+                <Button variant="secondary" size="small">
+                  {t(`${T_PATH}.btnOffer`)}
+                </Button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
 
-  const apartMentRowOtherDetails = (
-    <div>
-      <span className={isDesktopSize ? 'hiddenFromScreen' : styles.cellMobileTitle}>
-        {t(`${T_PATH}.applicants`)}&nbsp;{' '}
-      </span>
-      <span>{/* TODO: show applicant data here */}-</span>
-    </div>
-  );
+    const renderFirstInQueue = () => {
+      // Find the applicant that is currently first in the reservation queue
+      const firstInQueue = sortedReservations.find((r) => r.queue_position === 1);
+
+      // If there's no one in the queue or the reservation is canceled, show "add new reservation" button
+      if (!firstInQueue || isCanceled(firstInQueue)) return addReservation();
+
+      return (
+        <>
+          {renderApplicants(firstInQueue, true)}
+          <div className={styles.rowActions}>
+            <span>{renderHasoNumberOrFamilyIcon(firstInQueue)}</span>
+            {renderActionButtons(firstInQueue, true)}
+          </div>
+        </>
+      );
+    };
+
+    return (
+      <div className={cx(styles.cell, styles.buttonCell, resultRowOpen && styles.open)}>
+        <div className={cx(styles.firstResultRow, !resultRowOpen && styles.closed)}>
+          <div className={cx(styles.firstResultRowApplicant, resultRowOpen && styles.open)}>{renderFirstInQueue()}</div>
+          <button
+            className={cx(styles.smallToggleButton, resultRowOpen && styles.open)}
+            onClick={toggleResultRow}
+            aria-controls={`apartment-row-${apartment_uuid}`}
+            aria-expanded={resultRowOpen}
+          >
+            {resultRowOpen ? <IconAngleDown /> : <IconAngleRight />}
+          </button>
+        </div>
+        <div
+          className={resultRowOpen ? cx(styles.toggleContent, styles.open) : styles.toggleContent}
+          id={`apartment-row-${apartment_uuid}`}
+        >
+          {!!sortedReservations.length ? (
+            <>
+              {sortedReservations.map((reservation) => (
+                <div
+                  className={cx(
+                    styles.singleReservation,
+                    styles.resultReservation,
+                    isCanceled(reservation) && styles.disabledRow
+                  )}
+                  key={reservation.id}
+                >
+                  <div className={styles.singleReservationColumn}>{renderApplicants(reservation, true)}</div>
+                  <div className={styles.singleReservationColumn}>
+                    <div className={cx(styles.rowActions, resultRowOpen && styles.rowOpen)}>
+                      <span>{renderHasoNumberOrFamilyIcon(reservation)}</span>
+                      {renderActionButtons(reservation, reservation.queue_position === 1)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div className={cx(styles.singleReservation, styles.resultReservation)}>{addReservation()}</div>
+            </>
+          ) : (
+            addReservation()
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderReservations = () => {
+    const noApplicants = !reservations || reservations.length === 0;
+
+    const renderReservationCountText = () => {
+      if (noApplicants) {
+        return <span className={styles.textMuted}>{t(`${T_PATH}.noApplicants`)}</span>;
+      }
+      return <span>{t(`${T_PATH}.applicants`, { count: reservations.length })}</span>;
+    };
+
+    return (
+      <div className={cx(styles.cell, styles.buttonCell, applicationRowOpen && styles.open)}>
+        <button
+          className={cx(styles.rowToggleButton, applicationRowOpen && styles.open, noApplicants && styles.noApplicants)}
+          onClick={toggleApplicationRow}
+          aria-controls={`apartment-row-${apartment_uuid}`}
+          aria-expanded={!!reservations.length && applicationRowOpen ? true : false}
+          disabled={noApplicants}
+        >
+          {renderReservationCountText()}
+          {applicationRowOpen ? <IconAngleDown /> : <IconAngleRight />}
+        </button>
+
+        <div
+          className={applicationRowOpen ? cx(styles.toggleContent, styles.open) : styles.toggleContent}
+          id={`apartment-row-${apartment_uuid}`}
+        >
+          {!!reservations.length ? (
+            reservations.map((reservation) => (
+              <div className={styles.singleReservation} key={reservation.id}>
+                <div className={styles.singleReservationColumn}>{renderApplicants(reservation, false)}</div>
+                <div className={styles.singleReservationColumn}>{renderHasoNumberOrFamilyIcon(reservation)}</div>
+              </div>
+            ))
+          ) : (
+            <div className={styles.singleReservation}>
+              <span className={styles.textMuted}>{t(`${T_PATH}.noApplicants`)}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <li className={styles.apartmentTableRow}>
-      {isMobileSize ? (
-        <>
-          <button
-            className={styles.apartmentCellMobile}
-            onClick={toggleRow}
-            aria-controls={`apartment-row-details-${nid}`}
-            aria-expanded={rowOpen ? true : false}
-          >
-            {apartmentRowBaseDetails}
-          </button>
-          <div
-            className={rowOpen ? cx(styles.mobileCells, styles.open) : styles.mobileCells}
-            id={`apartment-row-details-${nid}`}
-          >
-            {apartMentRowOtherDetails}
-          </div>
-        </>
-      ) : (
-        <>
-          <div className={cx(styles.cell, styles.apartmentCell)}>{apartmentRowBaseDetails}</div>
-          <div className={styles.cell} style={{ textAlign: 'right' }}>
-            {apartMentRowOtherDetails}
-          </div>
-        </>
-      )}
-    </li>
+    <div className={styles.apartmentTableRow}>
+      <div className={cx(styles.cell, styles.apartmentCell)}>
+        <ApartmentBaseDetails
+          apartment={apartment}
+          isLotteryResult={lotteryCompleted}
+          showState={lotteryCompleted ? resultRowOpen : false}
+        />
+      </div>
+      {lotteryCompleted ? renderLotteryResults() : renderReservations()}
+    </div>
   );
 };
 

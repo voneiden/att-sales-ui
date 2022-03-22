@@ -1,0 +1,41 @@
+.apartmentLink {
+  color: var(--color-black-90);
+  border-bottom: 1px solid transparent;
+
+  &:hover,
+  &:focus {
+    border-color: var(--color-black-90);
+  }
+}
+
+.details {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  strong {
+    display: inline-block;
+    line-height: 1;
+    font-size: var(--fontsize-body-l);
+    margin-right: var(--spacing-xs);
+    min-width: 35px;
+  }
+}
+
+.apartmentLivingArea {
+  color: var(--color-black-60);
+}
+
+.label {
+  --status-label-background: var(--color-black-5);
+  --status-label-height: 1.7rem;
+  margin-top: var(--spacing-xs);
+}
+
+.stateIncicator {
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-tram);
+  display: inline-block;
+  margin-right: var(--spacing-2-xs);
+  border-radius: 50%;
+}

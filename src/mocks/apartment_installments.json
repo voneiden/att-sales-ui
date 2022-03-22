@@ -1,0 +1,37 @@
+[
+  {
+    "type": "DOWN_PAYMENT",
+    "amount": 300000,
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "reference_number": "1231231 3123123"
+  },
+  {
+    "type": "PAYMENT_1",
+    "amount": 2250000,
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "reference_number": "LASKE-VIITE-2"
+  },
+  {
+    "type": "PAYMENT_2",
+    "amount": 4550000,
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "reference_number": "LASKE-VIITE-3"
+  },
+  {
+    "type": "PAYMENT_3",
+    "amount": 3050000,
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "reference_number": "LASKE-VIITE-4"
+  },
+  {
+    "type": "PAYMENT_4",
+    "amount": 2500000,
+    "account_number": "FI90 5345 4353 4012 10",
+    "due_date": "2025-01-18",
+    "reference_number": "LASKE-VIITE-5"
+  }
+]

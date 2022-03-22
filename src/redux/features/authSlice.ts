@@ -32,7 +32,6 @@ const authSlice = createSlice({
       state.authenticated = action.payload.isAuthenticated;
       state.initialized = action.payload.isInitialized;
       state.status = action.payload.getStatus;
-      state.user = undefined;
     },
     initializing(state) {
       state.initialized = false;

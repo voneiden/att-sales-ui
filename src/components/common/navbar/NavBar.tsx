@@ -10,8 +10,8 @@ import { LOCALSTORAGE_LANG_KEY } from '../../../i18n/i18n';
 
 import styles from './Navbar.module.scss';
 
-const T_PATH = 'common.navbar.Navbar';
-const LANGUAGES = ['fi', 'en', 'sv'];
+const T_PATH = 'components.common.navbar.Navbar';
+const LANGUAGES = ['fi', 'en'];
 
 const isActiveLink = (path: string, currentPath: string): boolean => !!matchPath({ path, end: false }, currentPath);
 

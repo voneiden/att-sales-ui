@@ -1,0 +1,71 @@
+.customerTableWrapper {
+  background: #fff;
+  padding: var(--spacing-s);
+  overflow-y: auto;
+}
+
+.customerTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customerTableHeader {
+  border-bottom: 1px solid var(--color-black-20);
+}
+
+.customerTableHeaderCell {
+  white-space: nowrap;
+  padding: 0 var(--spacing-l) var(--spacing-s) 0;
+  font-weight: normal;
+  vertical-align: bottom;
+  text-align: left;
+}
+
+.customerTableHeaderCellButton {
+  padding-bottom: 0;
+}
+
+.messageWrapper {
+  background-color: #fff;
+  padding: var(--spacing-l) var(--spacing-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortButton {
+  background: none;
+  padding: var(--spacing-s) 0;
+  border: solid transparent;
+  border-width: 0 0 2px 0;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    border-bottom-color: var(--color-black-50);
+
+    .sortArrow {
+      visibility: visible;
+    }
+  }
+}
+
+.sortArrow {
+  color: var(--color-black-50);
+  margin-left: 8px;
+  visibility: hidden;
+}
+
+.sortButton.activeSort {
+  color: var(--color-black);
+  border-bottom-color: var(--color-black);
+
+  .sortArrow {
+    visibility: visible;
+    color: inherit !important;
+  }
+}

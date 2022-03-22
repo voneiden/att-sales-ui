@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "primary_first_name": "Matti",
+    "primary_last_name": "Meikäläinen",
+    "primary_email": "matti.meikalainen@example.com",
+    "primary_phone_number": "+358501234567",
+    "secondary_first_name": "Maija",
+    "secondary_last_name": "Meikäläinen"
+  },
+  {
+    "id": 2,
+    "primary_first_name": "Teppo",
+    "primary_last_name": "Teikäläinen",
+    "primary_email": "teppo.teikalainen@example.com",
+    "primary_phone_number": "+358501234567",
+    "secondary_first_name": null,
+    "secondary_last_name": null
+  },
+  {
+    "id": 3,
+    "primary_first_name": "Seppo",
+    "primary_last_name": "Sikäläinen",
+    "primary_email": "seppo.sikalainen@example.com",
+    "primary_phone_number": "+358501234567",
+    "secondary_first_name": "Minna",
+    "secondary_last_name": "Meikäläinen"
+  },
+  {
+    "id": 4,
+    "primary_first_name": "Julia",
+    "primary_last_name": "Doe",
+    "primary_email": "julia.doe@example.com",
+    "primary_phone_number": "+358501234567",
+    "secondary_first_name": "John",
+    "secondary_last_name": "Doe"
+  }
+]

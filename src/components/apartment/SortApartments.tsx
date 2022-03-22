@@ -1,34 +1,8 @@
 import React from 'react';
 
 import useSessionStorage from '../../utils/useSessionStorage';
-
-export const sortAlphanumeric = (items: any[], sortConfig: any) => {
-  items.sort((a, b) => {
-    const firstValue = a[sortConfig.key].split(' ').join('');
-    const secondValue = b[sortConfig.key].split(' ').join('');
-    if (sortConfig.direction === 'ascending') {
-      return firstValue.localeCompare(secondValue, 'fi', { numeric: true });
-    }
-    return secondValue.localeCompare(firstValue, 'fi', { numeric: true });
-  });
-  return items;
-};
-
-export const sortNumeric = (items: any[], sortConfig: any) => {
-  items.sort((a, b) => {
-    const firstValue = a[sortConfig.key];
-    const secondValue = b[sortConfig.key];
-
-    if (firstValue < secondValue) {
-      return sortConfig.direction === 'ascending' ? -1 : 1;
-    }
-    if (firstValue > secondValue) {
-      return sortConfig.direction === 'ascending' ? 1 : -1;
-    }
-    return 0;
-  });
-  return items;
-};
+import { sortAlphanumeric, sortNumeric } from '../../utils/sortList';
+import { Apartment } from '../../types';
 
 const SortApartments = (items: any, sessionStorageID: string) => {
   const [sortConfig, setSortConfig] = useSessionStorage({
@@ -40,7 +14,7 @@ const SortApartments = (items: any, sessionStorageID: string) => {
     key: `sortConfig-${sessionStorageID}`,
   });
 
-  const sortedApartments = React.useMemo(() => {
+  const sortedApartments = React.useMemo((): Apartment[] => {
     if (items === undefined) return [];
 
     const sortableApartments = [...items];
@@ -48,8 +22,8 @@ const SortApartments = (items: any, sessionStorageID: string) => {
     if (sortConfig === null) return sortableApartments;
 
     sortConfig.alphaNumeric
-      ? sortAlphanumeric(sortableApartments, sortConfig)
-      : sortNumeric(sortableApartments, sortConfig);
+      ? sortAlphanumeric(sortableApartments, sortConfig.key, sortConfig.direction)
+      : sortNumeric(sortableApartments, sortConfig.key, sortConfig.direction);
 
     return sortableApartments;
   }, [items, sortConfig]);

@@ -1,22 +1,18 @@
 .apartmentActions {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--spacing-l);
+  margin-bottom: var(--spacing-m);
+  align-items: flex-end;
 
   @media (max-width: 1248px) {
     padding: 0 var(--spacing-m);
   }
 }
 
-.action {
-  margin-left: var(--spacing-l);
+.selectWrapper {
+  min-width: 300px;
 }
 
-.actionLabel {
-  color: var(--label-color-default,var(--color-black-90));
-  display: block;
-  font-size: var(--fontsize-body-m);
-  font-weight: 500;
-  margin-top: 0;
-  margin-bottom: var(--spacing-3-xs);
+.action {
+  margin-left: var(--spacing-s);
 }

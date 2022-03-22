@@ -1,0 +1,111 @@
+.offerDialog {
+  @media (max-width: 1247px) { // --breakpoint-xl minus 1
+    width: 100% !important;
+  }
+
+  @media (min-width: 1248px) { // --breakpoint-xl
+    width: 1200px !important;
+  }
+
+  [class*="dialogTitle"] {
+    font-size: var(--fontsize-heading-l);
+  }
+}
+
+.offerTable {
+  margin: var(--spacing-l) 0;
+
+  thead {
+    background-color: transparent;
+  }
+
+  th, td {
+    padding: var(--spacing-s) !important;
+    border-color: var(--color-black-20) !important;
+  }
+
+  td {
+    font-size: var(--fontsize-body-l) !important;
+  }
+}
+
+.offerStatus {
+  margin: var(--spacing-s) 0 var(--spacing-xl) 0;
+}
+
+.projectDetails {
+  margin-top: var(--spacing-s);
+}
+
+.emphasized {
+  font-size: var(--fontsize-body-xl);
+  font-weight: bold;
+  margin-right: var(--spacing-s);
+}
+
+.muted {
+  color: var(--color-black-60);
+}
+
+.offerDialogForm {
+  display: flex;
+  margin: var(--spacing-s) calc(#{var(--spacing-s)} * -1);
+  justify-content: space-between;
+}
+
+.textareaColumn {
+  flex: 1 1 50%;
+  padding: 0 var(--spacing-s);
+
+  textarea {
+    height: auto;
+  }
+}
+
+.fullHeightColumn {
+  display: flex;
+
+  .inputWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    [class*=TextInput-module_root] {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      [class*=input-wrapper] {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  textarea {
+    height: 100% !important;
+  }
+}
+
+.inputWrapper + .inputWrapper {
+  margin-top: var(--spacing-m);
+}
+
+.toggleWrapper {
+  display: flex;
+  margin: 0 calc(#{var(--spacing-s)} * -1);
+
+  .toggle {
+    padding: 0 var(--spacing-s);
+    flex: 1 1 50%;
+
+    [class*=toggleButtonContainer] button {
+      margin-left: var(--spacing-s) !important;
+    }
+  }
+
+  .toggleHelpText {
+    font-size: var(--fontsize-body-s);
+    color: var(--color-black-60);
+    margin-top: var(--spacing-2-xs);
+  }
+}

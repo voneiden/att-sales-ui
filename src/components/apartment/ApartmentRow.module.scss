@@ -1,25 +1,14 @@
 .apartmentTableRow {
   width: 100%;
   position: relative;
-  border-bottom: 1px solid var(--color-black-20);
-
-  @media (min-width: 769px) {
-    display: table-row;
-  }
-}
-
-.apartmentTableRowButtons {
-  width: 100%;
-  position: relative;
-
-  @media (min-width: 769px) {
-    display: table-row;
-  }
+  display: flex;
+  padding: var(--spacing-xs) 0;
+  border-top: 1px solid var(--color-black-20);
 }
 
 .cellTextStyles {
   color: var(--color-black-90);
-  font-size: 18px;
+  font-size: var(--fontsize-body-m);
   font-family: var(--font-default);
   font-weight: normal;
   white-space: nowrap;
@@ -28,68 +17,260 @@
 
 .cell {
   @extend .cellTextStyles;
-  display: flex;
-  padding-bottom: var(--spacing-xs);
+  padding: var(--spacing-2-xs) 0;
+  vertical-align: top;
 
-  @media (min-width: 769px) {
-    flex: 1;
-    padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) 0;
-    border-top: 1px solid var(--color-black-20);
-    display: table-cell;
-    vertical-align: top;
+  + .cell {
+    padding-left: var(--spacing-xl);
   }
 }
 
 .apartmentCell {
-  @media (min-width: 992px) and (max-width: 1099px) {
-    min-width: 200px;
+  width: 225px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.buttonCell {
+  flex-grow: 1;
+  flex-shrink: 1;
+  display: block;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.smallToggleButton {
+  padding: var(--spacing-2-xs) var(--spacing-xs);
+  border: none;
+  background: transparent;
+  line-height: var(--lineheight-l);
+  cursor: pointer;
+  height: 44px;
+  margin-left: var(--spacing-2-xs);
+
+  &:disabled {
+    cursor: default;
   }
 
-  strong {
-    display: inline-block;
-    line-height: 1;
-    font-size: var(--fontsize-body-xl);
-    margin-right: var(--spacing-s);
+  &.open {
+    float: right;
+    width: auto;
 
-    @media (min-width: 992px) {
-      min-width: 40px;
+    > span {
+      display: none;
+    }
+  }
+}
+
+.rowToggleButton {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: var(--spacing-2-xs) var(--spacing-xs) var(--spacing-2-xs) 0;
+  border: none;
+  background: transparent;
+  line-height: var(--lineheight-l);
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+    text-decoration: none !important;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &.open {
+    float: right;
+    width: auto;
+    padding-left: var(--spacing-xs);
+
+    > span {
+      display: none;
     }
   }
 
-  span {
-    display: inline-block;
+  &.noApplicants {
+    text-decoration: none !important;
+    cursor: unset;
+    color: var(--color-black-30);
   }
 }
 
-.apartmentCellMobile {
-  @extend .cellTextStyles;
-  border: none;
-  background: none;
-  padding: var(--spacing-s);
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  width: 100%;
-  cursor: pointer;
-
-  strong {
-    font-size: var(--fontsize-heading-m);
-    min-width: 60px;
-    line-height: 1;
-  }
+.textMuted {
+  color: var(--color-black-50);
 }
 
-.mobileCells {
+.toggleContent {
   display: none;
-  padding: 0 var(--spacing-s) var(--spacing-s) var(--spacing-s);
+  margin-right: var(--spacing-3-xl);
+  position: relative;
+  background: #fff;
 
   &.open {
     display: block;
   }
 }
 
-.cellMobileTitle {
-  flex-basis: 100%;
-  min-width: 150px;
-  max-width: 50%;
+.firstResultRow {
+  &.closed {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.firstResultRowApplicant {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-items: flex-start;
+
+  &.open {
+    display: none;
+  }
+}
+
+.singleReservation {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  &:first-child {
+    padding-top: var(--spacing-2-xs);
+  }
+
+  &:last-child {
+    padding-bottom: var(--spacing-2-xs);
+  }
+
+  &.disabledRow {
+    color: var(--color-black-40);
+  }
+
+  & + .singleReservation {
+    border-top: 1px solid var(--color-black-20);
+    padding-top: var(--spacing-xs);
+    margin-top: var(--spacing-xs);
+  }
+
+  &.resultReservation {
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.singleReservationColumn {
+  flex-basis: 50%;
+  overflow: hidden;
+
+  & + .singleReservationColumn {
+    padding-left: var(--spacing-m);
+  }
+
+  .firstInQueueActions {
+    padding-left: 0;
+    flex-basis: auto;
+  }
+}
+
+.queueNumberSpacer {
+  width: 2.75rem;
+  display: inline-block;
+}
+
+.customer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-basis: 50%;
+  overflow: hidden;
+
+  &.isLottery {
+    padding-top: var(--spacing-2-xs);
+    padding-bottom: var(--spacing-2-xs);
+  }
+
+  .bellIcon {
+    margin-left: var(--spacing-s);
+    color: var(--color-error);
+
+    &.rowOpen {
+      align-self: center;
+    }
+  }
+}
+
+.customerLink {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  > div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.rowActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: var(--spacing-m);
+  flex-basis: 50%;
+
+  &.rowOpen {
+    padding-left: 0;
+  }
+}
+
+.actionButtons {
+  button + button {
+    margin-left: var(--spacing-3-xs);
+  }
+
+  [class*="Button-module_label"] {
+    margin: 0 var(--spacing-2-xs) !important;
+    padding: var(--spacing-2-xs) var(--spacing-3-xs) !important;
+  }
+}
+
+.addNewReservationButton {
+  margin-left: 1.7rem;
+
+  button {
+    font-size: var(--fontsize-body-s);
+  }
+
+  [class*="button_hds-icon"] {
+    height: var(--spacing-s);
+  }
+}
+
+.cancellationReason {
+  font-size: var(--fontsize-body-s);
+}
+
+.offer {
+  font-size: var(--fontsize-body-s);
+  margin-top: var(--spacing-2-xs);
+  display: inline-block;
+  font-weight: 500;
 }

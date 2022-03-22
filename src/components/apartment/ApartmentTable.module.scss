@@ -6,79 +6,58 @@
   @media (max-width: 1248px) {
     padding: 0 var(--spacing-m);
   }
-
-  @media (max-width: 768px) {
-    padding: 0;
-  }
 }
 
 .apartmentListTable {
   width: 100%;
   margin: 0;
-  display: flex;
   flex-direction: column;
   padding: 0;
   list-style: none;
-
-  @media (min-width: 769px) {
-    display: table;
-  }
+  display: flex;
+  min-width: 960px;
 }
 
 .apartmentListHeaders {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
+  align-items: flex-start;
   text-align: left;
   width: 100%;
-
-  @media (min-width: 769px) {
-    display: table-row;
-  }
-
-  @media (max-width: 768px) {
-    display: none;
-  }
+  display: flex;
 }
 
 .headerCell {
   white-space: nowrap;
   padding-top: var(--spacing-s);
-  padding-right: var(--spacing-m);
-  flex: 1;
-
-  @media (min-width: 769px) {
-    display: table-cell;
-    vertical-align: top;
-  }
+  vertical-align: top;
 
   &.headerCellSortable {
     padding-top: 0;
-  }
-
-  &.headerCellNarrow {
-    @media (min-width: 769px) {
-      width: 10%;
-    }
   }
 
   &.headerCellWide {
     width: 100%;
   }
 
-  &.headerCellApartment {
-    @media (min-width: 992px) {
-      min-width: 200px;
+  &.headerCellHalf {
+    width: 50%;
+
+    & + .headerCellHalf {
+      padding-left: var(--spacing-m);
     }
   }
 
-  &.headerCellSpan {
-    span {
-      display: flex;
-      align-items: center;
-      min-height: 24px;
-    }
+  &.headerCellApartment {
+    width: 225px;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
+}
+
+.headerCellParent {
+  width: 100%;
+  display: flex;
+  padding-left: var(--spacing-xl);
+  padding-right: var(--spacing-3-xl);
 }
 
 .sortButton {

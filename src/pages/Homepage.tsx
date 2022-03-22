@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import cx from 'classnames';
 import {
   Button,
   IconGroup,
@@ -20,9 +21,10 @@ import ProjectCard from '../components/project/ProjectCard';
 import StatusText from '../components/common/statusText/StatusText';
 import useLocalStorage from '../utils/useLocalStorage';
 import { filterProjectsByEstateAgent } from '../utils/filterProjectsByEstateAgent';
-import { groupProjectsByState } from '../utils/groupProjectsByState';
 import { RootState } from '../redux/store';
 import { useGetProjectsQuery } from '../redux/services/api';
+import { Project } from '../types';
+import { StateOfSale } from '../enums';
 
 import styles from './Homepage.module.scss';
 
@@ -34,8 +36,12 @@ const Index = (): JSX.Element => {
   const { data: projects, isLoading, isError, isSuccess } = useGetProjectsQuery();
   const user = useSelector((state: RootState) => state.auth.user);
   const userFullName = user ? (user.name as string) : '';
+  const [searchTerm, setSearchTerm] = useState('');
 
   const renderToolbar = () => {
+    const hasDrupalLink = !!process.env[`REACT_APP_DRUPAL_BASE_URL`];
+    const drupalAdminLink = hasDrupalLink ? `${String(process.env[`REACT_APP_DRUPAL_BASE_URL`])}/admin/content` : '#';
+
     return (
       <Container className={styles.toolbar}>
         <div className={styles.toolbarLeft}>
@@ -57,15 +63,22 @@ const Index = (): JSX.Element => {
           </div>
           <div className={styles.toolbarSearch}>
             <SearchInput
-              label={t(`${T_PATH}.searchLabel`)}
+              label=""
+              placeholder={t(`${T_PATH}.searchLabel`)}
               searchButtonAriaLabel={t(`${T_PATH}.searchbtnAriaLabel`)}
               clearButtonAriaLabel={t(`${T_PATH}.searchClearBtnLabel`)}
               onSubmit={() => null}
+              onChange={(value) => setSearchTerm(value)}
             />
           </div>
         </div>
         <div className={styles.toolbarRight}>
-          <a href="#todo" className="hds-button hds-button--primary">
+          <a
+            href={drupalAdminLink}
+            className="hds-button hds-button--primary"
+            target={hasDrupalLink ? '_blank' : ''}
+            rel="noreferrer"
+          >
             <span aria-hidden="true" className="hds-icon">
               <IconPlus />
             </span>
@@ -91,50 +104,79 @@ const Index = (): JSX.Element => {
       visibleProjects = filterProjectsByEstateAgent(projects, userFullName);
     }
 
+    const noProjects = (removeStyling?: boolean) => (
+      <div className={cx(!removeStyling && styles.noProjectsText)}>
+        <StatusText>{t(`${T_PATH}.noProjects`)}</StatusText>
+      </div>
+    );
+
+    const renderProjectList = (visibleProjects: Project[]) => {
+      if (!!visibleProjects.length) {
+        return visibleProjects.map((project) => (
+          <div key={project.uuid} className={styles.singleProject}>
+            <ProjectCard project={project} renderAsLink />
+          </div>
+        ));
+      }
+
+      return noProjects();
+    };
+
     if (!visibleProjects.length) {
       return (
         <Container>
-          <StatusText>{t(`${T_PATH}.noAssignedProjects`)}</StatusText>
+          {showMyProjects ? <StatusText>{t(`${T_PATH}.noAssignedProjects`)}</StatusText> : noProjects(true)}
         </Container>
       );
     }
 
-    const { UPCOMING: upcoming, FOR_SALE: forSale } = groupProjectsByState(visibleProjects);
+    if (searchTerm.length > 0) {
+      const searchResults = visibleProjects.filter((project) =>
+        project.housing_company.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      return (
+        <>
+          <Container>
+            <h2 className={styles.searchText}>
+              <span>{t(`${T_PATH}.searchResultsFor`)}:</span> <em>{`"${searchTerm}"`}</em>{' '}
+              <span>&ndash;&nbsp; {t(`${T_PATH}.resultCount`, { count: searchResults.length })}</span>
+            </h2>
+          </Container>
+          <Container wide>{renderProjectList(searchResults)}</Container>
+        </>
+      );
+    }
 
-    const upcomingCount = upcoming ? upcoming.length : 0;
-    const forSaleCount = forSale ? forSale.length : 0;
+    const archivedProjects = visibleProjects.filter((p) => p.archived);
+    const upomingProjects = visibleProjects.filter(
+      (p) => !p.archived && p.published && p.state_of_sale === StateOfSale.Upcoming
+    );
+    const publishedProjects = visibleProjects.filter(
+      (p) => !p.archived && p.published && p.state_of_sale !== StateOfSale.Upcoming
+    );
+    const unpublishedProjects = visibleProjects.filter((p) => !p.archived && !p.published);
 
     return (
       <Container wide>
         <Tabs>
           <TabList className={styles.tabLinks} style={{ marginBottom: 'var(--spacing-m)' }}>
             <Tab>
-              {t(`${T_PATH}.tabPublished`)} ({forSaleCount})
+              {t(`${T_PATH}.tabPublished`)} ({publishedProjects.length})
             </Tab>
             <Tab>
-              {t(`${T_PATH}.tabUpcoming`)} ({upcomingCount})
+              {t(`${T_PATH}.tabUpcoming`)} ({upomingProjects.length})
             </Tab>
-            <Tab>{t(`${T_PATH}.tabUnpublished`)} (0)</Tab>
-            <Tab>{t(`${T_PATH}.tabArchived`)} (0)</Tab>
+            <Tab>
+              {t(`${T_PATH}.tabUnpublished`)} ({unpublishedProjects.length})
+            </Tab>
+            <Tab>
+              {t(`${T_PATH}.tabArchived`)} ({archivedProjects.length})
+            </Tab>
           </TabList>
-          <TabPanel>
-            {forSale &&
-              forSale.map((project) => (
-                <div key={project.uuid} className={styles.singleProject}>
-                  <ProjectCard project={project} renderAsLink />
-                </div>
-              ))}
-          </TabPanel>
-          <TabPanel>
-            {upcoming &&
-              upcoming.map((project) => (
-                <div key={project.uuid} className={styles.singleProject}>
-                  <ProjectCard project={project} renderAsLink />
-                </div>
-              ))}
-          </TabPanel>
-          <TabPanel>Unpublished: TODO</TabPanel>
-          <TabPanel>Archived: TODO</TabPanel>
+          <TabPanel>{renderProjectList(publishedProjects)}</TabPanel>
+          <TabPanel>{renderProjectList(upomingProjects)}</TabPanel>
+          <TabPanel>{renderProjectList(unpublishedProjects)}</TabPanel>
+          <TabPanel>{renderProjectList(archivedProjects)}</TabPanel>
         </Tabs>
       </Container>
     );

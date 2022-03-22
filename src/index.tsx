@@ -6,6 +6,7 @@ import App from './App';
 import HandleCallback from './components/auth/HandleCallback';
 import reportWebVitals from './reportWebVitals';
 import StoreProvider from './redux/StoreProvider';
+import ScrollToTop from './utils/scrollToTop';
 import { ClientProvider } from './components/auth/ClientProvider';
 import { ApiAccessTokenProvider } from './components/api/ApiAccessTokenProvider';
 
@@ -20,6 +21,7 @@ ReactDOM.render(
         <HandleCallback>
           <ClientProvider>
             <ApiAccessTokenProvider>
+              <ScrollToTop />
               <App />
             </ApiAccessTokenProvider>
           </ClientProvider>

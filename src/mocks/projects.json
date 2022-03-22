@@ -6,6 +6,7 @@
     "application_end_time": 1604153583,
     "application_start_time": null,
     "attachment_urls": null,
+    "archived": false,
     "building_type": "Apartment house",
     "city": "Helsinki",
     "construction_materials": null,
@@ -30,6 +31,7 @@
     "image_urls": [
       "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2021-08/room_6.jpeg"
     ],
+    "lottery_completed": true,
     "main_image_url": "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2021-08/room_6.jpeg",
     "manager": null,
     "material_choice_dl": null,
@@ -42,6 +44,7 @@
     "premarketing_start_time": null,
     "publication_end_time": null,
     "publication_start_time": null,
+    "published": true,
     "realty_id": "1341324-53",
     "roof_material": null,
     "sanitation": null,
@@ -62,6 +65,7 @@
     "apartment_count": 30,
     "application_end_time": 1604153583,
     "application_start_time": 1604164385,
+    "archived": false,
     "attachment_urls": null,
     "building_type": "Apartment house",
     "city": "Helsinki",
@@ -91,6 +95,7 @@
     "image_urls": [
       "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2020-10/helsinki-2963778_1280_3.jpg"
     ],
+    "lottery_completed": false,
     "main_image_url": "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2020-10/helsinki-2963778_1280_2.jpg",
     "manager": "Paavo Puolikuu",
     "material_choice_dl": 1604145600,
@@ -103,6 +108,7 @@
     "premarketing_start_time": "2020-10-31T14:13:07",
     "publication_end_time": "2020-10-31T15:13:14",
     "publication_start_time": "2020-10-30T18:13:15",
+    "published": true,
     "realty_id": "123445555",
     "roof_material": "Wood",
     "sanitation": "Taken care of",
@@ -122,6 +128,7 @@
     "apartment_count": 40,
     "application_end_time": 1609412137,
     "application_start_time": 1607090134,
+    "archived": false,
     "attachment_urls": [
       "https://www.google.fi"
     ],
@@ -154,6 +161,7 @@
     "image_urls": [
       "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2020-10/helsinki-2963778_1280.jpg"
     ],
+    "lottery_completed": false,
     "main_image_url": "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2020-09/helsinki-2963778_1280.jpg",
     "manager": "Maija Meik\u00e4l\u00e4inen",
     "material_choice_dl": 1609416000,
@@ -166,6 +174,7 @@
     "premarketing_start_time": "2020-12-31T10:55:30",
     "publication_end_time": "2020-10-30T10:55:28",
     "publication_start_time": "2020-09-30T09:55:24",
+    "published": false,
     "realty_id": "1231424-4224",
     "roof_material": "Sheet metal",
     "sanitation": "hoituu",

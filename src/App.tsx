@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate, Routes, Route } from 'react-router-dom';
 
+import AddEditCustomer from './pages/AddEditCustomer';
 import AuthError from './pages/AuthError';
 import Index from './pages/Homepage';
 import Login from './pages/Login';
@@ -10,15 +11,21 @@ import NotFound from './pages/NotFound';
 import LoadingScreen from './components/common/loadingScreen/LoadingScreen';
 import WithAuth from './components/auth/WithAuth';
 import ProjectDetail from './pages/ProjectDetail';
+import CustomerSearch from './pages/CustomerSearch';
+import CustomerDetail from './pages/CustomerDetail';
 
 import { ROUTES } from './enums';
 
 const Authenticated = (): JSX.Element => (
   <Routes>
-    <Route path="/" element={<MainLayout />}>
+    <Route path="/" element={<MainLayout authenticated />}>
       <Route index element={<Navigate to={ROUTES.PROJECTS} />} />
       <Route path={ROUTES.PROJECTS} element={<Index />} />
       <Route path={`${ROUTES.PROJECTS}/:projectId`} element={<ProjectDetail />} />
+      <Route path={ROUTES.CUSTOMERS} element={<CustomerSearch />} />
+      <Route path={`${ROUTES.CUSTOMERS}/:customerId`} element={<CustomerDetail />} />
+      <Route path={`${ROUTES.ADD_CUSTOMER}`} element={<AddEditCustomer isEditMode={false} />} />
+      <Route path={`${ROUTES.EDIT_CUSTOMER}/:customerId`} element={<AddEditCustomer isEditMode />} />
       <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />

@@ -1,0 +1,91 @@
+.section {
+  margin-bottom: var(--spacing-l);
+
+  &.fieldWrapper {
+    padding: var(--spacing-xl) var(--spacing-2-xl);
+    background-color: var(--color-black-5);
+
+    > h2 {
+      margin-top: 0;
+    }
+  }
+
+  [class*=TextInput-module_root] {
+    margin-bottom: var(--spacing-s);
+  }
+}
+
+.row {
+  margin-left: calc(#{var(--spacing-s)} * -1);
+  margin-right: calc(#{var(--spacing-s)} * -1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.column {
+  padding-left: var(--spacing-s);
+  padding-right: var(--spacing-s);
+  flex: 1 1;
+}
+
+.buttons {
+  .cancel {
+    margin-left: var(--spacing-s);
+    text-decoration: none;
+
+    [class*=hds-button__label] {
+      padding: var(--spacing-s) !important;
+    }
+  }
+}
+
+.columnLabel {
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+}
+
+.extraInfoRow {
+  margin-top: var(--spacing-3-xl);
+  margin-left: calc(#{var(--spacing-s)} * -1);
+  margin-right: calc(#{var(--spacing-s)} * -1);
+  display: flex;
+  justify-content: space-between;
+
+  .column {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+  }
+}
+
+.checkBoxRow {
+  display: flex;
+  align-items: flex-start;
+
+  * {
+    margin-top: 0 !important;
+  }
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  display: block;
+  margin-bottom: var(--spacing-xl);
+  background-color: var(--color-black-20);
+}
+
+.secondaryProfile {
+  margin-top: var(--spacing-2-xl);
+}
+
+.checkboxes {
+  margin-bottom: var(--spacing-m);
+}
+
+.secondaryProfileFields {
+  margin-top: var(--spacing-l);
+}
