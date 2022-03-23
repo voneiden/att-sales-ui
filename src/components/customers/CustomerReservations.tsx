@@ -135,7 +135,7 @@ export const ReservationsByProject = ({ customer, reservations }: ReservationsBy
   return (
     <div className={cx(styles.singleProject, projectOpen && styles.open)}>
       <div className={styles.projectRow}>
-        <ProjectName project={getReservationProjectData(sortedReservations[0])} />
+        <ProjectName project={getReservationProjectData(sortedReservations[0])} asLink />
         <Button
           variant="secondary"
           theme="black"
