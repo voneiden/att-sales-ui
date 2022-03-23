@@ -121,7 +121,13 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
     if (!!installments?.length) {
       return (
         <div {...accordionContentProps}>
-          <InstallmentsTable installments={installments} targetPrice={targetPrice} />
+          <InstallmentsTable
+            installments={installments}
+            reservationId={reservationId}
+            targetPrice={targetPrice}
+            apartment={apartment}
+            project={project}
+          />
         </div>
       );
     }
@@ -143,7 +149,7 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
           <button
             className={cx(
               styles.toggleButton,
-              'hds-button hds-button--supplementary hds-button--theme-black hds-button--small'
+              'hds-button hds-button--secondary hds-button--theme-black hds-button--small'
             )}
             {...accordionButtonProps}
           >
