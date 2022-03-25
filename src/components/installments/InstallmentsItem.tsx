@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import formattedLivingArea from '../../utils/formatLivingArea';
 import formattedSalesPrice from '../../utils/formatSalesPrice';
+import i18n from '../../i18n/i18n';
 import InstallmentsForm from './InstallmentsForm';
 import InstallmentsTable from './InstallmentsTable';
 import ProjectName from '../project/ProjectName';
@@ -20,6 +21,47 @@ interface IProps {
   project: Project;
   reservationId: ApartmentReservation['id'];
 }
+
+export const renderApartmentDetails = (apartment: Apartment) => (
+  <div className={styles.apartmentStructure}>
+    <span className={styles.emphasized}>{apartment.apartment_number}</span>
+    <span>
+      {apartment.apartment_structure} ({formattedLivingArea(apartment.living_area)})
+    </span>
+  </div>
+);
+
+export const renderApartmentPrice = (project: Project, apartment: Apartment) => {
+  if (project.ownership_type.toLowerCase() === 'haso') {
+    return (
+      <div className={styles.price}>
+        <span>
+          {i18n.t(`${T_PATH}.rightOfOccupancyPayment`)}
+          <span className={styles.emphasized}>
+            {apartment.right_of_occupancy_payment ? formattedSalesPrice(apartment.right_of_occupancy_payment) : '-'}
+          </span>
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.price}>
+      <span>
+        {i18n.t(`${T_PATH}.salesPrice`)}
+        <span className={styles.emphasized}>
+          {apartment.sales_price ? formattedSalesPrice(apartment.sales_price) : '-'}
+        </span>
+      </span>
+      <span>
+        {i18n.t(`${T_PATH}.debtFreeSalesPrice`)}
+        <span className={styles.emphasized}>
+          {apartment.debt_free_sales_price ? formattedSalesPrice(apartment.debt_free_sales_price) : '-'}
+        </span>
+      </span>
+    </div>
+  );
+};
 
 const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.Element | null => {
   const { t } = useTranslation();
@@ -76,52 +118,17 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
   const targetPrice =
     project.ownership_type.toLowerCase() === 'haso' ? apartment.right_of_occupancy_payment : apartment.sales_price;
 
-  const renderApartmentDetails = () => (
-    <div className={styles.apartmentStructure}>
-      <span className={styles.emphasized}>{apartment.apartment_number}</span>
-      <span>
-        {apartment.apartment_structure} ({formattedLivingArea(apartment.living_area)})
-      </span>
-    </div>
-  );
-
-  const renderApartmentPrice = () => {
-    if (project.ownership_type.toLowerCase() === 'haso') {
-      return (
-        <div className={styles.price}>
-          <span>
-            {t(`${T_PATH}.rightOfOccupancyPayment`)}
-            <span className={styles.emphasized}>
-              {apartment.right_of_occupancy_payment ? formattedSalesPrice(apartment.right_of_occupancy_payment) : '-'}
-            </span>
-          </span>
-        </div>
-      );
-    }
-
-    return (
-      <div className={styles.price}>
-        <span>
-          {t(`${T_PATH}.salesPrice`)}
-          <span className={styles.emphasized}>
-            {apartment.sales_price ? formattedSalesPrice(apartment.sales_price) : '-'}
-          </span>
-        </span>
-        <span>
-          {t(`${T_PATH}.debtFreeSalesPrice`)}
-          <span className={styles.emphasized}>
-            {apartment.debt_free_sales_price ? formattedSalesPrice(apartment.debt_free_sales_price) : '-'}
-          </span>
-        </span>
-      </div>
-    );
-  };
-
   const renderInstallmentsTable = () => {
     if (!!installments?.length) {
       return (
         <div {...accordionContentProps}>
-          <InstallmentsTable installments={installments} targetPrice={targetPrice} />
+          <InstallmentsTable
+            installments={installments}
+            reservationId={reservationId}
+            targetPrice={targetPrice}
+            apartment={apartment}
+            project={project}
+          />
         </div>
       );
     }
@@ -143,7 +150,7 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
           <button
             className={cx(
               styles.toggleButton,
-              'hds-button hds-button--supplementary hds-button--theme-black hds-button--small'
+              'hds-button hds-button--secondary hds-button--theme-black hds-button--small'
             )}
             {...accordionButtonProps}
           >
@@ -181,8 +188,8 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
           <ProjectName project={project} />
         </div>
         <div className={styles.formDialogApartmentRow}>
-          {renderApartmentDetails()}
-          {renderApartmentPrice()}
+          {renderApartmentDetails(apartment)}
+          {renderApartmentPrice(project, apartment)}
         </div>
         <div className={styles.formWrapper}>
           <InstallmentsForm
@@ -206,8 +213,8 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
     <>
       <div className={styles.apartmentRow}>
         <div className={styles.apartmentRowLeft}>
-          {renderApartmentDetails()}
-          <div>{renderApartmentPrice()}</div>
+          {renderApartmentDetails(apartment)}
+          <div>{renderApartmentPrice(project, apartment)}</div>
         </div>
         <div className={styles.apartmentRowRight}>{renderApartmentRowActions()}</div>
       </div>

@@ -41,7 +41,7 @@ const Installments = ({ customer }: IProps): JSX.Element => {
     <>
       {sortedReservationsByProject.map((projectReservations, index) => (
         <div className={styles.singleProject} key={index}>
-          <ProjectName project={getReservationProjectData(projectReservations[0])} />
+          <ProjectName project={getReservationProjectData(projectReservations[0])} asLink />
           {projectReservations.map((reservation) => (
             <div key={reservation.id} className={styles.singleApartment}>
               <InstallmentsItem

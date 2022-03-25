@@ -5,24 +5,28 @@ import { useTranslation } from 'react-i18next';
 
 import formattedCurrency from '../../utils/formatCurrency';
 import InstallmentsTableRow from './InstallmentsTableRow';
-import { ApartmentInstallment } from '../../types';
+import { Apartment, ApartmentInstallment, ApartmentReservation, Project } from '../../types';
 import { InstallmentTypes } from '../../enums';
 
 import styles from './InstallmentsTable.module.scss';
+import InstallmentsInvoice from './InstallmentsInvoice';
 
 const T_PATH = 'components.installments.InstallmentsTable';
 
 interface IProps {
+  apartment: Apartment;
   installments: ApartmentInstallment[];
+  project: Project;
+  reservationId: ApartmentReservation['id'];
   targetPrice?: number;
 }
 
-const InstallmentsTable = ({ installments, targetPrice }: IProps) => {
+const InstallmentsTable = ({ apartment, installments, project, reservationId, targetPrice }: IProps) => {
   const { t } = useTranslation();
-  const [isPrintDialogOpen, setIsPrintDialogOpen] = useState(false);
+  const [isPrintInvoiceDialogOpen, setIsPrintInvoiceDialogOpen] = useState(false);
   const [totalSum, setTotalSum] = useState(0);
   const openPrintDialogButtonRef = useRef(null);
-  const closePrintDialog = () => setIsPrintDialogOpen(false);
+  const closePrintDialog = () => setIsPrintInvoiceDialogOpen(false);
 
   // Calculate total sum of all amount fields
   useEffect(() => {
@@ -31,6 +35,10 @@ const InstallmentsTable = ({ installments, targetPrice }: IProps) => {
     }, 0);
     setTotalSum(sum);
   }, [installments]);
+
+  const handleCloseCallback = () => {
+    closePrintDialog();
+  };
 
   // Sort rows in the order of the InstallmentTypes ENUM list
   const sortedInstallments = () => {
@@ -101,24 +109,22 @@ const InstallmentsTable = ({ installments, targetPrice }: IProps) => {
     <Dialog
       id="print-dialog"
       aria-labelledby="print-dialog-header"
-      isOpen={isPrintDialogOpen}
+      isOpen={isPrintInvoiceDialogOpen}
       close={closePrintDialog}
       closeButtonLabelText={t(`${T_PATH}.closeDialog`)}
       focusAfterCloseRef={openPrintDialogButtonRef}
       className={styles.printDialog}
     >
       <Dialog.Header id="print-dialog-header" title={t(`${T_PATH}.printBankTransfers`)} />
-      <Dialog.Content>TODO</Dialog.Content>
-      <Dialog.ActionButtons>
-        <Button
-          onClick={() => {
-            // TODO: Add operations here
-            closePrintDialog();
-          }}
-        >
-          {t(`${T_PATH}.print`)}
-        </Button>
-      </Dialog.ActionButtons>
+      <Dialog.Content>
+        <InstallmentsInvoice
+          apartment={apartment}
+          handleCloseCallback={handleCloseCallback}
+          installments={installments}
+          project={project}
+          reservationId={reservationId}
+        />
+      </Dialog.Content>
     </Dialog>
   );
 
@@ -134,7 +140,7 @@ const InstallmentsTable = ({ installments, targetPrice }: IProps) => {
         size="small"
         iconLeft={<IconPrinter />}
         ref={openPrintDialogButtonRef}
-        onClick={() => setIsPrintDialogOpen(true)}
+        onClick={() => setIsPrintInvoiceDialogOpen(true)}
       >
         {t(`${T_PATH}.printBankTransfers`)}
       </Button>
