@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import ErrorPrompt from '../../auth/ErrorPrompt';
 import NavBar from '../navbar/NavBar';
 import OfferModal from '../../offer/OfferModal';
+import ReservationCancelModal from '../../reservations/ReservationCancelModal';
+import ReservationEditModal from '../../reservations/ReservationEditModal';
 
 import styles from './MainLayout.module.scss';
 
@@ -18,7 +20,13 @@ const MainLayout = ({ authenticated }: IProps): JSX.Element => (
       <Outlet />
     </main>
     <ErrorPrompt />
-    {authenticated && <OfferModal />}
+    {authenticated && (
+      <>
+        <OfferModal />
+        <ReservationCancelModal />
+        <ReservationEditModal />
+      </>
+    )}
   </>
 );
 
