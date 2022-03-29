@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
 import formatDateTime from '../../utils/formatDateTime';
+import sortReservationApplicants from '../../utils/sortReservationApplicants';
 import { Apartment, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
 
@@ -45,18 +46,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
 
   const renderApplicants = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
     if (reservation.applicants) {
-      const sortedApplicants = [...reservation.applicants];
-
-      if (sortedApplicants.length > 1) {
-        // Sort primary applicants to be shown first
-        sortedApplicants.sort((a, b) => {
-          return a.is_primary_applicant < b.is_primary_applicant
-            ? 1
-            : a.is_primary_applicant > b.is_primary_applicant
-            ? -1
-            : 0;
-        });
-      }
+      const sortedApplicants = sortReservationApplicants(reservation.applicants);
 
       const renderOfferInfo = () => {
         return <span className={styles.offer}>TODO: Offers</span>;
