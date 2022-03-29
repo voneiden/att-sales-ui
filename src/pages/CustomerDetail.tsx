@@ -13,6 +13,7 @@ import StatusText from '../components/common/statusText/StatusText';
 import { ROUTES } from '../enums';
 import { useGetCustomerByIdQuery } from '../redux/services/api';
 import { Customer } from '../types';
+import { usePageTitle } from '../utils/usePageTitle';
 
 import styles from './CustomerDetail.module.scss';
 
@@ -22,6 +23,8 @@ const CustomerDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { customerId } = useParams();
   const { data: customer, isLoading, isError, isSuccess } = useGetCustomerByIdQuery(customerId || '0');
+
+  usePageTitle(customer?.id ? `${t('PAGES.customers')} - ${customer.id}` : t('PAGES.customers'));
 
   const breadcrumbAncestors: BreadcrumbItem[] = [
     {

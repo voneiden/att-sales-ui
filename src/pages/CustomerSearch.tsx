@@ -8,6 +8,7 @@ import CustomerSearchForm from '../components/customers/CustomerSearchForm';
 import CustomerTable from '../components/customers/CustomerTable';
 import { useGetCustomersQuery } from '../redux/services/api';
 import { CustomerSearchFormFields } from '../types';
+import { usePageTitle } from '../utils/usePageTitle';
 import { ROUTES } from '../enums';
 
 import styles from './CustomerSearch.module.scss';
@@ -25,6 +26,8 @@ const CustomerSearch = (): JSX.Element => {
     isFetching,
     refetch,
   } = useGetCustomersQuery(new URLSearchParams(searchParams).toString(), { skip: !hasSearchQuery });
+
+  usePageTitle(t('PAGES.customers'));
 
   const handleFormCallback = (formValues: CustomerSearchFormFields) => {
     // Filter out all of the unfilled input fields from the formValues object

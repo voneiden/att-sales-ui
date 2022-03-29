@@ -317,5 +317,16 @@
     "PROCESSING": "Processing",
     "READY": "Ready",
     "UPCOMING": "Upcoming"
+  },
+  "PAGES": {
+    "404": "Not found",
+    "authError": "Authentication error",
+    "customerAdd": "Add new customer",
+    "customerEdit": "Edit customer",
+    "customers": "Customers",
+    "homepage": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "projects": "Projects"
   }
 }

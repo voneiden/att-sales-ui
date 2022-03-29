@@ -318,5 +318,16 @@
     "PROCESSING": "Käsittelyssä",
     "READY": "Valmis",
     "UPCOMING": "Tuleva"
+  },
+  "PAGES": {
+    "404": "Sivua ei löytynyt",
+    "authError": "Virhe kirjautumisessa",
+    "customerAdd": "Luo uusi asiakas",
+    "customerEdit": "Muokkaa asiakasta",
+    "customers": "Asiakkaat",
+    "homepage": "Etusivu",
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
+    "projects": "Kohteet"
   }
 }

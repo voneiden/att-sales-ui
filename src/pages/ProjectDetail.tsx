@@ -13,6 +13,7 @@ import ProjectInstallments from '../components/installments/ProjectInstallments'
 import StatusText from '../components/common/statusText/StatusText';
 import { toast } from '../components/common/toast/ToastManager';
 import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../redux/services/api';
+import { usePageTitle } from '../utils/usePageTitle';
 import { ROUTES } from '../enums';
 
 import styles from './ProjectDetail.module.scss';
@@ -31,6 +32,8 @@ const ProjectDetail = (): JSX.Element | null => {
     isSuccess,
   } = useGetProjectByIdQuery(projectId || '0');
   const [startLotteryForProject, { isLoading: startLotterIsLoading }] = useStartLotteryForProjectMutation();
+
+  usePageTitle(project?.housing_company ? project.housing_company : t('PAGES.projects'));
 
   const onStartLotteryClick = async () => {
     if (!startLotterIsLoading) {
