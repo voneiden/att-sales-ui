@@ -262,6 +262,7 @@ export type SelectOption = {
   label: string;
   name: string;
   selectValue: string;
+  disabled?: boolean;
 };
 
 export type CustomerSearchFormFields = {
@@ -283,4 +284,15 @@ export type AddEditCustomerFormFields = {
   primary_profile: Omit<CustomerProfile, 'id'>;
   right_of_residence: number | null;
   secondary_profile: Omit<CustomerProfile, 'id'> | null;
+};
+
+export type ReservationEditFormData = {
+  state: string;
+  comment: string;
+};
+
+export type ReservationCancelFormData = {
+  reason: string;
+  comment: string;
+  transfer_to_customer?: string;
 };
