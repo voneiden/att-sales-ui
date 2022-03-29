@@ -260,7 +260,7 @@
   }
 
   [class*="button_hds-icon"] {
-    height: var(--spacing-s);
+    height: var(--spacing-s) !important;
   }
 }
 

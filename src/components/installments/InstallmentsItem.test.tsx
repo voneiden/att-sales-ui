@@ -40,10 +40,10 @@ describe('InstallmentsItem', () => {
 
     await screen.findAllByText('B16', { exact: false });
     await screen.findAllByText('1h+k+s', { exact: false });
-    await screen.findAllByText('components.installments.InstallmentsItem.salesPrice');
+    await screen.findAllByText('Myyntihinta');
     await screen.findAllByText('ENUMS.PAYMENT_1');
     await screen.findAllByText('reference-1');
-    await screen.findAllByText('components.installments.InstallmentsItem.debtFreeSalesPrice', { exact: false });
+    await screen.findAllByText('Velaton hinta', { exact: false });
   });
 
   it('handles good HASO response', async () => {
@@ -55,7 +55,7 @@ describe('InstallmentsItem', () => {
     await screen.findAllByText('1h+k+s', { exact: false });
     await screen.findAllByText('ENUMS.PAYMENT_2');
     await screen.findAllByText('reference-2');
-    await screen.findAllByText('components.installments.InstallmentsItem.rightOfOccupancyPayment');
+    await screen.findAllByText('AO-maksu');
   });
 
   it('renders edit installments button when there is installments', async () => {
