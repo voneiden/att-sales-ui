@@ -42,9 +42,22 @@ export enum InstallmentPercentageSpecifiers {
 }
 
 export enum ApartmentReservationStates {
-  SUBMITTED = 'submitted',
-  RESERVED = 'reserved',
-  OFFERED = 'offered',
+  ACCEPTED_BY_MUNICIPALITY = 'accepted_by_municipality',
   CANCELED = 'canceled',
+  OFFERED = 'offered',
+  OFFER_ACCPTED = 'offer_accepted',
+  OFFER_EXPIRED = 'offer_expired',
+  RESERVATION_AGREEMENT = 'reservation_agreement',
+  RESERVED = 'reserved',
   REVIEW = 'review',
+  SOLD = 'sold',
+  SUBMITTED = 'submitted',
+}
+
+// TODO: Re-define these after API is ready
+export enum ReservationCancelReasons {
+  RESERVATION_AGREEMENT_CANCELED = 'reservation_agreement_canceled',
+  RESERVATION_CANCELED = 'reservation_canceled',
+  TERMINATED = 'terminated',
+  TRANSFERRED = 'transferred',
 }
