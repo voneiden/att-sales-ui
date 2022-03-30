@@ -3,7 +3,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 
 import AddEditCustomer from './pages/AddEditCustomer';
 import AuthError from './pages/AuthError';
-import Index from './pages/Homepage';
+import ProjectList from './pages/ProjectList';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import MainLayout from './components/common/mainLayout/MainLayout';
@@ -20,7 +20,7 @@ const Authenticated = (): JSX.Element => (
   <Routes>
     <Route path="/" element={<MainLayout authenticated />}>
       <Route index element={<Navigate to={ROUTES.PROJECTS} />} />
-      <Route path={ROUTES.PROJECTS} element={<Index />} />
+      <Route path={ROUTES.PROJECTS} element={<ProjectList />} />
       <Route path={`${ROUTES.PROJECTS}/:projectId`} element={<ProjectDetail />} />
       <Route path={ROUTES.CUSTOMERS} element={<CustomerSearch />} />
       <Route path={`${ROUTES.CUSTOMERS}/:customerId`} element={<CustomerDetail />} />

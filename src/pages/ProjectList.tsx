@@ -27,11 +27,11 @@ import { Project } from '../types';
 import { StateOfSale } from '../enums';
 import { usePageTitle } from '../utils/usePageTitle';
 
-import styles from './Homepage.module.scss';
+import styles from './ProjectList.module.scss';
 
-const T_PATH = 'pages.Homepage';
+const T_PATH = 'pages.ProjectList';
 
-const Index = (): JSX.Element => {
+const ProjectList = (): JSX.Element => {
   const { t } = useTranslation();
   const [showMyProjects, setShowMyProjects] = useLocalStorage({ defaultValue: true, key: `showMyProjects` });
   const { data: projects, isLoading, isError, isSuccess } = useGetProjectsQuery();
@@ -211,4 +211,4 @@ const Index = (): JSX.Element => {
   );
 };
 
-export default Index;
+export default ProjectList;

@@ -1,18 +1,18 @@
 import { rest } from 'msw';
 import { screen } from '@testing-library/react';
 
-import Index from './Homepage';
+import ProjectList from './ProjectList';
 import { server } from '../test/server';
 import { renderWithProviders } from '../test/test-utils';
 
-describe('Homepage', () => {
+describe('ProjectList', () => {
   it('handles good response', async () => {
     // show all projects
     window.localStorage.setItem('showMyProjects', 'false');
 
-    renderWithProviders(<Index />);
+    renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.Homepage.loading...');
+    screen.getByText('pages.ProjectList.loading...');
 
     await screen.findByText('Taloyhtiö 30+');
     await screen.findByText('Kotikatu 32 As Oy');
@@ -26,11 +26,11 @@ describe('Homepage', () => {
       })
     );
 
-    renderWithProviders(<Index />);
+    renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.Homepage.loading...');
+    screen.getByText('pages.ProjectList.loading...');
 
-    await screen.findByText('pages.Homepage.errorLoadingProjects');
+    await screen.findByText('pages.ProjectList.errorLoadingProjects');
   });
 
   it('handles empty response', async () => {
@@ -41,11 +41,11 @@ describe('Homepage', () => {
       })
     );
 
-    renderWithProviders(<Index />);
+    renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.Homepage.loading...');
+    screen.getByText('pages.ProjectList.loading...');
 
-    await screen.findByText('pages.Homepage.noAssignedProjects');
+    await screen.findByText('pages.ProjectList.noAssignedProjects');
   });
 
   it('handles undefined response', async () => {
@@ -56,10 +56,10 @@ describe('Homepage', () => {
       })
     );
 
-    renderWithProviders(<Index />);
+    renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.Homepage.loading...');
+    screen.getByText('pages.ProjectList.loading...');
 
-    await screen.findByText('pages.Homepage.noProjects');
+    await screen.findByText('pages.ProjectList.noProjects');
   });
 });
