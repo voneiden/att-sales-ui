@@ -2,9 +2,10 @@ import React from 'react';
 import { Card } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
+import Container from '../components/common/container/Container';
 import { getClientConfig } from '../auth/index';
 import { useClient } from '../auth/hooks';
-import Container from '../components/common/container/Container';
+import { usePageTitle } from '../utils/usePageTitle';
 
 const T_PATH = 'pages.Logout';
 
@@ -12,6 +13,8 @@ const Logout = (): React.ReactElement => {
   const { t } = useTranslation();
   const currentConfig = getClientConfig();
   const { isAuthenticated } = useClient();
+
+  usePageTitle(t('PAGES.logout'));
 
   const isLoggedIn = (): boolean => {
     if (!currentConfig) {

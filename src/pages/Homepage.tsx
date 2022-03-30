@@ -25,6 +25,7 @@ import { RootState } from '../redux/store';
 import { useGetProjectsQuery } from '../redux/services/api';
 import { Project } from '../types';
 import { StateOfSale } from '../enums';
+import { usePageTitle } from '../utils/usePageTitle';
 
 import styles from './Homepage.module.scss';
 
@@ -37,6 +38,8 @@ const Index = (): JSX.Element => {
   const user = useSelector((state: RootState) => state.auth.user);
   const userFullName = user ? (user.name as string) : '';
   const [searchTerm, setSearchTerm] = useState('');
+
+  usePageTitle(t('PAGES.homepage'));
 
   const renderToolbar = () => {
     const hasDrupalLink = !!process.env[`REACT_APP_DRUPAL_BASE_URL`];

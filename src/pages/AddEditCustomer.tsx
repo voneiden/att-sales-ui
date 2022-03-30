@@ -16,6 +16,7 @@ import formatDateTime from '../utils/formatDateTime';
 import { AddEditCustomerFormFields, Customer, SelectOption } from '../types';
 import { ROUTES } from '../enums';
 import { toast } from '../components/common/toast/ToastManager';
+import { usePageTitle } from '../utils/usePageTitle';
 import {
   useCreateCustomerMutation,
   useGetCustomerByIdQuery,
@@ -46,6 +47,8 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
   const [updateCustomerById, { isLoading: isUpdateCustomerLoading }] = useUpdateCustomerByIdMutation();
   const [errorMessages, setErrorMessages] = useState([]);
   const navigate = useNavigate();
+
+  usePageTitle(isEditMode ? t('PAGES.customerEdit') : t('PAGES.customerAdd'));
 
   const requiredString = () => yup.string().required(t(`${T_PATH}.required`));
   const profileSchema = () =>

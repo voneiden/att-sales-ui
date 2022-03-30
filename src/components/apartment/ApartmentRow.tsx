@@ -3,12 +3,16 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { Button, IconAngleDown, IconAngleRight, IconBell, IconGroup, IconPlus } from 'hds-react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
 import formatDateTime from '../../utils/formatDateTime';
+import sortReservationApplicants from '../../utils/sortReservationApplicants';
 import { Apartment, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
+import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
+import { showReservationEditModal } from '../../redux/features/reservationEditModalSlice';
 
 import styles from './ApartmentRow.module.scss';
 
@@ -31,6 +35,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
     key: `resultRowOpen-${apartment_uuid}`,
   });
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const toggleApplicationRow = () => setApplicationRowOpen(!applicationRowOpen);
   const toggleResultRow = () => setResultRowOpen(!resultRowOpen);
@@ -45,18 +50,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
 
   const renderApplicants = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
     if (reservation.applicants) {
-      const sortedApplicants = [...reservation.applicants];
-
-      if (sortedApplicants.length > 1) {
-        // Sort primary applicants to be shown first
-        sortedApplicants.sort((a, b) => {
-          return a.is_primary_applicant < b.is_primary_applicant
-            ? 1
-            : a.is_primary_applicant > b.is_primary_applicant
-            ? -1
-            : 0;
-        });
-      }
+      const sortedApplicants = sortReservationApplicants(reservation.applicants);
 
       const renderOfferInfo = () => {
         return <span className={styles.offer}>TODO: Offers</span>;
@@ -129,7 +123,11 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
       </div>
     );
 
-    const renderActionButtons = (reservation: ApartmentReservationWithCustomer, showAllButtons: boolean) => (
+    const renderActionButtons = (
+      reservation: ApartmentReservationWithCustomer,
+      projectOwnershipType: Project['ownership_type'],
+      showAllButtons: boolean
+    ) => (
       <div className={styles.actionButtons}>
         {isCanceled(reservation) ? (
           <div className={styles.cancellationReason}>
@@ -138,12 +136,35 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
           </div>
         ) : (
           <>
-            <Button variant="supplementary" size="small" iconLeft={''}>
+            <Button
+              variant="supplementary"
+              size="small"
+              iconLeft={''}
+              onClick={() =>
+                dispatch(
+                  showReservationCancelModal({
+                    reservation: reservation,
+                    ownershipType: projectOwnershipType,
+                  })
+                )
+              }
+            >
               {t(`${T_PATH}.btnCancel`)}
             </Button>
             {showAllButtons && (
               <>
-                <Button variant="supplementary" size="small" iconLeft={''}>
+                <Button
+                  variant="supplementary"
+                  size="small"
+                  iconLeft={''}
+                  onClick={() =>
+                    dispatch(
+                      showReservationEditModal({
+                        reservation: reservation,
+                      })
+                    )
+                  }
+                >
                   {t(`${T_PATH}.btnEdit`)}
                 </Button>
                 <Button variant="secondary" size="small">
@@ -168,7 +189,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
           {renderApplicants(firstInQueue, true)}
           <div className={styles.rowActions}>
             <span>{renderHasoNumberOrFamilyIcon(firstInQueue)}</span>
-            {renderActionButtons(firstInQueue, true)}
+            {renderActionButtons(firstInQueue, ownershipType, true)}
           </div>
         </>
       );
@@ -206,7 +227,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
                   <div className={styles.singleReservationColumn}>
                     <div className={cx(styles.rowActions, resultRowOpen && styles.rowOpen)}>
                       <span>{renderHasoNumberOrFamilyIcon(reservation)}</span>
-                      {renderActionButtons(reservation, reservation.queue_position === 1)}
+                      {renderActionButtons(reservation, ownershipType, reservation.queue_position === 1)}
                     </div>
                   </div>
                 </div>
