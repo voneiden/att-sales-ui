@@ -16,7 +16,7 @@ import { toast } from '../common/toast/ToastManager';
 
 import styles from './CustomerReservationRow.module.scss';
 
-const T_PATH = 'components.customers.CustomerReservationRow';
+const T_PATH = 'components.reservations.CustomerReservationRow';
 
 interface IProps {
   customer: Customer;

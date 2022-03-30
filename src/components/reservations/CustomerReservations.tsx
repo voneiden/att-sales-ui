@@ -12,7 +12,7 @@ import { Customer, CustomerReservation } from '../../types';
 
 import styles from './CustomerReservations.module.scss';
 
-const T_PATH = 'components.customers.CustomerReservations';
+const T_PATH = 'components.reservations.CustomerReservations';
 
 interface CustomerReservationsProps {
   customer: Customer;

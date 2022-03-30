@@ -8,7 +8,7 @@ import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Br
 import Container from '../components/common/container/Container';
 import CustomerInfo from '../components/customers/CustomerInfo';
 import Installments from '../components/installments/Installments';
-import CustomerReservations from '../components/customers/CustomerReservations';
+import CustomerReservations from '../components/reservations/CustomerReservations';
 import StatusText from '../components/common/statusText/StatusText';
 import { ROUTES } from '../enums';
 import { useGetCustomerByIdQuery } from '../redux/services/api';
