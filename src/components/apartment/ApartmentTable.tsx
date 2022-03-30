@@ -4,7 +4,7 @@ import { IconSortAscending, IconSortDescending } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import ApartmentRow from './ApartmentRow';
-import SortApartments from './SortApartments';
+import useSortApartments from '../../utils/useSortApartments';
 import StatusText from '../common/statusText/StatusText';
 import { Apartment, Project } from '../../types';
 
@@ -28,7 +28,7 @@ const ApartmentTable = ({
   lotteryCompleted,
 }: IProps): JSX.Element => {
   const { t } = useTranslation();
-  const { sortedApartments, requestSort, sortConfig } = SortApartments(
+  const { sortedApartments, requestSort, sortConfig } = useSortApartments(
     apartments ? apartments : [],
     `project-${projectId}`
   );
