@@ -4,20 +4,20 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IconPenLine, Notification, Tabs, TabList, Tab, TabPanel } from 'hds-react';
 
-import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
-import Container from '../components/common/container/Container';
-import CustomerInfo from '../components/customers/CustomerInfo';
-import Installments from '../components/installments/Installments';
-import CustomerReservations from '../components/reservations/CustomerReservations';
-import StatusText from '../components/common/statusText/StatusText';
-import { ROUTES } from '../enums';
-import { useGetCustomerByIdQuery } from '../redux/services/api';
-import { Customer } from '../types';
-import { usePageTitle } from '../utils/usePageTitle';
+import Breadcrumbs, { BreadcrumbItem } from '../../components/common/breadcrumbs/Breadcrumbs';
+import Container from '../../components/common/container/Container';
+import CustomerInfo from '../../components/customers/CustomerInfo';
+import Installments from '../../components/installments/Installments';
+import CustomerReservations from '../../components/reservations/CustomerReservations';
+import StatusText from '../../components/common/statusText/StatusText';
+import { ROUTES } from '../../enums';
+import { useGetCustomerByIdQuery } from '../../redux/services/api';
+import { Customer } from '../../types';
+import { usePageTitle } from '../../utils/usePageTitle';
 
 import styles from './CustomerDetail.module.scss';
 
-const T_PATH = 'pages.CustomerDetail';
+const T_PATH = 'pages.customers.CustomerDetail';
 
 const CustomerDetail = (): JSX.Element | null => {
   const { t } = useTranslation();

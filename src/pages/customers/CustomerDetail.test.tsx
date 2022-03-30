@@ -2,14 +2,14 @@ import { rest } from 'msw';
 import { screen } from '@testing-library/react';
 
 import CustomerDetail from './CustomerDetail';
-import { renderWithProviders } from '../test/test-utils';
-import { server } from '../test/server';
+import { renderWithProviders } from '../../test/test-utils';
+import { server } from '../../test/server';
 
 describe('CustomerDetail Page', () => {
   it('handles good response', async () => {
     renderWithProviders(<CustomerDetail />);
 
-    screen.getByText('pages.CustomerDetail.loading...');
+    screen.getByText('pages.customers.CustomerDetail.loading...');
 
     await screen.findAllByText('Meikäläinen, Matti', { exact: false });
   });
@@ -24,9 +24,9 @@ describe('CustomerDetail Page', () => {
 
     renderWithProviders(<CustomerDetail />);
 
-    screen.getByText('pages.CustomerDetail.loading...');
+    screen.getByText('pages.customers.CustomerDetail.loading...');
 
-    expect(screen.queryByText('pages.CustomerDetail.customerDetails')).toBeNull();
+    expect(screen.queryByText('pages.customers.CustomerDetail.customerDetails')).toBeNull();
   });
 
   it('handles error response', async () => {
@@ -39,8 +39,8 @@ describe('CustomerDetail Page', () => {
 
     renderWithProviders(<CustomerDetail />);
 
-    screen.getByText('pages.CustomerDetail.loading...');
+    screen.getByText('pages.customers.CustomerDetail.loading...');
 
-    await screen.findByText('pages.CustomerDetail.errorLoadingCustomer');
+    await screen.findByText('pages.customers.CustomerDetail.errorLoadingCustomer');
   });
 });

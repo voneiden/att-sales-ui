@@ -2,8 +2,8 @@ import { rest } from 'msw';
 import { screen } from '@testing-library/react';
 
 import ProjectList from './ProjectList';
-import { server } from '../test/server';
-import { renderWithProviders } from '../test/test-utils';
+import { server } from '../../test/server';
+import { renderWithProviders } from '../../test/test-utils';
 
 describe('ProjectList', () => {
   it('handles good response', async () => {
@@ -12,7 +12,7 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.ProjectList.loading...');
+    screen.getByText('pages.project.ProjectList.loading...');
 
     await screen.findByText('Taloyhtiö 30+');
     await screen.findByText('Kotikatu 32 As Oy');
@@ -28,9 +28,9 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.ProjectList.loading...');
+    screen.getByText('pages.project.ProjectList.loading...');
 
-    await screen.findByText('pages.ProjectList.errorLoadingProjects');
+    await screen.findByText('pages.project.ProjectList.errorLoadingProjects');
   });
 
   it('handles empty response', async () => {
@@ -43,9 +43,9 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.ProjectList.loading...');
+    screen.getByText('pages.project.ProjectList.loading...');
 
-    await screen.findByText('pages.ProjectList.noAssignedProjects');
+    await screen.findByText('pages.project.ProjectList.noAssignedProjects');
   });
 
   it('handles undefined response', async () => {
@@ -58,8 +58,8 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.ProjectList.loading...');
+    screen.getByText('pages.project.ProjectList.loading...');
 
-    await screen.findByText('pages.ProjectList.noProjects');
+    await screen.findByText('pages.project.ProjectList.noProjects');
   });
 });

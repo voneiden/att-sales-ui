@@ -2,14 +2,14 @@ import { rest } from 'msw';
 import { screen } from '@testing-library/react';
 
 import ProjectDetail from './ProjectDetail';
-import { server } from '../test/server';
-import { renderWithProviders } from '../test/test-utils';
+import { server } from '../../test/server';
+import { renderWithProviders } from '../../test/test-utils';
 
 describe('ProjectDetail Page', () => {
   it('handles good response', async () => {
     renderWithProviders(<ProjectDetail />);
 
-    screen.getByText('pages.ProjectDetail.loading...');
+    screen.getByText('pages.project.ProjectDetail.loading...');
 
     await screen.findByText('Kolkyt 30');
   });
@@ -24,7 +24,7 @@ describe('ProjectDetail Page', () => {
 
     renderWithProviders(<ProjectDetail />);
 
-    expect(screen.queryByText('pages.ProjectDetail.projectApartments')).toBeNull();
+    expect(screen.queryByText('pages.project.ProjectDetail.projectApartments')).toBeNull();
   });
 
   it('handles error response', async () => {
@@ -37,8 +37,8 @@ describe('ProjectDetail Page', () => {
 
     renderWithProviders(<ProjectDetail />);
 
-    screen.getByText('pages.ProjectDetail.loading...');
+    screen.getByText('pages.project.ProjectDetail.loading...');
 
-    await screen.findByText('pages.ProjectDetail.errorLoadingProject');
+    await screen.findByText('pages.project.ProjectDetail.errorLoadingProject');
   });
 });

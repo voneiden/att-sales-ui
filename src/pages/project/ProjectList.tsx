@@ -16,20 +16,20 @@ import {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import Container from '../components/common/container/Container';
-import ProjectCard from '../components/project/ProjectCard';
-import StatusText from '../components/common/statusText/StatusText';
-import useLocalStorage from '../utils/useLocalStorage';
-import { filterProjectsByEstateAgent } from '../utils/filterProjectsByEstateAgent';
-import { RootState } from '../redux/store';
-import { useGetProjectsQuery } from '../redux/services/api';
-import { Project } from '../types';
-import { StateOfSale } from '../enums';
-import { usePageTitle } from '../utils/usePageTitle';
+import Container from '../../components/common/container/Container';
+import ProjectCard from '../../components/project/ProjectCard';
+import StatusText from '../../components/common/statusText/StatusText';
+import useLocalStorage from '../../utils/useLocalStorage';
+import { filterProjectsByEstateAgent } from '../../utils/filterProjectsByEstateAgent';
+import { RootState } from '../../redux/store';
+import { useGetProjectsQuery } from '../../redux/services/api';
+import { Project } from '../../types';
+import { StateOfSale } from '../../enums';
+import { usePageTitle } from '../../utils/usePageTitle';
 
 import styles from './ProjectList.module.scss';
 
-const T_PATH = 'pages.ProjectList';
+const T_PATH = 'pages.project.ProjectList';
 
 const ProjectList = (): JSX.Element => {
   const { t } = useTranslation();

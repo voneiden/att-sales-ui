@@ -2,15 +2,15 @@ import { rest } from 'msw';
 import { screen } from '@testing-library/react';
 
 import CustomerSearch from './CustomerSearch';
-import { server } from '../test/server';
-import { renderWithProviders } from '../test/test-utils';
+import { server } from '../../test/server';
+import { renderWithProviders } from '../../test/test-utils';
 
 describe('CustomerSearch Page', () => {
   it('handles good response', async () => {
     renderWithProviders(<CustomerSearch />);
 
-    await screen.findByText('pages.CustomerSearch.pageTitle');
-    await screen.findByText('pages.CustomerSearch.btnCreateCustomer');
+    await screen.findByText('pages.customers.CustomerSearch.pageTitle');
+    await screen.findByText('pages.customers.CustomerSearch.btnCreateCustomer');
     await screen.findByText('components.customers.CustomerTable.noSearchQuery');
   });
 
@@ -34,6 +34,6 @@ describe('CustomerSearch Page', () => {
 
     renderWithProviders(<CustomerSearch />);
 
-    await screen.findByText('pages.CustomerSearch.errorLoadingCustomers');
+    await screen.findByText('pages.customers.CustomerSearch.errorLoadingCustomers');
   });
 });
