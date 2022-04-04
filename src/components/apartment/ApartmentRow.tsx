@@ -22,9 +22,10 @@ interface IProps {
   apartment: Apartment;
   ownershipType: Project['ownership_type'];
   lotteryCompleted: Project['lottery_completed'];
+  projectId: Project['uuid'];
 }
 
-const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): JSX.Element => {
+const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, projectId }: IProps): JSX.Element => {
   const { reservations, apartment_uuid } = apartment;
   const [applicationRowOpen, setApplicationRowOpen] = useSessionStorage({
     defaultValue: false,
@@ -161,6 +162,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted }: IProps): J
                     dispatch(
                       showReservationEditModal({
                         reservation: reservation,
+                        projectId: projectId,
                       })
                     )
                   }

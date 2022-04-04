@@ -14,7 +14,7 @@ const T_PATH = 'components.apartment.ApartmentTable';
 
 interface IProps {
   apartments: Apartment[] | undefined;
-  projectId: Project['id'];
+  projectId: Project['uuid'];
   ownershipType: Project['ownership_type'];
   housingCompany: Project['housing_company'];
   lotteryCompleted: Project['lottery_completed'];
@@ -110,6 +110,7 @@ const ApartmentTable = ({
                 apartment={apartment}
                 ownershipType={ownershipType}
                 lotteryCompleted={lotteryCompleted}
+                projectId={projectId}
               />
             ))}
           </>
