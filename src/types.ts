@@ -287,7 +287,7 @@ export type AddEditCustomerFormFields = {
 };
 
 export type ReservationEditFormData = {
-  state: string;
+  state: `${ApartmentReservationStates}`;
   comment: string;
 };
 

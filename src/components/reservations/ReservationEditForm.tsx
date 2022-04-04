@@ -89,7 +89,7 @@ const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.E
             options={stateOptions()}
             value={getStateOption(field.value || '')}
             onChange={(selected: SelectOption) => {
-              setValue('state', selected.selectValue);
+              setValue('state', selected.selectValue as ApartmentReservationStates);
             }}
             style={{ marginBottom: '1rem' }}
           />
