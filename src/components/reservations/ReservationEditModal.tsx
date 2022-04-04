@@ -9,6 +9,7 @@ import { RootState } from '../../redux/store';
 import { toast } from '../common/toast/ToastManager';
 import { hideReservationEditModal } from '../../redux/features/reservationEditModalSlice';
 import { ReservationEditFormData } from '../../types';
+import { useSetApartmentReservationStateMutation } from '../../redux/services/api';
 
 import styles from './ReservationModal.module.scss';
 
@@ -21,6 +22,11 @@ const ReservationEditModal = (): JSX.Element | null => {
   const isDialogOpen = reservationEditModal.isOpened;
   const reservation = reservationEditModal.content?.reservation;
   const [isLoading, setIsLoading] = useState(false);
+  const [setApartmentReservationState, { isLoading: postReservationStateLoading }] =
+    useSetApartmentReservationStateMutation();
+
+  // Project uuid is used to refetch project data (including reservations) after editing reservation state
+  const projectId = reservationEditModal.content?.projectId || '';
 
   if (!isDialogOpen) return null;
 
@@ -36,11 +42,24 @@ const ReservationEditModal = (): JSX.Element | null => {
 
   const closeDialog = () => dispatch(hideReservationEditModal());
 
-  const handleFormCallback = (formData: ReservationEditFormData, isSubmitting: boolean) => {
-    setIsLoading(isSubmitting);
-    console.log(formData); // TODO: Add operations here
-    setIsLoading(false);
-    closeDialog();
+  const handleFormCallback = async (formData: ReservationEditFormData) => {
+    if (!postReservationStateLoading) {
+      setIsLoading(true);
+
+      try {
+        // Send reservation edit form data to API
+        await setApartmentReservationState({ formData, reservationId: reservation.id, projectId: projectId })
+          .unwrap()
+          .then(() => {
+            toast.show({ type: 'success', content: t(`${T_PATH}.formSentSuccessfully`) });
+            setIsLoading(false);
+            closeDialog();
+          });
+      } catch (err: any) {
+        console.error(err);
+        setIsLoading(false);
+      }
+    }
   };
 
   const sortedApplicants = sortReservationApplicants(reservation.applicants);

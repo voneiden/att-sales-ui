@@ -232,6 +232,7 @@
   "components.reservations.ReservationEditModal.edit": "Muokkaa",
   "components.reservations.ReservationEditModal.editingForCustomer": "Olet muokkaamassa varausta asiakkuudelle",
   "components.reservations.ReservationEditModal.errorTitle": "Virhe",
+  "components.reservations.ReservationEditModal.formSentSuccessfully": "Varauksen tila päivitetty",
   "components.reservations.ReservationEditModal.noReservation": "Varauksen tietojen hakemisessa tapahtui virhe",
   "components.reservations.ReservationEditModal.reservationEdit": "Muokkaa varausta",
   "pages.NotFound.pageNotFound": "Sivua ei löytynyt",

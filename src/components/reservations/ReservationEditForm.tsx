@@ -12,7 +12,7 @@ const T_PATH = 'components.reservations.ReservationEditForm';
 
 interface IProps {
   reservation: ApartmentReservationWithCustomer;
-  handleFormCallback: (data: ReservationEditFormData, isSubmitting: boolean) => void;
+  handleFormCallback: (data: ReservationEditFormData) => void;
 }
 
 const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.Element => {
@@ -41,7 +41,7 @@ const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.E
 
   const onSubmit: SubmitHandler<ReservationEditFormData> = (data, event) => {
     event?.preventDefault();
-    handleFormCallback(data, true);
+    handleFormCallback(data);
   };
 
   const stateOptions = (): SelectOption[] => {
@@ -101,6 +101,7 @@ const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.E
         invalid={Boolean(errors.comment)}
         errorText={errors.comment?.message}
         autoComplete="off"
+        maxLength={255}
         {...register('comment')}
       />
     </form>
