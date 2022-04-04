@@ -33,18 +33,20 @@ const CustomerDetail = (): JSX.Element | null => {
     },
   ];
 
-  const currentBreadcrumb = (customer?: Customer) => {
+  const currentBreadcrumb = (currentCustomer?: Customer) => {
     let breadcrumb = '';
 
     if (customerId) {
       breadcrumb = customerId;
     }
 
-    if (customer) {
-      const primary = `${customer.primary_profile.last_name}, ${customer.primary_profile.first_name}`;
+    if (currentCustomer) {
+      const primary = `${currentCustomer.primary_profile.last_name}, ${currentCustomer.primary_profile.first_name}`;
       let combined = primary;
-      if (customer.secondary_profile) {
-        combined = primary + ` (${customer.secondary_profile.last_name}, ${customer.secondary_profile.first_name})`;
+      if (currentCustomer.secondary_profile) {
+        combined =
+          primary +
+          ` (${currentCustomer.secondary_profile.last_name}, ${currentCustomer.secondary_profile.first_name})`;
       }
       breadcrumb = combined;
     }

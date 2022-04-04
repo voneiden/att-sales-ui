@@ -21,7 +21,7 @@ describe('ProjectList', () => {
   it('handles error response', async () => {
     // force msw to return error response
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (_req, res, ctx) => {
         return res(ctx.status(500));
       })
     );
@@ -36,7 +36,7 @@ describe('ProjectList', () => {
   it('handles empty response', async () => {
     // force msw to return error response
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (_req, res, ctx) => {
         return res(ctx.json([]));
       })
     );
@@ -51,7 +51,7 @@ describe('ProjectList', () => {
   it('handles undefined response', async () => {
     // force msw to return error response
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (_req, res, ctx) => {
         return res(ctx.json(undefined));
       })
     );

@@ -20,7 +20,7 @@ describe('AddEditCustomer', () => {
 
   it('renders update customer form with co-applicant fields', async () => {
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/0`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/0`, (_req, res, ctx) => {
         return res(ctx.json(mockCustomer));
       })
     );
@@ -31,7 +31,7 @@ describe('AddEditCustomer', () => {
   it('renders update customer form without co-applicant fields', async () => {
     const customerNoSecondaryProfile = { ...mockCustomer, secondary_profile: null };
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/0`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/0`, (_req, res, ctx) => {
         return res(ctx.json(customerNoSecondaryProfile));
       })
     );
@@ -42,7 +42,7 @@ describe('AddEditCustomer', () => {
   it('handles error response', async () => {
     // force msw to return error response
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/0`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers/0`, (_req, res, ctx) => {
         return res(ctx.status(500));
       })
     );

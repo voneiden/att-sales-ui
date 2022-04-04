@@ -583,7 +583,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                         <Controller
                           name="secondary_profile.contact_language"
                           control={control}
-                          render={({ field: { onChange, value } }) => (
+                          render={({ field }) => (
                             <Select
                               id="secondaryProfileContactLanguage"
                               label={t(`${T_PATH}.contact_language`)}
@@ -592,7 +592,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                               invalid={Boolean(get(errors, 'secondary_profile.contact_language'))}
                               error={get(errors, 'secondary_profile.contact_language')?.message}
                               options={contactLanguageOptions}
-                              value={getContactLanguageOption(value || '')}
+                              value={getContactLanguageOption(field.value || '')}
                               onChange={(selected: SelectOption) => {
                                 setValue('secondary_profile.contact_language', selected.selectValue as LangCode);
                               }}

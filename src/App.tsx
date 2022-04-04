@@ -46,7 +46,6 @@ const Unauthenticated = (): JSX.Element => (
   </Routes>
 );
 
-const App = (props: React.PropsWithChildren<unknown>): React.ReactElement =>
-  WithAuth(Authenticated, Unauthenticated, LoadingScreen);
+const App = (): React.ReactElement => WithAuth(Authenticated, Unauthenticated, LoadingScreen);
 
 export default App;

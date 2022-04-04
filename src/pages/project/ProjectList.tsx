@@ -43,7 +43,8 @@ const ProjectList = (): JSX.Element => {
 
   const renderToolbar = () => {
     const hasDrupalLink = !!process.env[`REACT_APP_DRUPAL_BASE_URL`];
-    const drupalAdminLink = hasDrupalLink ? `${String(process.env[`REACT_APP_DRUPAL_BASE_URL`])}/admin/content` : '#';
+    const drupalBaseUrl = String(process.env[`REACT_APP_DRUPAL_BASE_URL`]);
+    const drupalAdminLink = hasDrupalLink ? `${drupalBaseUrl}/admin/content` : '#';
 
     return (
       <Container className={styles.toolbar}>
@@ -113,9 +114,9 @@ const ProjectList = (): JSX.Element => {
       </div>
     );
 
-    const renderProjectList = (visibleProjects: Project[]) => {
-      if (!!visibleProjects.length) {
-        return visibleProjects.map((project) => (
+    const renderProjectList = (filteredProjects: Project[]) => {
+      if (!!filteredProjects.length) {
+        return filteredProjects.map((project) => (
           <div key={project.uuid} className={styles.singleProject}>
             <ProjectCard project={project} renderAsLink />
           </div>
@@ -185,6 +186,30 @@ const ProjectList = (): JSX.Element => {
     );
   };
 
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <Container>
+          <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
+        </Container>
+      );
+    }
+
+    if (!isLoading && isError) {
+      return (
+        <Container>
+          <Notification label={t(`${T_PATH}.errorTitle`)} type="error">
+            {t(`${T_PATH}.errorLoadingProjects`)}
+          </Notification>
+        </Container>
+      );
+    }
+
+    if (!isLoading && !isError && isSuccess) {
+      return renderProjects();
+    }
+  };
+
   return (
     <>
       <header className={styles.header}>
@@ -194,19 +219,7 @@ const ProjectList = (): JSX.Element => {
       </header>
       <Koros type="pulse" flipHorizontal style={{ fill: 'var(--color-engel)' }} />
       {renderToolbar()}
-      {isLoading ? (
-        <Container>
-          <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
-        </Container>
-      ) : isError ? (
-        <Container>
-          <Notification label={t(`${T_PATH}.errorTitle`)} type="error">
-            {t(`${T_PATH}.errorLoadingProjects`)}
-          </Notification>
-        </Container>
-      ) : (
-        isSuccess && renderProjects()
-      )}
+      {renderContent()}
     </>
   );
 };

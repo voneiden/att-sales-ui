@@ -27,7 +27,7 @@ describe('CustomerSearch Page', () => {
 
     // force msw to return error response
     server.use(
-      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers`, (req, res, ctx) => {
+      rest.get(`${process.env.REACT_APP_API_BASE_URL}/customers`, (_req, res, ctx) => {
         return res(ctx.status(500));
       })
     );
