@@ -2,12 +2,12 @@ import React from 'react';
 import { Button, Card } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import Container from '../components/common/container/Container';
-import { getClientConfig } from '../auth/index';
-import { useClient } from '../auth/hooks';
-import { usePageTitle } from '../utils/usePageTitle';
+import Container from '../../components/common/container/Container';
+import { getClientConfig } from '../../auth/index';
+import { useClient } from '../../auth/hooks';
+import { usePageTitle } from '../../utils/usePageTitle';
 
-const T_PATH = 'pages.Login';
+const T_PATH = 'pages.auth.Login';
 
 const Login = (): JSX.Element | null => {
   const { t } = useTranslation();

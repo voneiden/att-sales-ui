@@ -16,7 +16,7 @@ import { toast } from '../common/toast/ToastManager';
 
 import styles from './CustomerReservationRow.module.scss';
 
-const T_PATH = 'components.customers.CustomerReservationRow';
+const T_PATH = 'components.reservations.CustomerReservationRow';
 
 interface IProps {
   customer: Customer;
@@ -79,6 +79,13 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     preDownloading: preContractDownloading,
   });
 
+  const renderLotteryPosition = (): string => {
+    if (reservation.lottery_position === null) {
+      return t(`${T_PATH}.lotteryUncompleted`);
+    }
+    return `${reservation.queue_position}. ` + t(`${T_PATH}.position`);
+  };
+
   return (
     <div className={styles.row}>
       <div className={cx(styles.apartmentRow, isCanceled && styles.disabledRow)}>
@@ -94,11 +101,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             <div>{t(`${T_PATH}.canceled`)}</div>
           ) : (
             <>
-              <div>
-                {reservation.lottery_position === null
-                  ? t(`${T_PATH}.lotteryUncompleted`)
-                  : reservation.queue_position + '. ' + t(`${T_PATH}.position`)}
-              </div>
+              <div>{renderLotteryPosition()}</div>
               <div>{t(`${T_PATH}.priority`)}: TODO</div>
             </>
           )}

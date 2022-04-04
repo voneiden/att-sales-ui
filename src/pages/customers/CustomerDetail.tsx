@@ -4,20 +4,20 @@ import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IconPenLine, Notification, Tabs, TabList, Tab, TabPanel } from 'hds-react';
 
-import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
-import Container from '../components/common/container/Container';
-import CustomerInfo from '../components/customers/CustomerInfo';
-import Installments from '../components/installments/Installments';
-import CustomerReservations from '../components/customers/CustomerReservations';
-import StatusText from '../components/common/statusText/StatusText';
-import { ROUTES } from '../enums';
-import { useGetCustomerByIdQuery } from '../redux/services/api';
-import { Customer } from '../types';
-import { usePageTitle } from '../utils/usePageTitle';
+import Breadcrumbs, { BreadcrumbItem } from '../../components/common/breadcrumbs/Breadcrumbs';
+import Container from '../../components/common/container/Container';
+import CustomerInfo from '../../components/customers/CustomerInfo';
+import Installments from '../../components/installments/Installments';
+import CustomerReservations from '../../components/reservations/CustomerReservations';
+import StatusText from '../../components/common/statusText/StatusText';
+import { ROUTES } from '../../enums';
+import { useGetCustomerByIdQuery } from '../../redux/services/api';
+import { Customer } from '../../types';
+import { usePageTitle } from '../../utils/usePageTitle';
 
 import styles from './CustomerDetail.module.scss';
 
-const T_PATH = 'pages.CustomerDetail';
+const T_PATH = 'pages.customers.CustomerDetail';
 
 const CustomerDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
@@ -33,18 +33,20 @@ const CustomerDetail = (): JSX.Element | null => {
     },
   ];
 
-  const currentBreadcrumb = (customer?: Customer) => {
+  const currentBreadcrumb = (currentCustomer?: Customer) => {
     let breadcrumb = '';
 
     if (customerId) {
       breadcrumb = customerId;
     }
 
-    if (customer) {
-      const primary = `${customer.primary_profile.last_name}, ${customer.primary_profile.first_name}`;
+    if (currentCustomer) {
+      const primary = `${currentCustomer.primary_profile.last_name}, ${currentCustomer.primary_profile.first_name}`;
       let combined = primary;
-      if (customer.secondary_profile) {
-        combined = primary + ` (${customer.secondary_profile.last_name}, ${customer.secondary_profile.first_name})`;
+      if (currentCustomer.secondary_profile) {
+        combined =
+          primary +
+          ` (${currentCustomer.secondary_profile.last_name}, ${currentCustomer.secondary_profile.first_name})`;
       }
       breadcrumb = combined;
     }

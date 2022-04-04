@@ -2,8 +2,8 @@ import React from 'react';
 import { Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import Container from '../components/common/container/Container';
-import { usePageTitle } from '../utils/usePageTitle';
+import Container from '../../components/common/container/Container';
+import { usePageTitle } from '../../utils/usePageTitle';
 
 const T_PATH = 'pages.AuthError';
 

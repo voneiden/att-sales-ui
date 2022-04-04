@@ -2,23 +2,23 @@ import React from 'react';
 import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Notification, Tabs } from 'hds-react';
+import { Notification, Select, Tabs } from 'hds-react';
 
-import ApartmentActions from '../components/apartment/ApartmentActions';
-import ApartmentTable from '../components/apartment/ApartmentTable';
-import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
-import Container from '../components/common/container/Container';
-import ProjectCard from '../components/project/ProjectCard';
-import ProjectInstallments from '../components/installments/ProjectInstallments';
-import StatusText from '../components/common/statusText/StatusText';
-import { toast } from '../components/common/toast/ToastManager';
-import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../redux/services/api';
-import { usePageTitle } from '../utils/usePageTitle';
-import { ROUTES } from '../enums';
+import ApartmentTable from '../../components/apartment/ApartmentTable';
+import Breadcrumbs, { BreadcrumbItem } from '../../components/common/breadcrumbs/Breadcrumbs';
+import Container from '../../components/common/container/Container';
+import ProjectActions from '../../components/project/ProjectActions';
+import ProjectCard from '../../components/project/ProjectCard';
+import ProjectInstallments from '../../components/installments/ProjectInstallments';
+import StatusText from '../../components/common/statusText/StatusText';
+import { toast } from '../../components/common/toast/ToastManager';
+import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../../redux/services/api';
+import { usePageTitle } from '../../utils/usePageTitle';
+import { ROUTES } from '../../enums';
 
 import styles from './ProjectDetail.module.scss';
 
-const T_PATH = 'pages.ProjectDetail';
+const T_PATH = 'pages.project.ProjectDetail';
 
 const ProjectDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
@@ -98,7 +98,14 @@ const ProjectDetail = (): JSX.Element | null => {
           </Tabs.TabList>
           <Tabs.TabPanel>
             <div className={styles.apartmentsWrapper}>
-              <ApartmentActions lotteryCompleted={project.lottery_completed} />
+              <div className={styles.actions}>
+                <div className={styles.selectWrapper}>
+                  {project.lottery_completed && (
+                    <Select label={t(`${T_PATH}.show`)} placeholder={t(`${T_PATH}.allApartments`)} options={[]} />
+                  )}
+                </div>
+                <ProjectActions lotteryCompleted={project.lottery_completed} />
+              </div>
               <ApartmentTable
                 apartments={project.apartments}
                 ownershipType={project.ownership_type.toLowerCase()}

@@ -3,17 +3,17 @@ import { Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import Container from '../components/common/container/Container';
-import CustomerSearchForm from '../components/customers/CustomerSearchForm';
-import CustomerTable from '../components/customers/CustomerTable';
-import { useGetCustomersQuery } from '../redux/services/api';
-import { CustomerSearchFormFields } from '../types';
-import { usePageTitle } from '../utils/usePageTitle';
-import { ROUTES } from '../enums';
+import Container from '../../components/common/container/Container';
+import CustomerSearchForm from '../../components/customers/CustomerSearchForm';
+import CustomerTable from '../../components/customers/CustomerTable';
+import { useGetCustomersQuery } from '../../redux/services/api';
+import { CustomerSearchFormFields } from '../../types';
+import { usePageTitle } from '../../utils/usePageTitle';
+import { ROUTES } from '../../enums';
 
 import styles from './CustomerSearch.module.scss';
 
-const T_PATH = 'pages.CustomerSearch';
+const T_PATH = 'pages.customers.CustomerSearch';
 
 const CustomerSearch = (): JSX.Element => {
   const { t } = useTranslation();

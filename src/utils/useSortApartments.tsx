@@ -1,10 +1,10 @@
 import React from 'react';
 
-import useSessionStorage from '../../utils/useSessionStorage';
-import { sortAlphanumeric, sortNumeric } from '../../utils/sortList';
-import { Apartment } from '../../types';
+import useSessionStorage from './useSessionStorage';
+import { sortAlphanumeric, sortNumeric } from './sortList';
+import { Apartment } from '../types';
 
-const SortApartments = (items: any, sessionStorageID: string) => {
+const useSortApartments = (items: any, sessionStorageID: string) => {
   const [sortConfig, setSortConfig] = useSessionStorage({
     defaultValue: {
       key: 'apartment_number',
@@ -39,4 +39,4 @@ const SortApartments = (items: any, sessionStorageID: string) => {
   return { sortedApartments, requestSort, sortConfig };
 };
 
-export default SortApartments;
+export default useSortApartments;

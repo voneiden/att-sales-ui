@@ -9,23 +9,23 @@ import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import Breadcrumbs, { BreadcrumbItem } from '../components/common/breadcrumbs/Breadcrumbs';
-import Container from '../components/common/container/Container';
-import Spinner from '../components/common/spinner/Spinner';
-import formatDateTime from '../utils/formatDateTime';
-import { AddEditCustomerFormFields, Customer, SelectOption } from '../types';
-import { ROUTES } from '../enums';
-import { toast } from '../components/common/toast/ToastManager';
-import { usePageTitle } from '../utils/usePageTitle';
+import Breadcrumbs, { BreadcrumbItem } from '../../components/common/breadcrumbs/Breadcrumbs';
+import Container from '../../components/common/container/Container';
+import Spinner from '../../components/common/spinner/Spinner';
+import formatDateTime from '../../utils/formatDateTime';
+import { AddEditCustomerFormFields, Customer, SelectOption } from '../../types';
+import { ROUTES } from '../../enums';
+import { toast } from '../../components/common/toast/ToastManager';
+import { usePageTitle } from '../../utils/usePageTitle';
 import {
   useCreateCustomerMutation,
   useGetCustomerByIdQuery,
   useUpdateCustomerByIdMutation,
-} from '../redux/services/api';
+} from '../../redux/services/api';
 
 import styles from './AddEditCustomer.module.scss';
 
-const T_PATH = 'pages.AddEditCustomer';
+const T_PATH = 'pages.customers.AddEditCustomer';
 
 const langCodes = ['fi', 'en', 'sv'];
 const langCodesAsConst = ['fi', 'en', 'sv'] as const;
@@ -583,7 +583,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                         <Controller
                           name="secondary_profile.contact_language"
                           control={control}
-                          render={({ field: { onChange, value } }) => (
+                          render={({ field }) => (
                             <Select
                               id="secondaryProfileContactLanguage"
                               label={t(`${T_PATH}.contact_language`)}
@@ -592,7 +592,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                               invalid={Boolean(get(errors, 'secondary_profile.contact_language'))}
                               error={get(errors, 'secondary_profile.contact_language')?.message}
                               options={contactLanguageOptions}
-                              value={getContactLanguageOption(value || '')}
+                              value={getContactLanguageOption(field.value || '')}
                               onChange={(selected: SelectOption) => {
                                 setValue('secondary_profile.contact_language', selected.selectValue as LangCode);
                               }}

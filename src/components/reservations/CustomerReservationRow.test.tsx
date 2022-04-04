@@ -6,7 +6,7 @@ import { renderWithProviders } from '../../test/test-utils';
 
 import dummyCustomer from '../../mocks/customer.json';
 
-describe('ReservationsByProject', () => {
+describe('CustomerReservationRow', () => {
   it('renders the component', () => {
     const reservations = groupReservationsByProject(dummyCustomer.apartment_reservations);
     const reservation = reservations[0][1];
@@ -14,7 +14,7 @@ describe('ReservationsByProject', () => {
     renderWithProviders(<CustomerReservationRow customer={dummyCustomer} reservation={reservation} />);
 
     expect(screen.getByText('A10')).toBeDefined();
-    expect(screen.getByText('components.customers.CustomerReservationRow.priority', { exact: false })).toBeDefined();
-    expect(screen.getByText('components.customers.CustomerReservationRow.createDeedOfSale')).toBeDefined();
+    expect(screen.getByText('components.reservations.CustomerReservationRow.priority', { exact: false })).toBeDefined();
+    expect(screen.getByText('components.reservations.CustomerReservationRow.createDeedOfSale')).toBeDefined();
   });
 });

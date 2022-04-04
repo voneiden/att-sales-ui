@@ -1,7 +1,7 @@
 import { getProjectState } from './getProjectState';
 import { StateOfSale } from '../enums';
 
-describe('groupProjectsByState', () => {
+describe('getProjectState', () => {
   it('should render correctly', () => {
     const project = {
       state_of_sale: StateOfSale.ForSale,
