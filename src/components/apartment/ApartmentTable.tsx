@@ -14,7 +14,7 @@ const T_PATH = 'components.apartment.ApartmentTable';
 
 interface IProps {
   apartments: Apartment[] | undefined;
-  projectId: Project['uuid'];
+  project: Project;
   ownershipType: Project['ownership_type'];
   housingCompany: Project['housing_company'];
   lotteryCompleted: Project['lottery_completed'];
@@ -24,13 +24,13 @@ const ApartmentTable = ({
   apartments,
   housingCompany,
   ownershipType,
-  projectId,
+  project,
   lotteryCompleted,
 }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const { sortedApartments, requestSort, sortConfig } = useSortApartments(
     apartments ? apartments : [],
-    `project-${projectId}`
+    `project-${project.uuid}`
   );
 
   const isCurrentlyActiveSort = (key: string) => {
@@ -110,7 +110,7 @@ const ApartmentTable = ({
                 apartment={apartment}
                 ownershipType={ownershipType}
                 lotteryCompleted={lotteryCompleted}
-                projectId={projectId}
+                project={project}
               />
             ))}
           </>
