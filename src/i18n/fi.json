@@ -92,6 +92,8 @@
   "components.customers.CustomerTableRow.nin": "Hetu",
   "components.customers.CustomerTableRow.phone": "Puhelin",
   "components.customers.CustomerTableRow.project": "Viimeisin varaus",
+  "components.customers.SelectCustomerDropdown.searchByName": "Hae nimellä",
+  "components.customers.SelectCustomerDropdown.selectCustomer": "Valitse asiakas",
   "components.installments.Installments.noReservations": "Ei tallennettuja maksuja eikä maksuihin oikeuttavia varauksia",
   "components.installments.InstallmentsForm.IbanAccountNumber": "IBAN-Tilinumero",
   "components.installments.InstallmentsForm.dueDate": "Eräpäivä",
