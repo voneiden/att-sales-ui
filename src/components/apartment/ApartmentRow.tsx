@@ -11,6 +11,7 @@ import formatDateTime from '../../utils/formatDateTime';
 import sortReservationApplicants from '../../utils/sortReservationApplicants';
 import { Apartment, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
+import { showReservationAddModal } from '../../redux/features/reservationAddModalSlice';
 import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
 import { showReservationEditModal } from '../../redux/features/reservationEditModalSlice';
 
@@ -22,10 +23,10 @@ interface IProps {
   apartment: Apartment;
   ownershipType: Project['ownership_type'];
   lotteryCompleted: Project['lottery_completed'];
-  projectId: Project['uuid'];
+  project: Project;
 }
 
-const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, projectId }: IProps): JSX.Element => {
+const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: IProps): JSX.Element => {
   const { reservations, apartment_uuid } = apartment;
   const [applicationRowOpen, setApplicationRowOpen] = useSessionStorage({
     defaultValue: false,
@@ -118,7 +119,19 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, projectId }:
 
     const addReservation = () => (
       <div className={styles.addNewReservationButton}>
-        <Button size="small" variant="supplementary" iconLeft={<IconPlus size="xs" />}>
+        <Button
+          size="small"
+          variant="supplementary"
+          iconLeft={<IconPlus size="xs" />}
+          onClick={() =>
+            dispatch(
+              showReservationAddModal({
+                project: project,
+                apartment: apartment,
+              })
+            )
+          }
+        >
           {t(`${T_PATH}.btnAddApplicant`)}
         </Button>
       </div>
@@ -162,7 +175,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, projectId }:
                     dispatch(
                       showReservationEditModal({
                         reservation: reservation,
-                        projectId: projectId,
+                        projectId: project.uuid,
                       })
                     )
                   }
