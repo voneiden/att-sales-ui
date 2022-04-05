@@ -232,6 +232,7 @@
   "components.reservations.ReservationEditModal.edit": "Edit",
   "components.reservations.ReservationEditModal.editingForCustomer": "Editing reservation for customer",
   "components.reservations.ReservationEditModal.errorTitle": "Error",
+  "components.reservations.ReservationEditModal.formSentSuccessfully": "Reservation state updated",
   "components.reservations.ReservationEditModal.noReservation": "Could not fetch reservation info",
   "components.reservations.ReservationEditModal.reservationEdit": "Edit reservation",
   "pages.NotFound.pageNotFound": "Page not found",

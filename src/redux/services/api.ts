@@ -10,6 +10,7 @@ import {
   CustomerListItem,
   Project,
   ProjectInstallment,
+  ReservationEditFormData,
 } from '../../types';
 import type { RootState } from '../store';
 
@@ -30,7 +31,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Customer'],
+  tagTypes: ['Customer', 'Project', 'Reservation'],
   endpoints: (builder) => ({
     // GET: Fetch all projects
     getProjects: builder.query<Project[], void>({
@@ -40,6 +41,7 @@ export const api = createApi({
     // GET: Fetch single project by project uuid
     getProjectById: builder.query<Project, string>({
       query: (id) => `projects/${id}`,
+      providesTags: (result, error, arg) => [{ type: 'Project', id: arg }],
     }),
 
     // GET: Fetch apartments for a single project by project uuid
@@ -81,13 +83,7 @@ export const api = createApi({
     }),
 
     // PUT: Update customer details
-    updateCustomerById: builder.mutation<
-      Customer,
-      {
-        formData: Partial<AddEditCustomerFormFields>;
-        id: string;
-      }
-    >({
+    updateCustomerById: builder.mutation<Customer, { formData: Partial<AddEditCustomerFormFields>; id: string }>({
       query: (params) => {
         return {
           url: `customers/${params.id}/`,
@@ -104,13 +100,7 @@ export const api = createApi({
     }),
 
     // POST: Set project installments
-    setProjectInstallments: builder.mutation<
-      any,
-      {
-        formData: Partial<ProjectInstallment>[];
-        uuid: string;
-      }
-    >({
+    setProjectInstallments: builder.mutation<any, { formData: Partial<ProjectInstallment>[]; uuid: string }>({
       query: (params) => {
         return {
           url: `projects/${params.uuid}/installment_templates/`,
@@ -123,16 +113,29 @@ export const api = createApi({
     // GET: Fetch single apartment reservation that includes installments
     getApartmentReservation: builder.query<ApartmentReservationWithInstallments, number>({
       query: (id) => `apartment_reservations/${id}`,
+      providesTags: (result, error, arg) => [{ type: 'Reservation', id: arg }],
+    }),
+
+    // POST: Set apartment reservation state
+    setApartmentReservationState: builder.mutation<
+      any,
+      { formData: ReservationEditFormData; reservationId: number; projectId: string }
+    >({
+      query: (params) => {
+        return {
+          url: `apartment_reservations/${params.reservationId}/set_state/`,
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Project', id: arg.projectId },
+        { type: 'Reservation', id: arg.reservationId },
+      ],
     }),
 
     // POST: Set apartment installments for a reservation
-    setApartmentInstallments: builder.mutation<
-      any,
-      {
-        formData: Partial<ApartmentInstallment>[];
-        id: number;
-      }
-    >({
+    setApartmentInstallments: builder.mutation<any, { formData: Partial<ApartmentInstallment>[]; id: number }>({
       query: (params) => {
         return {
           url: `apartment_reservations/${params.id}/installments/`,
@@ -156,5 +159,6 @@ export const {
   useCreateCustomerMutation,
   useUpdateCustomerByIdMutation,
   useGetApartmentReservationQuery,
+  useSetApartmentReservationStateMutation,
   useSetApartmentInstallmentsMutation,
 } = api;

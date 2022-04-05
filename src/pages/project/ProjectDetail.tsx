@@ -109,7 +109,7 @@ const ProjectDetail = (): JSX.Element | null => {
               <ApartmentTable
                 apartments={project.apartments}
                 ownershipType={project.ownership_type.toLowerCase()}
-                projectId={project.id}
+                projectId={project.uuid}
                 housingCompany={project.housing_company}
                 lotteryCompleted={project.lottery_completed}
               />
