@@ -58,14 +58,6 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
       return list;
     };
 
-    // Set dropdown options empty if:
-    // - The search keyword is too short
-    // - There's an error while fetching customers
-    // - No success state in customer fetching
-    if (searchValue.length < SEARCH_KEYWORD_MIN_LENGTH || isError || !isSuccess) {
-      return setOptions([]);
-    }
-
     // Show one disabled option with label "loading" while fetching the customers
     if (isLoading) {
       return setOptions([
@@ -76,6 +68,14 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
           disabled: true,
         },
       ]);
+    }
+
+    // Set dropdown options empty if:
+    // - The search keyword is too short
+    // - There's an error while fetching customers
+    // - No success state in customer fetching
+    if (searchValue.length < SEARCH_KEYWORD_MIN_LENGTH || isError || !isSuccess) {
+      return setOptions([]);
     }
 
     // Show one disabled option with label "no results" when there's no results from the query
