@@ -37,10 +37,11 @@ const ReservationAddModal = (): JSX.Element | null => {
 
   const closeDialog = () => dispatch(hideReservationAddModal());
 
-  const handleFormCallback = () => {
+  const handleFormCallback = (customerId: string) => {
     setIsLoading(true);
     // TODO: Add operations here
     console.log('form submitted');
+    console.log('customer ID:', customerId);
     console.log('apartment_uuid:', apartment.apartment_uuid);
     setIsLoading(false);
     closeDialog();

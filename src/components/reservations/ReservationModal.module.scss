@@ -51,6 +51,8 @@
   }
 
   .apartment {
+    font-size: var(--fontsize-body-l);
+
     span {
       margin: 0 var(--spacing-2-xs);
       color: var(--color-black-30);
