@@ -25,6 +25,7 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
     isSuccess,
     isError,
     isLoading,
+    isFetching,
   } = useGetCustomersQuery(`last_name=${searchValue}`, { skip: searchValue.length < SEARCH_KEYWORD_MIN_LENGTH });
 
   // Update component mount state
@@ -59,7 +60,7 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
     };
 
     // Show one disabled option with label "loading" while fetching the customers
-    if (isLoading) {
+    if (isLoading || isFetching) {
       return setOptions([
         {
           label: t(`${T_PATH}.loading`),
@@ -79,7 +80,7 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
     }
 
     // Show one disabled option with label "no results" when there's no results from the query
-    if (customers?.length === 0) {
+    if (isSuccess && customers?.length === 0) {
       return setOptions([
         {
           label: t(`${T_PATH}.noResults`),
@@ -91,11 +92,11 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
     }
 
     // For successfull results, display found customers as dropdown options
-    if (customers) {
+    if (isSuccess && customers) {
       const customerOptions = mapOptions(customers);
       setOptions(customerOptions);
     }
-  }, [customers, searchValue, isSuccess, isError, isLoading, t]);
+  }, [customers, searchValue, isSuccess, isError, isLoading, isFetching, t]);
 
   // Use debounce to optimize the number of calls to the backend while typing rapidly
   const debouncedSearch = useMemo(
