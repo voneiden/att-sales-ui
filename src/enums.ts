@@ -29,7 +29,7 @@ export enum InstallmentTypes {
   Refund = 'REFUND',
   DownPayment = 'DOWN_PAYMENT',
   LatePaymentInterest = 'LATE_PAYMENT_INTEREST',
-  RightOResidenceFee = 'RIGHT_OF_RESIDENCE_FEE',
+  RightOfOccupancyPayment = 'RIGHT_OF_OCCUPANCY_PAYMENT',
   ForInvoicing = 'FOR_INVOICING',
   Deposit = 'DEPOSIT',
   ReservationFee = 'RESERVATION_FEE',
