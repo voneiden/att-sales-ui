@@ -102,7 +102,7 @@
       "apartment_sales_price": null,
       "apartment_installments": [
         {
-          "type": "RIGHT_OF_RESIDENCE_FEE",
+          "type": "RIGHT_OF_OCCUPANCY_PAYMENT",
           "amount": 4900000,
           "account_number": "74754745",
           "due_date": "2022-02-19",
