@@ -10,16 +10,17 @@ const T_PATH = 'components.customers.SelectCustomerDropdown';
 const SEARCH_KEYWORD_MIN_LENGTH = 2;
 
 interface IProps {
-  formId: string;
-  handleFormCallback: (customerId: string) => void;
+  handleSelectCallback: (customerId: string) => void;
+  errorMessage?: string;
+  hasError?: boolean;
+  helpText?: string;
 }
 
-const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Element => {
+const SelectCustomerDropdown = ({ handleSelectCallback, errorMessage, hasError, helpText }: IProps) => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState<string>('');
   const [options, setOptions] = useState<SelectOption[]>([]);
   const [didMount, setDidMount] = useState(false);
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
   const {
     data: customers,
     isSuccess,
@@ -122,40 +123,41 @@ const SelectCustomerDropdown = ({ formId, handleFormCallback }: IProps): JSX.Ele
   // Set the selected customer's ID
   const handleSelectChange = (selected: SelectOption) => {
     if (!selected) {
-      return setSelectedCustomerId('');
+      return handleSelectCallback('');
     }
-    return setSelectedCustomerId(selected.selectValue);
+    return handleSelectCallback(selected.selectValue);
   };
 
-  // Handle form submit
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleFormCallback(selectedCustomerId);
+  const renderHelpText = () => {
+    if (helpText) {
+      return helpText + ' ' + t(`${T_PATH}.searchByLastNameOnly`);
+    }
+
+    return t(`${T_PATH}.searchByLastNameOnly`);
   };
 
   return (
-    <form id={formId} onSubmit={(e) => handleSubmit(e)}>
+    <>
       <Combobox
         required
         id="selectCustomer"
         label={t(`${T_PATH}.selectCustomer`)}
         placeholder={t(`${T_PATH}.searchByName`)}
-        helper={t(`${T_PATH}.searchByLastNameOnly`)}
+        helper={renderHelpText()}
         toggleButtonAriaLabel={t(`${T_PATH}.toggleMenu`)}
         showToggleButton={searchValue.length >= SEARCH_KEYWORD_MIN_LENGTH}
-        invalid={isError}
-        error={`${T_PATH}.errorLoadingCustomers`}
+        invalid={isError || hasError}
+        error={errorMessage || `${T_PATH}.errorLoadingCustomers`}
         isOptionDisabled={(item: SelectOption): boolean => !!item.disabled}
         options={options}
         onChange={(selected: SelectOption) => handleSelectChange(selected)}
         multiselect={false}
         filter={handleSearch}
-        style={{ marginBottom: '1rem' }}
         visibleOptions={8}
         clearable
         virtualized
       />
-    </form>
+    </>
   );
 };
 
