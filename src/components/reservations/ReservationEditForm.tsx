@@ -11,11 +11,12 @@ import { ApartmentReservationStates } from '../../enums';
 const T_PATH = 'components.reservations.ReservationEditForm';
 
 interface IProps {
+  formId: string;
   reservation: ApartmentReservationWithCustomer;
   handleFormCallback: (data: ReservationEditFormData) => void;
 }
 
-const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.Element => {
+const ReservationEditForm = ({ formId, reservation, handleFormCallback }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const schema = yup.object({
     state: yup.string().required(t(`${T_PATH}.stateRequired`)),
@@ -73,7 +74,7 @@ const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.E
   };
 
   return (
-    <form id={`reservation-edit-form-${reservation.id}`} onSubmit={handleSubmit(onSubmit)}>
+    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Controller
         name="state"
         control={control}
