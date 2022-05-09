@@ -130,7 +130,7 @@ const InstallmentsInvoice = ({
                 <Checkbox
                   id={installment.type}
                   value={installment.type}
-                  label={t(`ENUMS.${installment.type}`)}
+                  label={t(`ENUMS.InstallmentTypes.${installment.type}`)}
                   checked={checkedRows[index]}
                   onChange={() => handleInputChange(index)}
                 />

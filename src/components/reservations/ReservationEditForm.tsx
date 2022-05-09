@@ -57,7 +57,7 @@ const ReservationEditForm = ({ reservation, handleFormCallback }: IProps): JSX.E
       }
 
       return options.push({
-        label: t(`ENUMS.${enumName}`),
+        label: t(`ENUMS.ApartmentReservationStates.${enumName}`),
         name: 'state',
         selectValue: enumValue,
         disabled: enumValue.indexOf('offer') !== -1, // disable options that contains "offer"
