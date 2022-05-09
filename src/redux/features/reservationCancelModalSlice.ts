@@ -4,6 +4,7 @@ import { ApartmentReservationWithCustomer, Project } from '../../types';
 interface ReservationCancelModalContent {
   reservation: ApartmentReservationWithCustomer;
   ownershipType: Project['ownership_type'];
+  projectId: Project['uuid'];
 }
 
 interface ReservationCancelModalState {
