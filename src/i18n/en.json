@@ -233,6 +233,7 @@
   "components.reservations.ReservationCancelForm.transferToCustomerHelpText": "Reservation will be transferred to the selected customer.",
   "components.reservations.ReservationCancelModal.cancelReservation": "Cancel reservation",
   "components.reservations.ReservationCancelModal.cancelingForCustomer": "Canceling reservation for customer",
+  "components.reservations.ReservationCancelModal.cancelledSuccessfully": "Reservation cancelled",
   "components.reservations.ReservationCancelModal.close": "Close",
   "components.reservations.ReservationCancelModal.closeDialog": "Close dialog",
   "components.reservations.ReservationCancelModal.errorTitle": "Error",

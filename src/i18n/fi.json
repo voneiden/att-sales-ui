@@ -233,6 +233,7 @@
   "components.reservations.ReservationCancelForm.transferToCustomerHelpText": "Varaus siirretään valitulle asiakkuudelle.",
   "components.reservations.ReservationCancelModal.cancelReservation": "Peruuta varaus",
   "components.reservations.ReservationCancelModal.cancelingForCustomer": "Olet peruuttamassa varauksen asiakkuudelle",
+  "components.reservations.ReservationCancelModal.cancelledSuccessfully": "Varaus peruutettu",
   "components.reservations.ReservationCancelModal.close": "Sulje",
   "components.reservations.ReservationCancelModal.closeDialog": "Sulje ponnahdusikkuna",
   "components.reservations.ReservationCancelModal.errorTitle": "Virhe",
