@@ -295,7 +295,7 @@ export type ReservationEditFormData = {
 };
 
 export type ReservationCancelFormData = {
-  reason: string;
+  cancellation_reason: string;
   comment: string;
-  transfer_to_customer?: string;
+  new_customer_id?: string;
 };
