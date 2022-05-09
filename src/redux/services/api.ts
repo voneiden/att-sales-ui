@@ -10,6 +10,7 @@ import {
   CustomerListItem,
   Project,
   ProjectInstallment,
+  ReservationCancelFormData,
   ReservationEditFormData,
 } from '../../types';
 import type { RootState } from '../store';
@@ -134,6 +135,24 @@ export const api = createApi({
       ],
     }),
 
+    // POST: Cancel apartment reservation
+    cancelApartmentReservation: builder.mutation<
+      any,
+      { formData: ReservationCancelFormData; reservationId: number; projectId: string }
+    >({
+      query: (params) => {
+        return {
+          url: `apartment_reservations/${params.reservationId}/cancel/`,
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Project', id: arg.projectId },
+        { type: 'Reservation', id: arg.reservationId },
+      ],
+    }),
+
     // POST: Set apartment installments for a reservation
     setApartmentInstallments: builder.mutation<any, { formData: Partial<ApartmentInstallment>[]; id: number }>({
       query: (params) => {
@@ -160,5 +179,6 @@ export const {
   useUpdateCustomerByIdMutation,
   useGetApartmentReservationQuery,
   useSetApartmentReservationStateMutation,
+  useCancelApartmentReservationMutation,
   useSetApartmentInstallmentsMutation,
 } = api;
