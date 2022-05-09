@@ -86,6 +86,13 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     return `${reservation.queue_position}. ` + t(`${T_PATH}.position`);
   };
 
+  const renderPriorityNumber = () => {
+    if (reservation.priority_number !== undefined && reservation.priority_number !== null) {
+      return reservation.priority_number;
+    }
+    return '-';
+  };
+
   return (
     <div className={styles.row}>
       <div className={cx(styles.apartmentRow, isCanceled && styles.disabledRow)}>
@@ -100,11 +107,11 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             // TODO: Add cancellation reason and cancel dates
             <div>{t(`${T_PATH}.canceled`)}</div>
           ) : (
-            <>
-              <div>{renderLotteryPosition()}</div>
-              <div>{t(`${T_PATH}.priority`)}: TODO</div>
-            </>
+            <div>{renderLotteryPosition()}</div>
           )}
+          <div>
+            {t(`${T_PATH}.priority`)}: {renderPriorityNumber()}
+          </div>
         </div>
         <div className={styles.apartmentRowRight}>
           {!isCanceled && (
