@@ -56,6 +56,7 @@ const ReservationEditModal = (): JSX.Element | null => {
             closeDialog();
           });
       } catch (err: any) {
+        toast.show({ type: 'error' });
         console.error(err);
         setIsLoading(false);
       }
