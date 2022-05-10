@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm, SubmitHandler, get } from 'react-hook-form';
 import { Button, Dialog } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import formattedLivingArea from '../../utils/formatLivingArea';
 import Label from '../common/label/Label';
@@ -9,6 +12,8 @@ import SelectCustomerDropdown from '../customers/SelectCustomerDropdown';
 import { RootState } from '../../redux/store';
 import { toast } from '../common/toast/ToastManager';
 import { hideReservationAddModal } from '../../redux/features/reservationAddModalSlice';
+import { ReservationAddFormData } from '../../types';
+import { useCreateApartmentReservationMutation } from '../../redux/services/api';
 
 import styles from './ReservationModal.module.scss';
 
@@ -22,6 +27,60 @@ const ReservationAddModal = (): JSX.Element | null => {
   const apartment = reservationAddModal.content?.apartment;
   const project = reservationAddModal.content?.project;
   const [isLoading, setIsLoading] = useState(false);
+  const [createApartmentReservation, { isLoading: postCreateReservationLoading }] =
+    useCreateApartmentReservationMutation();
+  const schema = yup.object({
+    apartment_uuid: yup.string().required(t(`${T_PATH}.apartmentRequired`)),
+    customer_id: yup.string().required(t(`${T_PATH}.customerRequired`)),
+  });
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+  } = useForm<ReservationAddFormData>({
+    resolver: yupResolver(schema),
+  });
+
+  useEffect(() => {
+    if (apartment) {
+      setValue('apartment_uuid', apartment.apartment_uuid);
+    }
+  }, [apartment, setValue]);
+
+  const handleSelectCallback = (customerId: string) => {
+    setValue('customer_id', customerId);
+  };
+
+  const closeDialog = () => dispatch(hideReservationAddModal());
+
+  const handleFormSubmit = async (data: ReservationAddFormData) => {
+    if (!postCreateReservationLoading) {
+      setIsLoading(true);
+
+      // Project uuid is used to refetch project data (including reservations) after creating a new reservation
+      const projectId = project?.uuid || '';
+
+      try {
+        await createApartmentReservation({ formData: data, projectId: projectId })
+          .unwrap()
+          .then(() => {
+            toast.show({ type: 'success', content: t(`${T_PATH}.createdSuccessfully`) });
+            setIsLoading(false);
+            closeDialog();
+          });
+      } catch (err: any) {
+        toast.show({ type: 'error' });
+        console.error(err);
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const onSubmit: SubmitHandler<ReservationAddFormData> = (data, event) => {
+    event?.preventDefault();
+    handleFormSubmit(data);
+  };
 
   if (!isDialogOpen) return null;
 
@@ -34,25 +93,6 @@ const ReservationAddModal = (): JSX.Element | null => {
 
     return null;
   }
-
-  const closeDialog = () => dispatch(hideReservationAddModal());
-
-  // Handle form submit
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // TODO: Add operations here
-    setIsLoading(true);
-    console.log('form submitted');
-    console.log('apartment_uuid:', apartment.apartment_uuid);
-    setIsLoading(false);
-    closeDialog();
-  };
-
-  const handleSelectCallback = (customerId: string) => {
-    // TODO: set form value here
-    console.log('customer ID:', customerId);
-  };
 
   const formId = `reservation-add-form-${apartment.apartment_uuid}`;
 
@@ -89,8 +129,14 @@ const ReservationAddModal = (): JSX.Element | null => {
             </div>
           </div>
         </div>
-        <form id={formId} onSubmit={(e) => handleSubmit(e)}>
-          <SelectCustomerDropdown handleSelectCallback={handleSelectCallback} />
+        <form id={formId} onSubmit={handleSubmit(onSubmit)}>
+          <SelectCustomerDropdown
+            handleSelectCallback={handleSelectCallback}
+            errorMessage={get(errors, 'customer_id')?.message}
+            hasError={Boolean(get(errors, 'customer_id'))}
+          />
+          <input {...register('customer_id')} readOnly hidden />
+          <input {...register('apartment_uuid')} readOnly hidden />
         </form>
       </Dialog.Content>
       <Dialog.ActionButtons>
