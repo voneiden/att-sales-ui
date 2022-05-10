@@ -104,7 +104,7 @@ const ProjectDetail = (): JSX.Element | null => {
                     <Select label={t(`${T_PATH}.show`)} placeholder={t(`${T_PATH}.allApartments`)} options={[]} />
                   )}
                 </div>
-                <ProjectActions lotteryCompleted={project.lottery_completed} />
+                <ProjectActions project={project} />
               </div>
               <ApartmentTable
                 apartments={project.apartments}
