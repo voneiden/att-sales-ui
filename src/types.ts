@@ -255,6 +255,7 @@ export type CustomerReservation = {
   project_district: Project['district'];
   project_ownership_type: Project['ownership_type'];
   queue_position: number;
+  priority_number?: number;
   state: `${ApartmentReservationStates}`;
 };
 
