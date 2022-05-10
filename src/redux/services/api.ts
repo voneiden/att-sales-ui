@@ -10,6 +10,7 @@ import {
   CustomerListItem,
   Project,
   ProjectInstallment,
+  ReservationAddFormData,
   ReservationCancelFormData,
   ReservationEditFormData,
 } from '../../types';
@@ -117,6 +118,21 @@ export const api = createApi({
       providesTags: (result, error, arg) => [{ type: 'Reservation', id: arg }],
     }),
 
+    // POST: Create new apartment reservation
+    createApartmentReservation: builder.mutation<any, { formData: ReservationAddFormData; projectId: string }>({
+      query: (params) => {
+        return {
+          url: `apartment_reservations/`,
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Project', id: arg.projectId },
+        { type: 'Customer', id: arg.formData.customer_id },
+      ],
+    }),
+
     // POST: Set apartment reservation state
     setApartmentReservationState: builder.mutation<
       any,
@@ -177,6 +193,7 @@ export const {
   useGetCustomerByIdQuery,
   useCreateCustomerMutation,
   useUpdateCustomerByIdMutation,
+  useCreateApartmentReservationMutation,
   useGetApartmentReservationQuery,
   useSetApartmentReservationStateMutation,
   useCancelApartmentReservationMutation,
