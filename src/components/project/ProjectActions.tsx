@@ -91,29 +91,19 @@ const DownloadApplicantsListButton = ({
 const ProjectActions = ({ project }: ProjectActionsProps): JSX.Element => {
   const { t } = useTranslation();
 
-  if (project.lottery_completed) {
-    // TODO: add functionality for these two buttons
-    return (
-      <div>
-        <span className={styles.action}>
-          <Button variant="primary" iconRight={<IconDownload />} theme="black" disabled>
-            {t(`${T_PATH}.createBuyerMailingList`)}
-          </Button>
-        </span>
-        <span className={styles.action}>
-          <Button variant="primary" iconRight={<IconDownload />} theme="black" disabled>
-            {t(`${T_PATH}.downloadLotteryResults`)}
-          </Button>
-        </span>
-      </div>
-    );
-  }
-
   return (
     <div>
       <span className={styles.action}>
         <DownloadApplicantsListButton housingCompany={project.housing_company} projectUuid={project.uuid} />
       </span>
+      {/* TODO: add functionality for this button */}
+      {project.lottery_completed && (
+        <span className={styles.action}>
+          <Button variant="primary" iconRight={<IconDownload />} theme="black" disabled>
+            {t(`${T_PATH}.downloadLotteryResults`)}
+          </Button>
+        </span>
+      )}
     </div>
   );
 };
