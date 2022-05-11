@@ -231,6 +231,7 @@ export type ApartmentReservationWithCustomer = ApartmentReservation & {
   customer: number;
   has_children: boolean;
   right_of_residence: string;
+  has_multiple_winning_apartments: boolean;
 };
 
 export type ApartmentReservationWithInstallments = ApartmentReservation & {

@@ -88,7 +88,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
               </div>
             )}
           </Link>
-          {isLotteryResult && renderReviewNotification(reservation)}
+          {renderNotificationIcon(reservation, isLotteryResult)}
         </div>
       );
     }
@@ -103,12 +103,10 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
     }
   };
 
-  const renderReviewNotification = (reservation: ApartmentReservationWithCustomer) => {
-    // TODO: Remove 'reservation.state' when API gets updated
-    if (
-      reservation.current_state?.value === ApartmentReservationStates.REVIEW ||
-      reservation.state === ApartmentReservationStates.REVIEW
-    ) {
+  // Show bell icon for customers where the customer has multiple winning apartments/reservations
+  // Ignore canceled reservations
+  const renderNotificationIcon = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
+    if (!isCanceled(reservation) && isLotteryResult && reservation.has_multiple_winning_apartments) {
       return (
         <span className={cx(styles.bellIcon, resultRowOpen && styles.rowOpen)}>
           <IconBell />
