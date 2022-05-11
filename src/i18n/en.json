@@ -363,6 +363,17 @@
       "READY": "Ready",
       "UPCOMING": "Upcoming"
     },
+    "ApartmentState": {
+      "accepted_by_municipality": "Accepted by municipality",
+      "free": "Free",
+      "offer_accepted": "Offer accepted",
+      "offer_expired": "Offer expired",
+      "offered": "Offer sent",
+      "reserved": "Reserved",
+      "reservation_agreement": "Reservation agreement",
+      "review": "Review required",
+      "sold": "Sold"
+    },
     "ApartmentReservationStates": {
       "ACCEPTED_BY_MUNICIPALITY": "Accepted by municipality",
       "CANCELED": "Canceled",
