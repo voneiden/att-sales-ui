@@ -14,6 +14,7 @@ const T_PATH = 'components.apartment.ApartmentTable';
 
 interface IProps {
   apartments: Apartment[] | undefined;
+  hasActiveFilters: boolean;
   project: Project;
   ownershipType: Project['ownership_type'];
   housingCompany: Project['housing_company'];
@@ -22,6 +23,7 @@ interface IProps {
 
 const ApartmentTable = ({
   apartments,
+  hasActiveFilters,
   housingCompany,
   ownershipType,
   project,
@@ -83,7 +85,10 @@ const ApartmentTable = ({
       <ul className={styles.apartmentListTable}>
         {!sortedApartments.length ? (
           <li key="apartment-list-empty">
-            <StatusText>{t(`${T_PATH}.noApartments`)}</StatusText>
+            <StatusText>
+              {t(`${T_PATH}.noApartments`)}
+              {hasActiveFilters && ` ` + t(`${T_PATH}.withSelectedFilters`)}
+            </StatusText>
           </li>
         ) : (
           <>
