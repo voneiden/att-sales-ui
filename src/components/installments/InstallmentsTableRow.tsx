@@ -40,7 +40,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
             <tbody>
               <tr>
                 <th style={{ textAlign: 'right' }}>{t(`${T_PATH}.installmentType`)}</th>
-                <td>{t(`ENUMS.${installment.type}`)}</td>
+                <td>{t(`ENUMS.InstallmentTypes.${installment.type}`)}</td>
               </tr>
               <tr>
                 <th style={{ textAlign: 'right' }}>{t(`${T_PATH}.sum`)}</th>
@@ -81,7 +81,7 @@ const InstallmentsTableRow = ({ installment }: IProps) => {
 
   return (
     <tr>
-      <td>{t(`ENUMS.${installment.type}`)}</td>
+      <td>{t(`ENUMS.InstallmentTypes.${installment.type}`)}</td>
       <td style={{ textAlign: 'right' }}>{formattedCurrency(installmentAmount)}</td>
       <td>{installment.due_date ? formatDateTime(installment.due_date, true) : '-'}</td>
       <td>{installment.account_number}</td>

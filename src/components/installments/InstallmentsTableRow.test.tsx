@@ -27,7 +27,7 @@ describe('InstallmentsTableRow', () => {
         </tbody>
       </table>
     );
-    expect(screen.getByText('ENUMS.DOWN_PAYMENT')).toBeDefined();
+    expect(screen.getByText('ENUMS.InstallmentTypes.DOWN_PAYMENT')).toBeDefined();
     expect(screen.getByText('18.1.2025')).toBeDefined();
     expect(screen.getByText('FI90 5345 4353 4012 10')).toBeDefined();
     expect(screen.getByText('1231231 3123123')).toBeDefined();

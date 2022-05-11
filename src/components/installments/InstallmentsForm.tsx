@@ -246,7 +246,7 @@ const InstallmentsForm = ({
     // Loop through InstallmentTypes ENUMs and create dropdown options out of them
     Object.values(installmentCandidates).forEach((installmentCandidate) => {
       options.push({
-        label: t(`ENUMS.${installmentCandidate.type}`),
+        label: t(`ENUMS.InstallmentTypes.${installmentCandidate.type}`),
         name: 'type',
         selectValue: installmentCandidate.type,
       });
@@ -389,7 +389,7 @@ const InstallmentsForm = ({
       <tbody className="hds-table__content">
         {installmentCandidates.map((candidate, index) => (
           <tr key={index}>
-            <td>{t(`ENUMS.${candidate.type}`)}</td>
+            <td>{t(`ENUMS.InstallmentTypes.${candidate.type}`)}</td>
             <td>{(candidate.amount / 100).toFixed(2)}</td>
             <td>{candidate.due_date !== null ? formatDueDate(candidate.due_date) : '-'}</td>
             <td>{candidate.account_number}</td>

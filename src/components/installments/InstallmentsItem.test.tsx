@@ -41,7 +41,7 @@ describe('InstallmentsItem', () => {
     await screen.findAllByText('B16', { exact: false });
     await screen.findAllByText('1h+k+s', { exact: false });
     await screen.findAllByText('Myyntihinta');
-    await screen.findAllByText('ENUMS.PAYMENT_1');
+    await screen.findAllByText('ENUMS.InstallmentTypes.PAYMENT_1');
     await screen.findAllByText('reference-1');
     await screen.findAllByText('Velaton hinta', { exact: false });
   });
@@ -53,7 +53,7 @@ describe('InstallmentsItem', () => {
 
     await screen.findAllByText('B16', { exact: false });
     await screen.findAllByText('1h+k+s', { exact: false });
-    await screen.findAllByText('ENUMS.PAYMENT_2');
+    await screen.findAllByText('ENUMS.InstallmentTypes.PAYMENT_2');
     await screen.findAllByText('reference-2');
     await screen.findAllByText('AO-maksu');
   });

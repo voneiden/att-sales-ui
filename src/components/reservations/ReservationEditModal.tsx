@@ -63,6 +63,7 @@ const ReservationEditModal = (): JSX.Element | null => {
   };
 
   const sortedApplicants = sortReservationApplicants(reservation.applicants);
+  const formId = `reservation-edit-form-${reservation.id}`;
 
   return (
     <Dialog
@@ -89,10 +90,10 @@ const ReservationEditModal = (): JSX.Element | null => {
             })}
           </div>
         </div>
-        <ReservationEditForm reservation={reservation} handleFormCallback={handleFormCallback} />
+        <ReservationEditForm reservation={reservation} handleFormCallback={handleFormCallback} formId={formId} />
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button variant="primary" type="submit" form={`reservation-edit-form-${reservation.id}`} disabled={isLoading}>
+        <Button variant="primary" type="submit" form={formId} disabled={isLoading}>
           {t(`${T_PATH}.edit`)}
         </Button>
         <Button variant="secondary" onClick={() => closeDialog()}>

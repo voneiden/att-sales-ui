@@ -6,29 +6,30 @@ import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { ApartmentReservationWithCustomer, Project, ReservationCancelFormData, SelectOption } from '../../types';
+import SelectCustomerDropdown from '../customers/SelectCustomerDropdown';
+import { Project, ReservationCancelFormData, SelectOption } from '../../types';
 import { ReservationCancelReasons } from '../../enums';
 
 const T_PATH = 'components.reservations.ReservationCancelForm';
 
 interface IProps {
-  reservation: ApartmentReservationWithCustomer;
-  ownershipType: Project['ownership_type'];
+  formId: string;
   handleFormCallback: (data: ReservationCancelFormData) => void;
+  ownershipType: Project['ownership_type'];
 }
 
-const ReservationCancelForm = ({ reservation, ownershipType, handleFormCallback }: IProps): JSX.Element => {
+const ReservationCancelForm = ({ formId, ownershipType, handleFormCallback }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const schema = yup.object({
-    reason: yup.string().required(t(`${T_PATH}.reasonRequired`)),
-    transfer_to_customer: yup
+    cancellation_reason: yup.string().required(t(`${T_PATH}.reasonRequired`)),
+    comment: yup.string().nullable(),
+    new_customer_id: yup
       .string()
-      .when('reason', {
+      .when('cancellation_reason', {
         is: ReservationCancelReasons.TRANSFERRED,
         then: yup.string().required(t(`${T_PATH}.customerRequired`)),
       })
       .nullable(),
-    comment: yup.string().nullable(),
   });
   const {
     control,
@@ -41,14 +42,14 @@ const ReservationCancelForm = ({ reservation, ownershipType, handleFormCallback 
     resolver: yupResolver(schema),
   });
 
-  const isTransferred = watch('reason') === ReservationCancelReasons.TRANSFERRED ? true : false;
+  const isTransferred = watch('cancellation_reason') === ReservationCancelReasons.TRANSFERRED ? true : false;
 
   const onSubmit: SubmitHandler<ReservationCancelFormData> = (data, event) => {
     event?.preventDefault();
     const formData = { ...data };
 
-    // If cancellation reason is not "transferred", remove "transfer_to_customer" field from api data
-    const apiData = !isTransferred ? omit(formData, 'transfer_to_customer') : formData;
+    // If cancellation reason is not "transferred", remove "new_customer_id" field from api data
+    const apiData = !isTransferred ? omit(formData, 'new_customer_id') : formData;
 
     handleFormCallback(apiData);
   };
@@ -66,8 +67,8 @@ const ReservationCancelForm = ({ reservation, ownershipType, handleFormCallback 
       }
 
       return options.push({
-        label: t(`ENUMS.${enumName}`),
-        name: 'reason',
+        label: t(`ENUMS.ReservationCancelReasons.${enumName}`),
+        name: 'cancellation_reason',
         selectValue: enumValue,
       });
     });
@@ -80,47 +81,43 @@ const ReservationCancelForm = ({ reservation, ownershipType, handleFormCallback 
     return reasonOptions().find((option) => option.selectValue === value);
   };
 
+  const handleSelectCallback = (customerId: string) => {
+    setValue('new_customer_id', customerId);
+  };
+
   return (
-    <form id={`reservation-cancel-form-${reservation.id}`} onSubmit={handleSubmit(onSubmit)}>
+    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Controller
-        name="reason"
+        name="cancellation_reason"
         control={control}
         render={({ field }) => (
           <Select
-            id="reason"
+            id="cancellation_reason"
             label={t(`${T_PATH}.reason`)}
             placeholder={t(`${T_PATH}.reason`)}
             required
             isOptionDisabled={(item: SelectOption): boolean => !!item.disabled}
-            invalid={Boolean(get(errors, 'reason'))}
-            error={get(errors, 'reason')?.message}
+            invalid={Boolean(get(errors, 'cancellation_reason'))}
+            error={get(errors, 'cancellation_reason')?.message}
             options={reasonOptions()}
             value={getReasonOption(field.value || '')}
             onChange={(selected: SelectOption) => {
-              setValue('reason', selected.selectValue);
+              setValue('cancellation_reason', selected.selectValue);
             }}
             style={{ marginBottom: '1rem' }}
           />
         )}
       />
       {isTransferred && (
-        <Controller
-          name="transfer_to_customer"
-          control={control}
-          render={({ field }) => (
-            <Select
-              id="transferToCustomer"
-              label={t(`${T_PATH}.transferToCustomer`)}
-              placeholder="TODO"
-              required
-              invalid={Boolean(get(errors, 'transfer_to_customer'))}
-              error={get(errors, 'transfer_to_customer')?.message}
-              options={[]}
-              style={{ marginBottom: '1rem' }}
-              helper={t(`${T_PATH}.transferToCustomerHelpText`)}
-            />
-          )}
-        />
+        <div style={{ marginBottom: '1rem' }}>
+          <SelectCustomerDropdown
+            handleSelectCallback={handleSelectCallback}
+            errorMessage={get(errors, 'new_customer_id')?.message}
+            hasError={Boolean(get(errors, 'new_customer_id'))}
+            helpText={t(`${T_PATH}.transferToCustomerHelpText`)}
+          />
+          <input {...register('new_customer_id')} readOnly hidden />
+        </div>
       )}
       <TextArea
         id="additionalInfo"

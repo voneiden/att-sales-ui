@@ -156,8 +156,9 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
               onClick={() =>
                 dispatch(
                   showReservationCancelModal({
-                    reservation: reservation,
                     ownershipType: projectOwnershipType,
+                    projectId: project.uuid,
+                    reservation: reservation,
                   })
                 )
               }

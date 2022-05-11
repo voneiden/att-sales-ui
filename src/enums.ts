@@ -54,10 +54,9 @@ export enum ApartmentReservationStates {
   SUBMITTED = 'submitted',
 }
 
-// TODO: Re-define these after API is ready
 export enum ReservationCancelReasons {
+  CANCELED = 'canceled',
   RESERVATION_AGREEMENT_CANCELED = 'reservation_agreement_canceled',
-  RESERVATION_CANCELED = 'reservation_canceled',
   TERMINATED = 'terminated',
   TRANSFERRED = 'transferred',
 }

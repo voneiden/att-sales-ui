@@ -37,14 +37,21 @@ const ReservationAddModal = (): JSX.Element | null => {
 
   const closeDialog = () => dispatch(hideReservationAddModal());
 
-  const handleFormCallback = (customerId: string) => {
-    setIsLoading(true);
+  // Handle form submit
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     // TODO: Add operations here
+    setIsLoading(true);
     console.log('form submitted');
-    console.log('customer ID:', customerId);
     console.log('apartment_uuid:', apartment.apartment_uuid);
     setIsLoading(false);
     closeDialog();
+  };
+
+  const handleSelectCallback = (customerId: string) => {
+    // TODO: set form value here
+    console.log('customer ID:', customerId);
   };
 
   const formId = `reservation-add-form-${apartment.apartment_uuid}`;
@@ -82,7 +89,9 @@ const ReservationAddModal = (): JSX.Element | null => {
             </div>
           </div>
         </div>
-        <SelectCustomerDropdown formId={formId} handleFormCallback={handleFormCallback} />
+        <form id={formId} onSubmit={(e) => handleSubmit(e)}>
+          <SelectCustomerDropdown handleSelectCallback={handleSelectCallback} />
+        </form>
       </Dialog.Content>
       <Dialog.ActionButtons>
         <Button variant="primary" type="submit" form={formId} disabled={isLoading}>
