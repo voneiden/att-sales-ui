@@ -79,11 +79,11 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     preDownloading: preContractDownloading,
   });
 
-  const renderLotteryPosition = (): string => {
-    if (reservation.lottery_position === null) {
-      return t(`${T_PATH}.lotteryUncompleted`);
+  const renderQueuePosition = (): JSX.Element | undefined => {
+    if (!reservation.project_lottery_completed) {
+      return <div>{t(`${T_PATH}.lotteryUncompleted`)}</div>;
     }
-    return `${reservation.queue_position}. ` + t(`${T_PATH}.position`);
+    return <div>{`${reservation.queue_position}. ` + t(`${T_PATH}.position`)}</div>;
   };
 
   const renderPriorityNumber = () => {
@@ -107,7 +107,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             // TODO: Add cancellation reason and cancel dates
             <div>{t(`${T_PATH}.canceled`)}</div>
           ) : (
-            <div>{renderLotteryPosition()}</div>
+            renderQueuePosition()
           )}
           <div>
             {t(`${T_PATH}.priority`)}: {renderPriorityNumber()}
