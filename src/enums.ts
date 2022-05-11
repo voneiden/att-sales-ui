@@ -60,3 +60,15 @@ export enum ReservationCancelReasons {
   TERMINATED = 'terminated',
   TRANSFERRED = 'transferred',
 }
+
+export enum ApartmentState {
+  FREE = 'free',
+  RESERVED = 'reserved',
+  RESERVATION_AGREEMENT = 'reservation_agreement',
+  OFFERED = 'offered',
+  OFFER_ACCEPTED = 'offer_accepted',
+  OFFER_EXPIRED = 'offer_expired',
+  ACCEPTED_BY_MUNICIPALITY = 'accepted_by_municipality',
+  SOLD = 'sold',
+  REVIEW = 'review',
+}
