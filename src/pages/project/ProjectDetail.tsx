@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Notification, Select, Tabs } from 'hds-react';
+import { LoadingSpinner, Notification, Select, Tabs } from 'hds-react';
 
 import ApartmentTable from '../../components/apartment/ApartmentTable';
 import Breadcrumbs, { BreadcrumbItem } from '../../components/common/breadcrumbs/Breadcrumbs';
@@ -10,7 +10,6 @@ import Container from '../../components/common/container/Container';
 import ProjectActions from '../../components/project/ProjectActions';
 import ProjectCard from '../../components/project/ProjectCard';
 import ProjectInstallments from '../../components/installments/ProjectInstallments';
-import StatusText from '../../components/common/statusText/StatusText';
 import { toast } from '../../components/common/toast/ToastManager';
 import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../../redux/services/api';
 import { usePageTitle } from '../../utils/usePageTitle';
@@ -59,12 +58,14 @@ const ProjectDetail = (): JSX.Element | null => {
     },
   ];
 
+  const loadingSpinner = () => (
+    <Container className={styles.loadingSpinnerContainer}>
+      <LoadingSpinner loadingText={t(`${T_PATH}.loading`)} />
+    </Container>
+  );
+
   if (isLoading) {
-    return (
-      <Container>
-        <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
-      </Container>
-    );
+    return loadingSpinner();
   }
 
   if (isError) {
@@ -84,6 +85,7 @@ const ProjectDetail = (): JSX.Element | null => {
       <Container>
         <Breadcrumbs current={project.housing_company} ancestors={breadcrumbAncestors} />
       </Container>
+      {isFetching && <div className={styles.fixedSpinner}>{loadingSpinner()}</div>}
       <Container wide className={cx(isFetching && styles.disabled)}>
         <ProjectCard
           project={project}

@@ -299,3 +299,8 @@ export type ReservationCancelFormData = {
   comment: string;
   new_customer_id?: string;
 };
+
+export type ReservationAddFormData = {
+  apartment_uuid: string;
+  customer_id: string;
+};
