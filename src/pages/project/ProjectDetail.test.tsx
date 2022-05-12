@@ -9,7 +9,7 @@ describe('ProjectDetail Page', () => {
   it('handles good response', async () => {
     renderWithProviders(<ProjectDetail />);
 
-    screen.getByText('pages.project.ProjectDetail.loading...');
+    screen.getByText('pages.project.ProjectDetail.loading');
 
     await screen.findByText('Kolkyt 30');
   });
@@ -37,7 +37,7 @@ describe('ProjectDetail Page', () => {
 
     renderWithProviders(<ProjectDetail />);
 
-    screen.getByText('pages.project.ProjectDetail.loading...');
+    screen.getByText('pages.project.ProjectDetail.loading');
 
     await screen.findByText('pages.project.ProjectDetail.errorLoadingProject');
   });
