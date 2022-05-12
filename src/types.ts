@@ -1,4 +1,10 @@
-import { StateOfSale, InstallmentTypes, InstallmentPercentageSpecifiers, ApartmentReservationStates } from './enums';
+import {
+  ApartmentReservationStates,
+  ApartmentState,
+  InstallmentPercentageSpecifiers,
+  InstallmentTypes,
+  StateOfSale,
+} from './enums';
 
 export type AnyObject = Record<string, unknown>;
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -47,6 +53,7 @@ export type Apartment = {
   services_description: string;
   showing_times: string[];
   site_owner: string;
+  state: `${ApartmentState}`;
   storage_description: string;
   title: string;
   url: string;

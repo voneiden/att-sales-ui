@@ -367,6 +367,17 @@
       "READY": "Valmis",
       "UPCOMING": "Tuleva"
     },
+    "ApartmentState": {
+      "accepted_by_municipality": "Kunta hyväksynyt",
+      "free": "Vapaa",
+      "offer_accepted": "Tarjous hyväksytty",
+      "offer_expired": "Tarjous vanhentunut",
+      "offered": "Tarjous voimassa",
+      "reserved": "Varattu",
+      "reservation_agreement": "Varaussopimus",
+      "review": "Myyjän tarkistettava",
+      "sold": "Myyty"
+    },
     "ApartmentReservationStates": {
       "ACCEPTED_BY_MUNICIPALITY": "Kunta hyväksynyt",
       "CANCELED": "Peruttu",
