@@ -2,14 +2,17 @@ import React from 'react';
 import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LoadingSpinner, Notification, Select, Tabs } from 'hds-react';
+import { LoadingSpinner, Notification, Tabs } from 'hds-react';
 
+import ApartmentStateFilterSelect from '../../components/apartment/ApartmentStateFilterSelect';
 import ApartmentTable from '../../components/apartment/ApartmentTable';
 import Breadcrumbs, { BreadcrumbItem } from '../../components/common/breadcrumbs/Breadcrumbs';
 import Container from '../../components/common/container/Container';
 import ProjectActions from '../../components/project/ProjectActions';
 import ProjectCard from '../../components/project/ProjectCard';
 import ProjectInstallments from '../../components/installments/ProjectInstallments';
+import useSessionStorage from '../../utils/useSessionStorage';
+import { Project } from '../../types';
 import { toast } from '../../components/common/toast/ToastManager';
 import { useGetProjectByIdQuery, useStartLotteryForProjectMutation } from '../../redux/services/api';
 import { usePageTitle } from '../../utils/usePageTitle';
@@ -31,6 +34,11 @@ const ProjectDetail = (): JSX.Element | null => {
     isSuccess,
   } = useGetProjectByIdQuery(projectId || '0');
   const [startLotteryForProject, { isLoading: startLotterIsLoading }] = useStartLotteryForProjectMutation();
+  const [apartmentStateFilter, setApartmentStateFilter] = useSessionStorage({
+    defaultValue: '',
+    key: `apartmentStateFilter-${projectId || project?.id}`,
+  });
+  const hasActiveFilters = apartmentStateFilter !== '';
 
   usePageTitle(project?.housing_company ? project.housing_company : t('PAGES.projects'));
 
@@ -58,6 +66,10 @@ const ProjectDetail = (): JSX.Element | null => {
     },
   ];
 
+  const handleFilterChangeCallback = (value: string) => {
+    setApartmentStateFilter(value);
+  };
+
   const loadingSpinner = () => (
     <Container className={styles.loadingSpinnerContainer}>
       <LoadingSpinner loadingText={t(`${T_PATH}.loading`)} />
@@ -79,6 +91,13 @@ const ProjectDetail = (): JSX.Element | null => {
   }
 
   if (!isSuccess || !project) return null;
+
+  const getFilteredProjects = (): Project['apartments'] => {
+    if (hasActiveFilters) {
+      return project.apartments.filter((p) => p.state === apartmentStateFilter);
+    }
+    return project.apartments;
+  };
 
   return (
     <>
@@ -103,17 +122,21 @@ const ProjectDetail = (): JSX.Element | null => {
               <div className={styles.actions}>
                 <div className={styles.selectWrapper}>
                   {project.lottery_completed && (
-                    <Select label={t(`${T_PATH}.show`)} placeholder={t(`${T_PATH}.allApartments`)} options={[]} />
+                    <ApartmentStateFilterSelect
+                      activeFilter={apartmentStateFilter}
+                      handleFilterChangeCallback={handleFilterChangeCallback}
+                    />
                   )}
                 </div>
                 <ProjectActions project={project} />
               </div>
               <ApartmentTable
-                apartments={project.apartments}
+                apartments={getFilteredProjects()}
                 ownershipType={project.ownership_type.toLowerCase()}
                 project={project}
                 housingCompany={project.housing_company}
                 lotteryCompleted={project.lottery_completed}
+                hasActiveFilters={hasActiveFilters}
               />
             </div>
           </Tabs.TabPanel>
