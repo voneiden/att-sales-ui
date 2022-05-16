@@ -200,18 +200,6 @@ export type ProjectInstallmentInputRow = {
   due_date: string;
 };
 
-export type ApartmentApplicant = {
-  first_name: string;
-  last_name: string;
-  is_primary_applicant: boolean;
-  email: string;
-};
-
-export type ApartmentReservationState = {
-  value: `${ApartmentReservationStates}`;
-  extra_info?: string;
-};
-
 export type ApartmentReservationCancellation = {
   cancellation_reason: string;
   date: string;
@@ -222,20 +210,24 @@ export type ApartmentReservationOfferInfo = {
   due_date: string;
 };
 
+export type ApartmentReservationCustomer = {
+  id: Customer['id'];
+  primary_profile: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
+  secondary_profile?: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
+};
+
 export type ApartmentReservation = {
   apartment_uuid: Apartment['uuid'];
   cancellation_info?: ApartmentReservationCancellation;
-  current_state: ApartmentReservationState;
   id: number;
   lottery_position: number;
   offer_info?: ApartmentReservationOfferInfo;
   queue_position: number;
-  state: `${ApartmentReservationStates}`; // TODO: Remove when API gets updated
+  state: `${ApartmentReservationStates}`;
 };
 
 export type ApartmentReservationWithCustomer = ApartmentReservation & {
-  applicants: ApartmentApplicant[];
-  customer: number;
+  customer: ApartmentReservationCustomer;
   has_children: boolean;
   right_of_residence: string;
   has_multiple_winning_apartments: boolean;
