@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ReservationCancelForm from './ReservationCancelForm';
-import sortReservationApplicants from '../../utils/sortReservationApplicants';
 import { RootState } from '../../redux/store';
 import { toast } from '../common/toast/ToastManager';
 import { hideReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
@@ -64,7 +63,6 @@ const ReservationCancelModal = (): JSX.Element | null => {
     }
   };
 
-  const sortedApplicants = sortReservationApplicants(reservation.applicants || []);
   const formId = `reservation-cancel-form-${reservation.id}`;
 
   return (
@@ -84,12 +82,9 @@ const ReservationCancelModal = (): JSX.Element | null => {
         <div className={styles.customer}>
           {t(`${T_PATH}.cancelingForCustomer`)}:
           <div className={styles.applicants}>
-            {sortedApplicants.map((applicant, index) => {
-              if (index === 0) {
-                return `${applicant.last_name}, ${applicant.first_name}`;
-              }
-              return ` (${applicant.last_name}, ${applicant.first_name})`;
-            })}
+            {reservation.customer.primary_profile.last_name} {reservation.customer.primary_profile.first_name}
+            {reservation.customer.secondary_profile &&
+              ` (${reservation.customer.secondary_profile.last_name}, ${reservation.customer.secondary_profile.first_name})`}
           </div>
         </div>
         <ReservationCancelForm ownershipType={ownershipType} handleFormCallback={handleFormCallback} formId={formId} />
