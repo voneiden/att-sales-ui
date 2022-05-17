@@ -8,8 +8,7 @@ import { useDispatch } from 'react-redux';
 import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
 import formatDateTime from '../../utils/formatDateTime';
-import sortReservationApplicants from '../../utils/sortReservationApplicants';
-import { Apartment, ApartmentReservationWithCustomer, Project } from '../../types';
+import { Apartment, ApartmentReservationCustomer, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
 import { showReservationAddModal } from '../../redux/features/reservationAddModalSlice';
 import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
@@ -43,17 +42,11 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
   const toggleResultRow = () => setResultRowOpen(!resultRowOpen);
 
   const isCanceled = (reservation: ApartmentReservationWithCustomer): boolean => {
-    // TODO: Remove 'reservation.state' when API gets updated
-    return (
-      reservation.current_state?.value === ApartmentReservationStates.CANCELED ||
-      reservation.state === ApartmentReservationStates.CANCELED
-    );
+    return reservation.state === ApartmentReservationStates.CANCELED;
   };
 
   const renderApplicants = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
-    if (reservation.applicants) {
-      const sortedApplicants = sortReservationApplicants(reservation.applicants);
-
+    if (reservation.customer) {
       const renderOfferInfo = () => {
         return <span className={styles.offer}>TODO: Offers</span>;
       };
@@ -69,18 +62,29 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
         return `${reservation.queue_position}.`;
       };
 
+      const renderCustomerProfile = (
+        profile: ApartmentReservationCustomer['primary_profile' | 'secondary_profile']
+      ) => {
+        return (
+          <>
+            {profile?.last_name}, {profile?.first_name} {isLotteryResult && profile?.email && `\xa0 ${profile.email}`}
+          </>
+        );
+      };
+
       return (
         <div className={cx(styles.customer, isLotteryResult && styles.isLottery)}>
-          <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer || 0}`} className={styles.customerLink}>
-            {sortedApplicants.map((applicant, index) => (
-              <div key={index}>
-                {isLotteryResult && (
-                  <span className={styles.queueNumberSpacer}>{index === 0 && renderPositionNumber()}</span>
-                )}
-                {applicant.last_name}, {applicant.first_name}{' '}
-                {isLotteryResult && applicant.email && `\xa0 ${applicant.email}`}
+          <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer.id}`} className={styles.customerLink}>
+            <div>
+              {isLotteryResult && <span className={styles.queueNumberSpacer}>{renderPositionNumber()}</span>}
+              {renderCustomerProfile(reservation.customer.primary_profile)}
+            </div>
+            {reservation.customer.secondary_profile && (
+              <div>
+                {isLotteryResult && <span className={styles.queueNumberSpacer} />}
+                {renderCustomerProfile(reservation.customer.secondary_profile)}
               </div>
-            ))}
+            )}
             {isLotteryResult && reservation.offer_info && (
               <div>
                 <span className={styles.queueNumberSpacer} />
