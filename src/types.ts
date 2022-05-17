@@ -236,6 +236,12 @@ export type ApartmentReservationWithInstallments = ApartmentReservation & {
   installments: ApartmentInstallment[];
 };
 
+export type ReservationStateChangeEvent = {
+  timestamp: string;
+  state: `${ApartmentReservationStates}`;
+  comment: string;
+};
+
 export type CustomerReservation = {
   id: number;
   apartment_uuid: Apartment['uuid'];
@@ -256,6 +262,7 @@ export type CustomerReservation = {
   queue_position?: number;
   priority_number?: number;
   state: `${ApartmentReservationStates}`;
+  state_change_events?: ReservationStateChangeEvent[];
 };
 
 export type SelectOption = {
