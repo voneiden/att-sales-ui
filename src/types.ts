@@ -220,9 +220,10 @@ export type ApartmentReservation = {
   apartment_uuid: Apartment['uuid'];
   cancellation_info?: ApartmentReservationCancellation;
   id: number;
-  lottery_position: number;
+  lottery_position?: number;
   offer_info?: ApartmentReservationOfferInfo;
-  queue_position: number;
+  priority_number?: number;
+  queue_position?: number;
   state: `${ApartmentReservationStates}`;
 };
 
@@ -248,14 +249,14 @@ export type CustomerReservation = {
   apartment_right_of_occupancy_payment?: Apartment['right_of_occupancy_payment'];
   apartment_sales_price?: Apartment['sales_price'];
   apartment_installments?: ApartmentInstallment[];
-  lottery_position: number;
+  lottery_position?: number;
   project_uuid: Project['uuid'];
   project_housing_company: Project['housing_company'];
   project_street_address: Project['street_address'];
   project_district: Project['district'];
   project_ownership_type: Project['ownership_type'];
   project_lottery_completed: Project['lottery_completed'];
-  queue_position: number;
+  queue_position?: number;
   priority_number?: number;
   state: `${ApartmentReservationStates}`;
 };
