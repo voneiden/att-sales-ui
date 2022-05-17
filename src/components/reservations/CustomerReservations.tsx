@@ -55,14 +55,11 @@ export const ReservationsByProject = ({ customer, reservations }: ReservationsBy
     key: `reservationProjectRowOpen-${reservations[0].project_uuid}`,
   });
   const toggleProject = () => setProjectOpen(!projectOpen);
-  // Sort reservations by queue position
-  const sortedReservations = [...reservations];
-  sortedReservations.sort((a, b) => a.queue_position - b.queue_position);
 
   return (
     <div className={cx(styles.singleProject, projectOpen && styles.open)}>
       <div className={styles.projectRow}>
-        <ProjectName project={getReservationProjectData(sortedReservations[0])} asLink />
+        <ProjectName project={getReservationProjectData(reservations[0])} asLink />
         <Button
           variant="secondary"
           theme="black"
@@ -74,7 +71,7 @@ export const ReservationsByProject = ({ customer, reservations }: ReservationsBy
         </Button>
       </div>
       {projectOpen &&
-        sortedReservations.map((reservation) => (
+        reservations.map((reservation) => (
           <div key={reservation.id} className={styles.singleApartment}>
             <CustomerReservationRow reservation={reservation} customer={customer} />
           </div>
