@@ -3,6 +3,7 @@ import {
   ApartmentState,
   InstallmentPercentageSpecifiers,
   InstallmentTypes,
+  ReservationCancelReasons,
   StateOfSale,
 } from './enums';
 
@@ -200,11 +201,6 @@ export type ProjectInstallmentInputRow = {
   due_date: string;
 };
 
-export type ApartmentReservationCancellation = {
-  cancellation_reason: string;
-  date: string;
-};
-
 export type ApartmentReservationOfferInfo = {
   accept_date?: string;
   due_date: string;
@@ -218,7 +214,8 @@ export type ApartmentReservationCustomer = {
 
 export type ApartmentReservation = {
   apartment_uuid: Apartment['uuid'];
-  cancellation_info?: ApartmentReservationCancellation;
+  cancellation_reason?: `${ReservationCancelReasons}`;
+  cancellation_timestamp?: string;
   id: number;
   lottery_position?: number;
   offer_info?: ApartmentReservationOfferInfo;
