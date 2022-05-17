@@ -148,8 +148,9 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
       <div className={styles.actionButtons}>
         {isCanceled(reservation) ? (
           <div className={styles.cancellationReason}>
-            {reservation.cancellation_info?.cancellation_reason}{' '}
-            {reservation.cancellation_info?.date ? formatDateTime(reservation.cancellation_info.date, true) : '-'}
+            {reservation.cancellation_reason &&
+              t(`ENUMS.ReservationCancelReasons.${reservation.cancellation_reason.toUpperCase()}`)}{' '}
+            {reservation.cancellation_timestamp && formatDateTime(reservation.cancellation_timestamp)}
           </div>
         ) : (
           <>
