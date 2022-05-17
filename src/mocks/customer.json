@@ -64,8 +64,16 @@
         }
       ],
       "lottery_position": null,
-      "queue_position": 2,
-      "state": "reserved"
+      "queue_position": 1,
+      "priority_number": null,
+      "state": "reserved",
+      "state_change_events": [
+        {
+          "timestamp": "2022-05-10T09:57:58.951712+03:00",
+          "state": "reserved",
+          "comment": ""
+        }
+      ]
     },
     {
       "id": 2,
@@ -83,8 +91,31 @@
       "apartment_sales_price": 9000000,
       "apartment_installments": null,
       "lottery_position": null,
-      "queue_position": 1,
-      "state": "submitted"
+      "queue_position": null,
+      "priority_number": null,
+      "state": "canceled",
+      "state_change_events": [
+        {
+          "timestamp": "2022-04-05T09:14:59.866006+03:00",
+          "state": "reservation_agreement",
+          "comment": "test"
+        },
+        {
+          "timestamp": "2022-04-13T15:25:30.512721+03:00",
+          "state": "reserved",
+          "comment": ""
+        },
+        {
+          "timestamp": "2022-04-14T10:23:06.827536+03:00",
+          "state": "sold",
+          "comment": ""
+        },
+        {
+          "timestamp": "2022-05-06T13:12:31.926002+03:00",
+          "state": "canceled",
+          "comment": "test"
+        }
+      ]
     },
     {
       "id": 3,
@@ -111,7 +142,9 @@
       ],
       "lottery_position": 2,
       "queue_position": 2,
-      "state": "submitted"
+      "priority_number": 1,
+      "state": "submitted",
+      "state_change_events": []
     }
   ]
 }
