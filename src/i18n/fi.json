@@ -391,7 +391,7 @@
       "ACCEPTED_BY_MUNICIPALITY": "Kunta hyväksynyt",
       "CANCELED": "Peruttu",
       "OFFERED": "Tarjous voimassa",
-      "OFFER_ACCPTED": "Tarjous hyväksytty",
+      "OFFER_ACCEPTED": "Tarjous hyväksytty",
       "OFFER_EXPIRED": "Tarjous vanhentunut",
       "RESERVATION_AGREEMENT": "Varaussopimus",
       "RESERVED": "Varattu",
