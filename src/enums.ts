@@ -45,7 +45,7 @@ export enum ApartmentReservationStates {
   ACCEPTED_BY_MUNICIPALITY = 'accepted_by_municipality',
   CANCELED = 'canceled',
   OFFERED = 'offered',
-  OFFER_ACCPTED = 'offer_accepted',
+  OFFER_ACCEPTED = 'offer_accepted',
   OFFER_EXPIRED = 'offer_expired',
   RESERVATION_AGREEMENT = 'reservation_agreement',
   RESERVED = 'reserved',
