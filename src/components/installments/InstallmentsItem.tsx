@@ -20,6 +20,7 @@ interface IProps {
   apartment: Apartment;
   project: Project;
   reservationId: ApartmentReservation['id'];
+  isCanceled: boolean;
 }
 
 export const renderApartmentDetails = (apartment: Apartment) => (
@@ -63,7 +64,7 @@ export const renderApartmentPrice = (project: Project, apartment: Apartment) => 
   );
 };
 
-const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.Element | null => {
+const InstallmentsItem = ({ apartment, project, reservationId, isCanceled }: IProps): JSX.Element | null => {
   const { t } = useTranslation();
   const openFormDialogButtonRef = useRef(null);
   const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
@@ -212,7 +213,7 @@ const InstallmentsItem = ({ apartment, project, reservationId }: IProps): JSX.El
   return (
     <>
       <div className={styles.apartmentRow}>
-        <div className={styles.apartmentRowLeft}>
+        <div className={cx(styles.apartmentRowLeft, isCanceled && styles.disabled)}>
           {renderApartmentDetails(apartment)}
           <div>{renderApartmentPrice(project, apartment)}</div>
         </div>

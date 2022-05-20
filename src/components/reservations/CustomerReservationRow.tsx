@@ -35,6 +35,8 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
   const apartment = getReservationApartmentData(reservation);
   const project = getReservationProjectData(reservation);
   const isCanceled = reservation.state === ApartmentReservationStates.CANCELED;
+  const isInReview = reservation.state === ApartmentReservationStates.REVIEW;
+  const firstInQueue = reservation.queue_position === 1;
 
   const closeHistoryDialog = () => setIsHistoryDialogOpen(false);
 
@@ -202,7 +204,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
           </div>
         </div>
       </div>
-      {!isCanceled && reservation.queue_position === 1 && (
+      {firstInQueue && (
         <div className={styles.buttons}>
           <Button
             variant="secondary"
@@ -219,14 +221,18 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
           >
             {t(`${T_PATH}.createOffer`)}
           </Button>
-          <Button variant="secondary" size="small" onClick={download} disabled={isLoadingContract}>
-            {reservation.project_ownership_type.toLowerCase() === 'haso'
-              ? t(`${T_PATH}.createContract`)
-              : t(`${T_PATH}.createDeedOfSale`)}
-          </Button>
-          <a href={fileUrl} download={fileName} className="hiddenFromScreen" ref={fileRef}>
-            {t(`${T_PATH}.download`)}
-          </a>
+          {!isInReview && (
+            <>
+              <Button variant="secondary" size="small" onClick={download} disabled={isLoadingContract}>
+                {reservation.project_ownership_type.toLowerCase() === 'haso'
+                  ? t(`${T_PATH}.createContract`)
+                  : t(`${T_PATH}.createDeedOfSale`)}
+              </Button>
+              <a href={fileUrl} download={fileName} className="hiddenFromScreen" ref={fileRef}>
+                {t(`${T_PATH}.download`)}
+              </a>
+            </>
+          )}
         </div>
       )}
       {!isEmpty(reservation.state_change_events) && (
