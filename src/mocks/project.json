@@ -16,6 +16,7 @@
           "has_children": false,
           "lottery_position": 2,
           "queue_position": 1,
+          "priority_number": 2,
           "right_of_residence": "12345",
           "customer": {
             "id": 2,
@@ -26,7 +27,8 @@
             }
           },
           "state": "offered",
-          "cancellation_info": null,
+          "cancellation_reason": null,
+          "cancellation_timestamp": null,
           "offer_info": {
             "accept_date": null,
             "due_date": "2022-02-28"
@@ -37,7 +39,8 @@
           "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704a",
           "has_children": true,
           "lottery_position": 1,
-          "queue_position": 2,
+          "queue_position": null,
+          "priority_number": 1,
           "right_of_residence": "12345",
           "customer": {
             "id": 3,
@@ -53,10 +56,8 @@
             }
           },
           "state": "canceled",
-          "cancellation_info": {
-            "cancellation_reason": "Varaus peruttu",
-            "date": "2022-02-20"
-          },
+          "cancellation_reason": "canceled",
+          "cancellation_timestamp": "2022-02-20",
           "offer_info": null
         }
       ]
@@ -81,7 +82,8 @@
           "apartment_uuid": "c3145a4e-ef7d-40c5-ad93-f0a164b2704c",
           "has_children": true,
           "lottery_position": 2,
-          "queue_position": 4,
+          "queue_position": null,
+          "priority_number": 3,
           "right_of_residence": "2424",
           "customer": {
             "id": 1,
@@ -97,10 +99,8 @@
             }
           },
           "state": "canceled",
-          "cancellation_info": {
-            "cancellation_reason": "Varaussopimus peruttu",
-            "date": "2022-1-30"
-          },
+          "cancellation_reason": "reservation_agreement_cancelled",
+          "cancellation_timestamp": "2022-1-30",
           "offer_info": null
         },
         {
@@ -121,13 +121,12 @@
           },
           "has_children": false,
           "lottery_position": 1,
-          "queue_position": 3,
+          "queue_position": null,
+          "priority_number": 1,
           "right_of_residence": "12",
           "state": "canceled",
-          "cancellation_info": {
-            "cancellation_reason": "Varaussopimus peruttu",
-            "date": "2022-1-30"
-          },
+          "cancellation_reason": "reservation_agreement_cancelled",
+          "cancellation_timestamp": "2022-1-30",
           "offer_info": null
         },
         {
@@ -149,9 +148,11 @@
           "has_children": false,
           "lottery_position": 4,
           "queue_position": 2,
+          "priority_number": 2,
           "right_of_residence": null,
           "state": "submitted",
-          "cancellation_info": null,
+          "cancellation_reason": null,
+          "cancellation_timestamp": null,
           "offer_info": null
         },
         {
@@ -173,9 +174,11 @@
           "has_children": true,
           "lottery_position": 3,
           "queue_position": 1,
+          "priority_number": 4,
           "right_of_residence": "32456",
           "state": "review",
-          "cancellation_info": null,
+          "cancellation_reason": null,
+          "cancellation_timestamp": null,
           "offer_info": null
         }
       ]
@@ -193,6 +196,7 @@
           "has_children": false,
           "lottery_position": 1,
           "queue_position": 1,
+          "priority_number": 1,
           "right_of_residence": "12345",
           "customer": {
             "id": 1,
@@ -203,7 +207,8 @@
             }
           },
           "state": "reserved",
-          "cancellation_info": null,
+          "cancellation_reason": null,
+          "cancellation_timestamp": null,
           "offer_info": null
         }
       ]

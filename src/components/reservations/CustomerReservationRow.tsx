@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import cx from 'classnames';
-import { Button, IconArrowRight } from 'hds-react';
+import { Button, Dialog, IconArrowRight, IconInfoCircle } from 'hds-react';
+import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import formatDateTime from '../../utils/formatDateTime';
 import formattedLivingArea from '../../utils/formatLivingArea';
 import getApiBaseUrl from '../../utils/getApiBaseUrl';
+import Label from '../common/label/Label';
 import { ApartmentReservationStates } from '../../enums';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { Customer, CustomerReservation } from '../../types';
@@ -27,9 +30,13 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isLoadingContract, setIsLoadingContract] = useState<boolean>(false);
+  const [isHistoryDialogOpen, setIsHistoryDialogOpen] = useState(false);
+  const openHistoryDialogButtonRef = useRef(null);
   const apartment = getReservationApartmentData(reservation);
   const project = getReservationProjectData(reservation);
   const isCanceled = reservation.state === ApartmentReservationStates.CANCELED;
+
+  const closeHistoryDialog = () => setIsHistoryDialogOpen(false);
 
   const preContractDownloading = () => setIsLoadingContract(true);
   const postContractDownloading = () => setIsLoadingContract(false);
@@ -93,6 +100,61 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     return '-';
   };
 
+  const renderHistoryTable = () => {
+    if (!reservation.state_change_events) return;
+
+    return (
+      <table className={cx('hds-table hds-table--dark', styles.historyTable)}>
+        <thead>
+          <tr className="hds-table__header-row">
+            <th style={{ width: 0, paddingRight: 0 }}>#</th>
+            <th>{t(`${T_PATH}.reservationState`)}</th>
+            <th>{t(`${T_PATH}.timestamp`)}</th>
+            <th>{t(`${T_PATH}.comment`)}</th>
+          </tr>
+        </thead>
+        <tbody className="hds-table__content">
+          {reservation.state_change_events.map((stateChangeEvent, index) => (
+            <tr key={index}>
+              <td className={styles.noWrap} style={{ paddingRight: 0 }}>
+                {index + 1}.
+              </td>
+              <td className={styles.noWrap}>
+                {t(`ENUMS.ApartmentReservationStates.${stateChangeEvent.state.toUpperCase()}`)}
+              </td>
+              <td>{stateChangeEvent.timestamp && formatDateTime(stateChangeEvent.timestamp)}</td>
+              <td>{stateChangeEvent.comment || '-'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const renderCancelDetails = (): JSX.Element => {
+    // Find the last state change event object with status of "canceled"
+    const getLatestCancelStateEvent = reservation.state_change_events
+      ?.slice()
+      .reverse()
+      .find((stateChangeEvent) => stateChangeEvent.state === ApartmentReservationStates.CANCELED);
+
+    if (!getLatestCancelStateEvent || isEmpty(reservation.state_change_events)) {
+      return <div className={styles.cancelText}>{t(`${T_PATH}.canceled`)}</div>;
+    }
+
+    return (
+      <>
+        <div className={cx(styles.cancelText, styles.noWrap)}>
+          {getLatestCancelStateEvent?.state &&
+            t(`ENUMS.ReservationCancelReasons.${getLatestCancelStateEvent.state.toUpperCase()}`)}
+          {' - '}
+          {getLatestCancelStateEvent?.timestamp && formatDateTime(getLatestCancelStateEvent.timestamp)}
+        </div>
+        <div className={styles.cancelText}>{getLatestCancelStateEvent?.comment}</div>
+      </>
+    );
+  };
+
   return (
     <div className={styles.row}>
       <div className={cx(styles.apartmentRow, isCanceled && styles.disabledRow)}>
@@ -104,14 +166,15 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             </span>
           </div>
           {isCanceled ? (
-            // TODO: Add cancellation reason and cancel dates
-            <div>{t(`${T_PATH}.canceled`)}</div>
+            renderCancelDetails()
           ) : (
-            renderQueuePosition()
+            <>
+              {renderQueuePosition()}
+              <div>
+                {t(`${T_PATH}.priority`)}: {renderPriorityNumber()}
+              </div>
+            </>
           )}
-          <div>
-            {t(`${T_PATH}.priority`)}: {renderPriorityNumber()}
-          </div>
         </div>
         <div className={styles.apartmentRowRight}>
           {!isCanceled && (
@@ -120,6 +183,23 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
               <IconArrowRight className={styles.offerArrowIcon} size="xs" aria-hidden /> <span>TODO</span>
             </div>
           )}
+          <div className={styles.historyBtn}>
+            <span className={styles.tooltip} aria-hidden>
+              {isEmpty(reservation.state_change_events)
+                ? t(`${T_PATH}.noChangeHistory`)
+                : t(`${T_PATH}.showChangeHistory`)}
+            </span>
+            <Button
+              variant="supplementary"
+              size="small"
+              iconLeft={<IconInfoCircle aria-hidden />}
+              disabled={isEmpty(reservation.state_change_events)}
+              onClick={() => setIsHistoryDialogOpen(true)}
+              ref={openHistoryDialogButtonRef}
+            >
+              <span className="hiddenFromScreen">{t(`${T_PATH}.changeHistory`)}</span>
+            </Button>
+          </div>
         </div>
       </div>
       {!isCanceled && reservation.queue_position === 1 && (
@@ -148,6 +228,33 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             {t(`${T_PATH}.download`)}
           </a>
         </div>
+      )}
+      {!isEmpty(reservation.state_change_events) && (
+        <Dialog
+          id={`history-dialog-${reservation.id}`}
+          aria-labelledby="history-dialog-header"
+          isOpen={isHistoryDialogOpen}
+          close={closeHistoryDialog}
+          closeButtonLabelText={t(`${T_PATH}.closeDialog`)}
+          className={styles.historyDialog}
+          focusAfterCloseRef={openHistoryDialogButtonRef}
+        >
+          <Dialog.Header id="history-dialog-header" title={t(`${T_PATH}.changeHistory`)} />
+          <Dialog.Content>
+            <div className={styles.dialogTitle}>
+              <Label type={project.ownership_type}>{project.ownership_type}</Label>
+              <span>{project.housing_company}</span>
+              <span>&ndash;</span>
+              <span>{apartment.apartment_number}</span>
+            </div>
+            {renderHistoryTable()}
+          </Dialog.Content>
+          <Dialog.ActionButtons>
+            <Button variant="secondary" onClick={() => closeHistoryDialog()}>
+              {t(`${T_PATH}.close`)}
+            </Button>
+          </Dialog.ActionButtons>
+        </Dialog>
       )}
     </div>
   );
