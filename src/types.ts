@@ -171,9 +171,13 @@ export type ApartmentInstallment = {
   account_number: string;
   due_date: string | null;
   reference_number?: string;
+  added_to_be_sent_to_sap_at?: string;
 };
 
-export type ApartmentInstallmentCandidate = Omit<ApartmentInstallment, 'reference_number'>;
+export type ApartmentInstallmentCandidate = Omit<
+  ApartmentInstallment,
+  'reference_number' | 'added_to_be_sent_to_sap_at'
+>;
 
 export type ApartmentInstallmentInputRow = {
   type: string;
@@ -181,6 +185,7 @@ export type ApartmentInstallmentInputRow = {
   due_date: string;
   account_number: string;
   reference_number: string;
+  added_to_be_sent_to_sap_at: string;
 };
 
 export type ProjectInstallment = {
