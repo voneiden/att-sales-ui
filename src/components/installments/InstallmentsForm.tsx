@@ -16,6 +16,7 @@ import {
 } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
+import formatDateTime from '../../utils/formatDateTime';
 import formattedSalesPrice from '../../utils/formatSalesPrice';
 import { InstallmentTypes } from '../../enums';
 import {
@@ -132,6 +133,7 @@ const InstallmentsForm = ({
       due_date: '',
       account_number: '',
       reference_number: '',
+      added_to_be_sent_to_sap_at: '',
     };
 
     // Create an array with a length of installmentCandidates.
@@ -155,6 +157,9 @@ const InstallmentsForm = ({
         }
         if (installment.reference_number) {
           installmentRows[index].reference_number = installment.reference_number;
+        }
+        if (installment.added_to_be_sent_to_sap_at) {
+          installmentRows[index].added_to_be_sent_to_sap_at = formatDateTime(installment.added_to_be_sent_to_sap_at);
         }
       });
     } else {
@@ -310,6 +315,7 @@ const InstallmentsForm = ({
               options={InstallmentTypeOptions()}
               value={InstallmentTypeOptions().find((value) => value.selectValue === input.type) || emptySelectOption}
               onChange={(value: SelectOption) => handleSelectChange(index, value)}
+              disabled={!!input.added_to_be_sent_to_sap_at}
             />
           </td>
           <td>
@@ -323,6 +329,7 @@ const InstallmentsForm = ({
               value={input.amount}
               onChange={(event) => handleInputChange(index, event)}
               data-testid="amount"
+              disabled={!!input.added_to_be_sent_to_sap_at}
             />
           </td>
           <td>
@@ -335,6 +342,7 @@ const InstallmentsForm = ({
               value={input.due_date}
               onChange={(event) => handleInputChange(index, event)}
               autoComplete="off"
+              disabled={!!input.added_to_be_sent_to_sap_at}
             />
           </td>
           <td>
@@ -346,6 +354,7 @@ const InstallmentsForm = ({
               value={input.account_number}
               onChange={(event) => handleInputChange(index, event)}
               autoComplete="off"
+              disabled={!!input.added_to_be_sent_to_sap_at}
             />
           </td>
           <td className={styles.moreHorizontalPadding}>
@@ -358,7 +367,16 @@ const InstallmentsForm = ({
               readOnly
             />
           </td>
-          <td>-</td>
+          <td>
+            <TextInput
+              id={`sentToSAP-${index}`}
+              name="added_to_be_sent_to_sap_at"
+              label=""
+              className={styles.input}
+              value={input.added_to_be_sent_to_sap_at || '-'}
+              readOnly
+            />
+          </td>
         </tr>
       ))}
     </tbody>
