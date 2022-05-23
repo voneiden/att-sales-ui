@@ -155,6 +155,8 @@
   "components.installments.InstallmentsTableRow.installmentType": "Maksulaji",
   "components.installments.InstallmentsTableRow.referenceNumber": "Viitenumero",
   "components.installments.InstallmentsTableRow.sendToSAP": "Lähetä SAP",
+  "components.installments.InstallmentsTableRow.sent": "Lähetetty",
+  "components.installments.InstallmentsTableRow.sentSuccessfully": "Lisätty lähetettäväksi SAP:iin",
   "components.installments.InstallmentsTableRow.sum": "Summa",
   "components.installments.ProjectInstallments.IbanAccountNumber": "IBAN-tilinumero",
   "components.installments.ProjectInstallments.amount": "Suuruus",

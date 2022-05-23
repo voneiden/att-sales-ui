@@ -4,12 +4,12 @@ import { Button, Dialog, IconPrinter, IconAlertCircleFill, IconCheckCircleFill }
 import { useTranslation } from 'react-i18next';
 
 import formattedCurrency from '../../utils/formatCurrency';
+import InstallmentsInvoice from './InstallmentsInvoice';
 import InstallmentsTableRow from './InstallmentsTableRow';
 import { Apartment, ApartmentInstallment, ApartmentReservation, Project } from '../../types';
 import { InstallmentTypes } from '../../enums';
 
 import styles from './InstallmentsTable.module.scss';
-import InstallmentsInvoice from './InstallmentsInvoice';
 
 const T_PATH = 'components.installments.InstallmentsTable';
 
@@ -83,8 +83,13 @@ const InstallmentsTable = ({ apartment, installments, project, reservationId, ta
   const renderTableContent = () => (
     <tbody className="hds-table__content">
       {!!sortedInstallments().length &&
-        sortedInstallments().map((installment) => (
-          <InstallmentsTableRow key={installment.type} installment={installment} />
+        sortedInstallments().map((installment, index) => (
+          <InstallmentsTableRow
+            key={installment.type}
+            installment={installment}
+            rowIndex={index}
+            reservationId={reservationId}
+          />
         ))}
     </tbody>
   );
