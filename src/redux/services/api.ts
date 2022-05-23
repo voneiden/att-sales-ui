@@ -179,6 +179,18 @@ export const api = createApi({
         };
       },
     }),
+
+    // POST: Send apartment installments to SAP
+    sendApartmentInstallmentsToSAP: builder.mutation<any, { indexList: number[]; id: number }>({
+      query: (params) => {
+        const indexes = params.indexList.toString();
+        return {
+          url: `apartment_reservations/${params.id}/installments/add_to_be_sent_to_sap/?index=${indexes}`,
+          method: 'POST',
+        };
+      },
+      invalidatesTags: (result, error, arg) => [{ type: 'Reservation', id: arg.id }],
+    }),
   }),
 });
 
@@ -198,4 +210,5 @@ export const {
   useSetApartmentReservationStateMutation,
   useCancelApartmentReservationMutation,
   useSetApartmentInstallmentsMutation,
+  useSendApartmentInstallmentsToSAPMutation,
 } = api;
