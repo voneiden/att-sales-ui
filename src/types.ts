@@ -3,6 +3,7 @@ import {
   ApartmentState,
   InstallmentPercentageSpecifiers,
   InstallmentTypes,
+  OfferState,
   ReservationCancelReasons,
   StateOfSale,
 } from './enums';
@@ -201,11 +202,6 @@ export type ProjectInstallmentInputRow = {
   due_date: string;
 };
 
-export type ApartmentReservationOfferInfo = {
-  accept_date?: string;
-  due_date: string;
-};
-
 export type ApartmentReservationCustomer = {
   id: Customer['id'];
   primary_profile: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
@@ -218,7 +214,7 @@ export type ApartmentReservation = {
   cancellation_timestamp?: string;
   id: number;
   lottery_position?: number;
-  offer_info?: ApartmentReservationOfferInfo;
+  offer?: ApartmentReservationOffer;
   priority_number?: number;
   queue_position?: number;
   state: `${ApartmentReservationStates}`;
@@ -253,6 +249,7 @@ export type CustomerReservation = {
   apartment_sales_price?: Apartment['sales_price'];
   apartment_installments?: ApartmentInstallment[];
   lottery_position?: number;
+  offer?: ApartmentReservationOffer;
   project_uuid: Project['uuid'];
   project_housing_company: Project['housing_company'];
   project_street_address: Project['street_address'];
@@ -308,3 +305,16 @@ export type ReservationAddFormData = {
   apartment_uuid: string;
   customer_id: string;
 };
+
+export type Offer = {
+  id: number;
+  created_at: string;
+  apartment_reservation_id: ApartmentReservation['id'];
+  valid_until: string;
+  state: `${OfferState}`;
+  concluded_at: string;
+  comment?: string;
+  is_expired?: boolean;
+};
+
+export type ApartmentReservationOffer = Omit<Offer, 'apartment_reservation_id'>;
