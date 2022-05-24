@@ -404,6 +404,11 @@
       "RESERVATION_AGREEMENT_CANCELED": "Reservation agreement canceled",
       "TERMINATED": "Terminated",
       "TRANSFERRED": "Transferred"
+    },
+    "OfferState": {
+      "ACCEPTED": "Offer accepted",
+      "PENDING": "Offer sent, valid until",
+      "REJECTED": "Offer rejected"
     }
   },
   "PAGES": {

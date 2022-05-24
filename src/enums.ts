@@ -72,3 +72,9 @@ export enum ApartmentState {
   SOLD = 'sold',
   REVIEW = 'review',
 }
+
+export enum OfferState {
+  ACCEPTED = 'accepted',
+  PENDING = 'pending',
+  REJECTED = 'rejected',
+}

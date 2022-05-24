@@ -405,6 +405,11 @@
       "RESERVATION_AGREEMENT_CANCELED": "Varaussopimus peruttu",
       "TERMINATED": "Irtisanottu",
       "TRANSFERRED": "Siirretty"
+    },
+    "OfferState": {
+      "ACCEPTED": "Tarjous hyväksytty",
+      "PENDING": "Tarjous voimassa",
+      "REJECTED": "Tarjous hylätty"
     }
   },
   "PAGES": {
