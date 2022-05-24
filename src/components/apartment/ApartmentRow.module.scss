@@ -152,6 +152,10 @@
 
   &.disabledRow {
     color: var(--color-black-40);
+
+    .offer span {
+      color: inherit;
+    }
   }
 
   & + .singleReservation {
@@ -259,7 +263,13 @@
 
   &:hover,
   &:focus {
-    text-decoration: underline;
+    .user {
+      text-decoration: underline;
+    }
+
+    .offer {
+      text-decoration: none;
+    }
   }
 
   > div {
@@ -310,6 +320,4 @@
 .offer {
   font-size: var(--fontsize-body-s);
   margin-top: var(--spacing-2-xs);
-  display: inline-block;
-  font-weight: 500;
 }

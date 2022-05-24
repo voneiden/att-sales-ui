@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import ApartmentBaseDetails from './ApartmentBaseDetails';
 import useSessionStorage from '../../utils/useSessionStorage';
 import formatDateTime from '../../utils/formatDateTime';
+import OfferStatusText from '../offer/OfferStatusText';
 import { Apartment, ApartmentReservationCustomer, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
 import { showReservationAddModal } from '../../redux/features/reservationAddModalSlice';
@@ -47,10 +48,6 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
 
   const renderApplicants = (reservation: ApartmentReservationWithCustomer, isLotteryResult: boolean) => {
     if (reservation.customer) {
-      const renderOfferInfo = () => {
-        return <span className={styles.offer}>TODO: Offers</span>;
-      };
-
       const renderPositionNumber = () => {
         if (isCanceled(reservation)) {
           if (reservation.lottery_position) {
@@ -75,20 +72,22 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
       return (
         <div className={cx(styles.customer, isLotteryResult && styles.isLottery)}>
           <Link to={`/${ROUTES.CUSTOMERS}/${reservation.customer.id}`} className={styles.customerLink}>
-            <div>
+            <div className={styles.user}>
               {isLotteryResult && <span className={styles.queueNumberSpacer}>{renderPositionNumber()}</span>}
               {renderCustomerProfile(reservation.customer.primary_profile)}
             </div>
             {reservation.customer.secondary_profile && (
-              <div>
+              <div className={styles.user}>
                 {isLotteryResult && <span className={styles.queueNumberSpacer} />}
                 {renderCustomerProfile(reservation.customer.secondary_profile)}
               </div>
             )}
-            {isLotteryResult && reservation.offer_info && (
+            {isLotteryResult && reservation.offer && (
               <div>
                 <span className={styles.queueNumberSpacer} />
-                {renderOfferInfo()}
+                <span className={styles.offer}>
+                  <OfferStatusText offer={reservation.offer} />
+                </span>
               </div>
             )}
           </Link>

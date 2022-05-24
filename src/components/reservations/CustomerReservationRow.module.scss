@@ -6,6 +6,10 @@
 
   &.disabledRow {
     color: var(--color-black-40);
+
+    .offer span {
+      color: inherit;
+    }
   }
 }
 
@@ -98,14 +102,8 @@
 .offer {
   display: flex;
   align-items: center;
-}
-
-.offerTitle {
-  font-weight: 500;
-}
-
-.offerArrowIcon {
-  margin: 0 var(--spacing-2-xs);
+  font-size: var(--fontsize-body-s);
+  white-space: nowrap;
 }
 
 .cancelText {
