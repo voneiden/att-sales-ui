@@ -346,6 +346,7 @@
   "pages.project.ProjectList.tabPublished": "Julkaistut",
   "pages.project.ProjectList.tabUnpublished": "Julkaisemattomat",
   "pages.project.ProjectList.tabUpcoming": "Tulevat",
+  "utils.getOfferText.expired": "Tarjous vanhentunut",
   "utils.getProjectState.archived": "Arkistoitu",
   "utils.getProjectState.unpublished": "Julkaisematon",
   "ENUMS": {
