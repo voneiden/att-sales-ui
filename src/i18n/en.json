@@ -16,6 +16,7 @@
   "components.apartment.ApartmentRow.btnEdit": "Edit",
   "components.apartment.ApartmentRow.btnOffer": "Offer",
   "components.apartment.ApartmentRow.floor": "Floor",
+  "components.apartment.ApartmentRow.hasMultipleWinningApartments": "Customer has more than one 1st places",
   "components.apartment.ApartmentRow.noApplicants": "No applicants",
   "components.apartment.ApartmentStateFilterSelect.allApartments": "All apartments",
   "components.apartment.ApartmentStateFilterSelect.show": "Show",

@@ -16,6 +16,7 @@
   "components.apartment.ApartmentRow.btnEdit": "Muokkaa",
   "components.apartment.ApartmentRow.btnOffer": "Tarjous",
   "components.apartment.ApartmentRow.floor": "Kerros",
+  "components.apartment.ApartmentRow.hasMultipleWinningApartments": "Asiakkaalla useampi 1. sija",
   "components.apartment.ApartmentRow.noApplicants": "Ei hakijoita",
   "components.apartment.ApartmentStateFilterSelect.allApartments": "Kaikki huoneistot",
   "components.apartment.ApartmentStateFilterSelect.show": "Näytä",

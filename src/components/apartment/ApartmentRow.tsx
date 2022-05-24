@@ -113,6 +113,7 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
     if (!isCanceled(reservation) && isLotteryResult && reservation.has_multiple_winning_apartments) {
       return (
         <span className={cx(styles.bellIcon, resultRowOpen && styles.rowOpen)}>
+          <span className={styles.tooltip}>{t(`${T_PATH}.hasMultipleWinningApartments`)}</span>
           <IconBell />
         </span>
       );
