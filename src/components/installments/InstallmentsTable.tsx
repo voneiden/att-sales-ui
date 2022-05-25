@@ -83,13 +83,8 @@ const InstallmentsTable = ({ apartment, installments, project, reservationId, ta
   const renderTableContent = () => (
     <tbody className="hds-table__content">
       {!!sortedInstallments().length &&
-        sortedInstallments().map((installment, index) => (
-          <InstallmentsTableRow
-            key={installment.type}
-            installment={installment}
-            rowIndex={index}
-            reservationId={reservationId}
-          />
+        sortedInstallments().map((installment) => (
+          <InstallmentsTableRow key={installment.type} installment={installment} reservationId={reservationId} />
         ))}
     </tbody>
   );

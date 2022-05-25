@@ -15,6 +15,9 @@ import {
   ReservationEditFormData,
 } from '../../types';
 import type { RootState } from '../store';
+import { InstallmentTypes } from '../../enums';
+
+const InstallmentTypeKeys = Object.keys(InstallmentTypes);
 
 // Define a service using a base URL and expected endpoints
 export const api = createApi({
@@ -181,11 +184,11 @@ export const api = createApi({
     }),
 
     // POST: Send apartment installments to SAP
-    sendApartmentInstallmentsToSAP: builder.mutation<any, { indexList: number[]; id: number }>({
+    sendApartmentInstallmentsToSAP: builder.mutation<any, { types: typeof InstallmentTypeKeys; id: number }>({
       query: (params) => {
-        const indexes = params.indexList.toString();
+        const types = params.types.toString();
         return {
-          url: `apartment_reservations/${params.id}/installments/add_to_be_sent_to_sap/?index=${indexes}`,
+          url: `apartment_reservations/${params.id}/installments/add_to_be_sent_to_sap/?types=${types}`,
           method: 'POST',
         };
       },
