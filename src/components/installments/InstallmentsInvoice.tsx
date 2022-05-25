@@ -11,6 +11,7 @@ import { Apartment, ApartmentInstallment, ApartmentReservation, Project } from '
 import { renderApartmentDetails, renderApartmentPrice } from './InstallmentsItem';
 import { toast } from '../common/toast/ToastManager';
 import { useDownloadFile } from '../../utils/useDownloadFile';
+import { InstallmentTypes } from '../../enums';
 
 import styles from './InstallmentsInvoice.module.scss';
 
@@ -98,6 +99,19 @@ const InstallmentsInvoice = ({
     setUrlParams(selectedIndexes.toString());
   }, [checkedRows]);
 
+  // Sort rows in the order of the InstallmentTypes ENUM list
+  const sortedInstallments = () => {
+    const InstallmentOrder = Object.values(InstallmentTypes);
+    const installmentsCopy = [...installments];
+    return installmentsCopy.sort((a, b) =>
+      a.type
+        ? b.type
+          ? InstallmentOrder.indexOf(a.type as InstallmentTypes) - InstallmentOrder.indexOf(b.type as InstallmentTypes)
+          : -1
+        : 1
+    );
+  };
+
   return (
     <>
       <div className={styles.projectRow}>
@@ -124,7 +138,7 @@ const InstallmentsInvoice = ({
           </tr>
         </thead>
         <tbody>
-          {installments.map((installment, index) => (
+          {sortedInstallments().map((installment, index) => (
             <tr key={installment.type}>
               <td className={styles.indented}>
                 <Checkbox

@@ -155,6 +155,8 @@
   "components.installments.InstallmentsTableRow.installmentType": "Installment type",
   "components.installments.InstallmentsTableRow.referenceNumber": "Reference number",
   "components.installments.InstallmentsTableRow.sendToSAP": "Send to SAP",
+  "components.installments.InstallmentsTableRow.sent": "Sent",
+  "components.installments.InstallmentsTableRow.sentSuccessfully": "Added to be sent to SAP",
   "components.installments.InstallmentsTableRow.sum": "Sum",
   "components.installments.ProjectInstallments.IbanAccountNumber": "IBAN account number",
   "components.installments.ProjectInstallments.amount": "Amount",
