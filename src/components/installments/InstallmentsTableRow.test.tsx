@@ -1,14 +1,15 @@
-import { render, screen } from '@testing-library/react';
-import InstallmentsTableRow from './InstallmentsTableRow';
+import { screen } from '@testing-library/react';
 
+import InstallmentsTableRow from './InstallmentsTableRow';
 import dummyInstallments from '../../mocks/apartment_installments.json';
 import { ApartmentInstallment } from '../../types';
+import { renderWithProviders } from '../../test/test-utils';
 
 const installment = dummyInstallments[0] as ApartmentInstallment;
 
 describe('InstallmentsTableRow', () => {
   it('renders InstallmentsTableRow component', () => {
-    const { container } = render(
+    const { container } = renderWithProviders(
       <table>
         <tbody>
           <InstallmentsTableRow installment={installment} />
@@ -20,7 +21,7 @@ describe('InstallmentsTableRow', () => {
   });
 
   it('renders installment details', () => {
-    render(
+    renderWithProviders(
       <table>
         <tbody>
           <InstallmentsTableRow installment={installment} />
@@ -34,7 +35,7 @@ describe('InstallmentsTableRow', () => {
   });
 
   it('renders send to SAP button', () => {
-    render(
+    renderWithProviders(
       <table>
         <tbody>
           <InstallmentsTableRow installment={installment} />

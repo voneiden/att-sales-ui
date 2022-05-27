@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Button, Checkbox } from 'hds-react';
@@ -35,8 +35,7 @@ const InstallmentsInvoice = ({
   const { t } = useTranslation();
   const [isLoading, setisLoading] = useState(false);
   const [allChecked, setAllChecked] = useState(false);
-  const [checkedRows, setCheckedRows] = useState(new Array(installments.length).fill(false));
-  const [urlParams, setUrlParams] = useState('');
+  const [checkedInstallments, setCheckedInstallments] = useState<string[]>([]);
 
   const preDownloading = () => setisLoading(true);
   const postDownloading = () => setisLoading(false);
@@ -56,13 +55,16 @@ const InstallmentsInvoice = ({
   const downloadFile = () => {
     const apiBaseUrl = getApiBaseUrl();
 
-    return axios.get(`${apiBaseUrl}/apartment_reservations/${reservationId}/installments/invoices?index=${urlParams}`, {
-      responseType: 'blob',
-      // TODO: auth token in headers
-      // headers: {
-      //   Authorization: `Bearer ${apiToken}`,
-      // }
-    });
+    return axios.get(
+      `${apiBaseUrl}/apartment_reservations/${reservationId}/installments/invoices?types=${checkedInstallments.toString()}`,
+      {
+        responseType: 'blob',
+        // TODO: auth token in headers
+        // headers: {
+        //   Authorization: `Bearer ${apiToken}`,
+        // }
+      }
+    );
   };
 
   const {
@@ -78,28 +80,28 @@ const InstallmentsInvoice = ({
     preDownloading,
   });
 
-  const handleInputChange = (inputIndex: number) => {
-    const updatedCheckedState = checkedRows.map((item, index) => (index === inputIndex ? !item : item));
-    setCheckedRows(updatedCheckedState);
+  const handleInputChange = (installment: ApartmentInstallment) => {
+    const installmentType = installment.type;
+    const updatedCheckedState = [...checkedInstallments];
+
+    if (updatedCheckedState.indexOf(installmentType) === -1) {
+      // Add missing installment type to array
+      updatedCheckedState.push(installmentType);
+    } else {
+      // Remove already added installment type from array
+      updatedCheckedState.splice(updatedCheckedState.indexOf(installmentType), 1);
+    }
+
+    setCheckedInstallments(updatedCheckedState);
   };
 
   const handleSelectAll = () => {
-    setCheckedRows(new Array(installments.length).fill(!allChecked));
+    const allInstallmentTypes = installments.map((a) => a.type);
+    setCheckedInstallments(!allChecked ? allInstallmentTypes : []);
     setAllChecked(!allChecked);
   };
 
-  useEffect(() => {
-    const selectedIndexes = checkedRows.reduce((selected: [], currentState: boolean, index: number) => {
-      if (currentState === true) {
-        return [...selected, index];
-      }
-      return selected;
-    }, []);
-
-    setUrlParams(selectedIndexes.toString());
-  }, [checkedRows]);
-
-  // Sort rows in the order of the InstallmentTypes ENUM list
+  // Sort installment rows in the order of the InstallmentTypes ENUM list
   const sortedInstallments = () => {
     const InstallmentOrder = Object.values(InstallmentTypes);
     const installmentsCopy = [...installments];
@@ -138,15 +140,15 @@ const InstallmentsInvoice = ({
           </tr>
         </thead>
         <tbody>
-          {sortedInstallments().map((installment, index) => (
+          {sortedInstallments().map((installment) => (
             <tr key={installment.type}>
               <td className={styles.indented}>
                 <Checkbox
                   id={installment.type}
                   value={installment.type}
                   label={t(`ENUMS.InstallmentTypes.${installment.type}`)}
-                  checked={checkedRows[index]}
-                  onChange={() => handleInputChange(index)}
+                  checked={checkedInstallments.includes(installment.type)}
+                  onChange={() => handleInputChange(installment)}
                 />
               </td>
               <td className={styles.sumColumn}>{formattedSalesPrice(installment.amount)}</td>
@@ -160,7 +162,7 @@ const InstallmentsInvoice = ({
           {t(`${T_PATH}.download`)}
         </a>
         <Button
-          disabled={!urlParams.length}
+          disabled={!checkedInstallments.length}
           isLoading={isLoading}
           loadingText={t(`${T_PATH}.print`)}
           onClick={download}

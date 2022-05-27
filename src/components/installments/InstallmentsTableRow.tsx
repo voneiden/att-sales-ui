@@ -15,10 +15,9 @@ const T_PATH = 'components.installments.InstallmentsTableRow';
 interface IProps {
   installment: ApartmentInstallment;
   reservationId: ApartmentReservation['id'];
-  rowIndex: number;
 }
 
-const InstallmentsTableRow = ({ installment, reservationId, rowIndex }: IProps) => {
+const InstallmentsTableRow = ({ installment, reservationId }: IProps) => {
   const { t } = useTranslation();
   const openConfirmationDialogButtonRef = useRef(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -31,7 +30,7 @@ const InstallmentsTableRow = ({ installment, reservationId, rowIndex }: IProps) 
   const handleSendToSAP = async () => {
     if (!isLoadingSendToSAP) {
       try {
-        await sendApartmentInstallmentsToSAP({ indexList: [rowIndex], id: reservationId })
+        await sendApartmentInstallmentsToSAP({ types: [installment.type], id: reservationId })
           .unwrap()
           .then(() => {
             // Show success toast
