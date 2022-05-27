@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Button, IconDownload } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import getApiBaseUrl from '../../utils/getApiBaseUrl';
 import { Project } from '../../types';
 import { useDownloadFile } from '../../utils/useDownloadFile';
+import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
 import { toast } from '../common/toast/ToastManager';
 
 import styles from './ProjectActions.module.scss';
@@ -45,17 +44,7 @@ const DownloadApplicantsListButton = ({
     return `${prefix}${JSON.stringify(projectName)}${new Date().toJSON().slice(0, 10)}.${fileFormat}`;
   };
 
-  const downloadApplicantList = () => {
-    const apiBaseUrl = getApiBaseUrl();
-
-    return axios.get(`${apiBaseUrl}/projects/${projectUuid}/export_applicants/`, {
-      responseType: 'blob',
-      // TODO: auth token in headers
-      // headers: {
-      //   Authorization: `Bearer ${apiToken}`,
-      // }
-    });
-  };
+  const applicantExportApiUrl = `/projects/${projectUuid}/export_applicants/`;
 
   const {
     download,
@@ -63,7 +52,7 @@ const DownloadApplicantsListButton = ({
     url: fileUrl,
     name: fileName,
   } = useDownloadFile({
-    apiDefinition: downloadApplicantList,
+    apiDefinition: useFileDownloadApi(applicantExportApiUrl),
     getFileName: getApplicantListFileName,
     onError: onApplicantListLoadError,
     postDownloading: postApplicantListDownloading,
