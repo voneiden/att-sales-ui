@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Button, IconDownload } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-import getApiBaseUrl from '../../utils/getApiBaseUrl';
 import { Project } from '../../types';
 import { useDownloadFile } from '../../utils/useDownloadFile';
+import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
 import { toast } from '../common/toast/ToastManager';
 
 import styles from './ProjectActions.module.scss';
@@ -17,6 +16,11 @@ interface ProjectActionsProps {
 }
 
 interface DownloadApplicantsListButtonProps {
+  housingCompany: Project['housing_company'];
+  projectUuid: Project['uuid'];
+}
+
+interface DownloadLotteryResultsButtonProps {
   housingCompany: Project['housing_company'];
   projectUuid: Project['uuid'];
 }
@@ -45,17 +49,7 @@ const DownloadApplicantsListButton = ({
     return `${prefix}${JSON.stringify(projectName)}${new Date().toJSON().slice(0, 10)}.${fileFormat}`;
   };
 
-  const downloadApplicantList = () => {
-    const apiBaseUrl = getApiBaseUrl();
-
-    return axios.get(`${apiBaseUrl}/projects/${projectUuid}/export_applicants/`, {
-      responseType: 'blob',
-      // TODO: auth token in headers
-      // headers: {
-      //   Authorization: `Bearer ${apiToken}`,
-      // }
-    });
-  };
+  const applicantExportApiUrl = `/projects/${projectUuid}/export_applicants/`;
 
   const {
     download,
@@ -63,7 +57,7 @@ const DownloadApplicantsListButton = ({
     url: fileUrl,
     name: fileName,
   } = useDownloadFile({
-    apiDefinition: downloadApplicantList,
+    apiDefinition: useFileDownloadApi(applicantExportApiUrl),
     getFileName: getApplicantListFileName,
     onError: onApplicantListLoadError,
     postDownloading: postApplicantListDownloading,
@@ -88,24 +82,74 @@ const DownloadApplicantsListButton = ({
   );
 };
 
-const ProjectActions = ({ project }: ProjectActionsProps): JSX.Element => {
+const DownloadLotteryResultsButton = ({
+  housingCompany,
+  projectUuid,
+}: DownloadLotteryResultsButtonProps): JSX.Element => {
   const { t } = useTranslation();
+  const [isLoadingLotteryResults, setIsLoadingLotteryResults] = useState<boolean>(false);
+
+  const preLotteryResultsDownloading = () => setIsLoadingLotteryResults(true);
+  const postLotteryResultsDownloading = () => setIsLoadingLotteryResults(false);
+
+  const onLotteryResultsLoadError = () => {
+    setIsLoadingLotteryResults(false);
+    toast.show({ type: 'error' });
+  };
+
+  const getLotteryResultsFileName = (): string => {
+    const projectName = housingCompany.replace(/\s/g, '-').toLocaleLowerCase();
+    const prefix = 'arvontatulokset';
+    const fileFormat = 'csv';
+
+    // Example output: "arvontatulokset_as-oy-project-x_2022-01-01.pdf"
+    return `${prefix}${JSON.stringify(projectName)}${new Date().toJSON().slice(0, 10)}.${fileFormat}`;
+  };
+
+  const exportLotteryResultsApiUrl = `/projects/${projectUuid}/export_lottery_result/`;
+
+  const {
+    download,
+    ref: fileRef,
+    url: fileUrl,
+    name: fileName,
+  } = useDownloadFile({
+    apiDefinition: useFileDownloadApi(exportLotteryResultsApiUrl),
+    getFileName: getLotteryResultsFileName,
+    onError: onLotteryResultsLoadError,
+    postDownloading: postLotteryResultsDownloading,
+    preDownloading: preLotteryResultsDownloading,
+  });
 
   return (
-    <div>
-      <span className={styles.action}>
-        <DownloadApplicantsListButton housingCompany={project.housing_company} projectUuid={project.uuid} />
-      </span>
-      {/* TODO: add functionality for this button */}
-      {project.lottery_completed && (
-        <span className={styles.action}>
-          <Button variant="primary" iconRight={<IconDownload />} theme="black" disabled>
-            {t(`${T_PATH}.downloadLotteryResults`)}
-          </Button>
-        </span>
-      )}
-    </div>
+    <>
+      <Button
+        variant="primary"
+        iconRight={<IconDownload />}
+        theme="black"
+        onClick={download}
+        disabled={isLoadingLotteryResults}
+      >
+        {t(`${T_PATH}.downloadLotteryResults`)}
+      </Button>
+      <a href={fileUrl} download={fileName} className="hiddenFromScreen" ref={fileRef}>
+        {t(`${T_PATH}.download`)}
+      </a>
+    </>
   );
 };
+
+const ProjectActions = ({ project }: ProjectActionsProps): JSX.Element => (
+  <div>
+    <span className={styles.action}>
+      <DownloadApplicantsListButton housingCompany={project.housing_company} projectUuid={project.uuid} />
+    </span>
+    {project.lottery_completed && (
+      <span className={styles.action}>
+        <DownloadLotteryResultsButton housingCompany={project.housing_company} projectUuid={project.uuid} />
+      </span>
+    )}
+  </div>
+);
 
 export default ProjectActions;

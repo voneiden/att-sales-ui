@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import moment from 'moment';
 import { Button, Checkbox } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import formattedSalesPrice from '../../utils/formatSalesPrice';
-import getApiBaseUrl from '../../utils/getApiBaseUrl';
 import ProjectName from '../project/ProjectName';
 import { Apartment, ApartmentInstallment, ApartmentReservation, Project } from '../../types';
 import { renderApartmentDetails, renderApartmentPrice } from './InstallmentsItem';
 import { toast } from '../common/toast/ToastManager';
 import { useDownloadFile } from '../../utils/useDownloadFile';
 import { InstallmentTypes } from '../../enums';
+import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
 
 import styles from './InstallmentsInvoice.module.scss';
 
@@ -52,20 +51,7 @@ const InstallmentsInvoice = ({
     return `laskut${JSON.stringify(projectName + '_' + apartmentNumber)}${new Date().toJSON().slice(0, 10)}.pdf`;
   };
 
-  const downloadFile = () => {
-    const apiBaseUrl = getApiBaseUrl();
-
-    return axios.get(
-      `${apiBaseUrl}/apartment_reservations/${reservationId}/installments/invoices?types=${checkedInstallments.toString()}`,
-      {
-        responseType: 'blob',
-        // TODO: auth token in headers
-        // headers: {
-        //   Authorization: `Bearer ${apiToken}`,
-        // }
-      }
-    );
-  };
+  const invoiceApiUrl = `/apartment_reservations/${reservationId}/installments/invoices?types=${checkedInstallments.toString()}`;
 
   const {
     download,
@@ -73,7 +59,7 @@ const InstallmentsInvoice = ({
     url: fileUrl,
     name: fileName,
   } = useDownloadFile({
-    apiDefinition: downloadFile,
+    apiDefinition: useFileDownloadApi(invoiceApiUrl),
     getFileName,
     onError,
     postDownloading,

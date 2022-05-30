@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import cx from 'classnames';
 import { Button, Dialog, IconInfoCircle } from 'hds-react';
 import { isEmpty } from 'lodash';
@@ -8,13 +7,13 @@ import { useDispatch } from 'react-redux';
 
 import formatDateTime from '../../utils/formatDateTime';
 import formattedLivingArea from '../../utils/formatLivingArea';
-import getApiBaseUrl from '../../utils/getApiBaseUrl';
 import Label from '../common/label/Label';
 import { ApartmentReservationStates } from '../../enums';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { Customer, CustomerReservation } from '../../types';
 import { getReservationApartmentData, getReservationProjectData } from '../../utils/mapReservationData';
 import { useDownloadFile } from '../../utils/useDownloadFile';
+import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
 import { toast } from '../common/toast/ToastManager';
 
 import styles from './CustomerReservationRow.module.scss';
@@ -64,17 +63,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     return `${prefix}${JSON.stringify(projectName + '_' + apartmentNumber)}${new Date().toJSON().slice(0, 10)}.pdf`;
   };
 
-  const downloadContract = () => {
-    const apiBaseUrl = getApiBaseUrl();
-
-    return axios.get(`${apiBaseUrl}/apartment_reservations/${reservation.id}/contract/`, {
-      responseType: 'blob',
-      // TODO: auth token in headers
-      // headers: {
-      //   Authorization: `Bearer ${apiToken}`,
-      // }
-    });
-  };
+  const contractApiUrl = `/apartment_reservations/${reservation.id}/contract/`;
 
   const {
     download,
@@ -82,7 +71,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     url: fileUrl,
     name: fileName,
   } = useDownloadFile({
-    apiDefinition: downloadContract,
+    apiDefinition: useFileDownloadApi(contractApiUrl),
     getFileName: getContractFileName,
     onError: onContractLoadError,
     postDownloading: postContractDownloading,
