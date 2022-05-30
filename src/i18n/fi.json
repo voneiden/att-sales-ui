@@ -16,6 +16,7 @@
   "components.apartment.ApartmentRow.btnEdit": "Muokkaa",
   "components.apartment.ApartmentRow.btnOffer": "Tarjous",
   "components.apartment.ApartmentRow.floor": "Kerros",
+  "components.apartment.ApartmentRow.hasMultipleWinningApartments": "Asiakkaalla useampi 1. sija",
   "components.apartment.ApartmentRow.noApplicants": "Ei hakijoita",
   "components.apartment.ApartmentStateFilterSelect.allApartments": "Kaikki huoneistot",
   "components.apartment.ApartmentStateFilterSelect.show": "Näytä",
@@ -220,10 +221,9 @@
   "components.reservations.CustomerReservationRow.comment": "Kommentti",
   "components.reservations.CustomerReservationRow.createContract": "Tee sopimus",
   "components.reservations.CustomerReservationRow.createDeedOfSale": "Tee kauppakirja",
-  "components.reservations.CustomerReservationRow.createOffer": "Tee tarjous",
   "components.reservations.CustomerReservationRow.lotteryUncompleted": "Ei arvottu",
   "components.reservations.CustomerReservationRow.noChangeHistory": "Ei muutoshistoriaa",
-  "components.reservations.CustomerReservationRow.offerDueDate": "Tarjous voimassa",
+  "components.reservations.CustomerReservationRow.offer": "Tarjous",
   "components.reservations.CustomerReservationRow.position": "Sijalla",
   "components.reservations.CustomerReservationRow.priority": "Prioriteetti",
   "components.reservations.CustomerReservationRow.reservationState": "Tila",
@@ -347,6 +347,7 @@
   "pages.project.ProjectList.tabPublished": "Julkaistut",
   "pages.project.ProjectList.tabUnpublished": "Julkaisemattomat",
   "pages.project.ProjectList.tabUpcoming": "Tulevat",
+  "utils.getOfferText.expired": "Tarjous vanhentunut",
   "utils.getProjectState.archived": "Arkistoitu",
   "utils.getProjectState.unpublished": "Julkaisematon",
   "ENUMS": {
@@ -406,6 +407,11 @@
       "RESERVATION_AGREEMENT_CANCELED": "Varaussopimus peruttu",
       "TERMINATED": "Irtisanottu",
       "TRANSFERRED": "Siirretty"
+    },
+    "OfferState": {
+      "ACCEPTED": "Tarjous hyväksytty",
+      "PENDING": "Tarjous voimassa",
+      "REJECTED": "Tarjous hylätty"
     }
   },
   "PAGES": {

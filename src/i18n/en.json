@@ -16,6 +16,7 @@
   "components.apartment.ApartmentRow.btnEdit": "Edit",
   "components.apartment.ApartmentRow.btnOffer": "Offer",
   "components.apartment.ApartmentRow.floor": "Floor",
+  "components.apartment.ApartmentRow.hasMultipleWinningApartments": "Customer has more than one 1st places",
   "components.apartment.ApartmentRow.noApplicants": "No applicants",
   "components.apartment.ApartmentStateFilterSelect.allApartments": "All apartments",
   "components.apartment.ApartmentStateFilterSelect.show": "Show",
@@ -220,10 +221,9 @@
   "components.reservations.CustomerReservationRow.comment": "Comment",
   "components.reservations.CustomerReservationRow.createContract": "Create contract",
   "components.reservations.CustomerReservationRow.createDeedOfSale": "Create deed of sale",
-  "components.reservations.CustomerReservationRow.createOffer": "Create offer",
   "components.reservations.CustomerReservationRow.lotteryUncompleted": "Lottery uncompleted",
   "components.reservations.CustomerReservationRow.noChangeHistory": "No change history",
-  "components.reservations.CustomerReservationRow.offerDueDate": "Offer valid until",
+  "components.reservations.CustomerReservationRow.offer": "Offer",
   "components.reservations.CustomerReservationRow.position": "Position",
   "components.reservations.CustomerReservationRow.priority": "Priority",
   "components.reservations.CustomerReservationRow.reservationState": "State",
@@ -346,6 +346,7 @@
   "pages.project.ProjectList.tabPublished": "Published",
   "pages.project.ProjectList.tabUnpublished": "Unpublished",
   "pages.project.ProjectList.tabUpcoming": "Upcoming",
+  "utils.getOfferText.expired": "Offer expired",
   "utils.getProjectState.archived": "Archived",
   "utils.getProjectState.unpublished": "Unpublished",
   "ENUMS": {
@@ -405,6 +406,11 @@
       "RESERVATION_AGREEMENT_CANCELED": "Reservation agreement canceled",
       "TERMINATED": "Terminated",
       "TRANSFERRED": "Transferred"
+    },
+    "OfferState": {
+      "ACCEPTED": "Offer accepted",
+      "PENDING": "Offer sent, valid until",
+      "REJECTED": "Offer rejected"
     }
   },
   "PAGES": {

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import cx from 'classnames';
-import { Button, Dialog, IconArrowRight, IconInfoCircle } from 'hds-react';
+import { Button, Dialog, IconInfoCircle } from 'hds-react';
 import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -18,6 +18,7 @@ import { useDownloadFile } from '../../utils/useDownloadFile';
 import { toast } from '../common/toast/ToastManager';
 
 import styles from './CustomerReservationRow.module.scss';
+import OfferStatusText from '../offer/OfferStatusText';
 
 const T_PATH = 'components.reservations.CustomerReservationRow';
 
@@ -179,10 +180,9 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
           )}
         </div>
         <div className={styles.apartmentRowRight}>
-          {!isCanceled && (
+          {reservation.offer && (
             <div className={styles.offer}>
-              <span className={styles.offerTitle}>{t(`${T_PATH}.offerDueDate`)}</span>{' '}
-              <IconArrowRight className={styles.offerArrowIcon} size="xs" aria-hidden /> <span>TODO</span>
+              <OfferStatusText offer={reservation.offer} />
             </div>
           )}
           <div className={styles.historyBtn}>
@@ -219,7 +219,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
               )
             }
           >
-            {t(`${T_PATH}.createOffer`)}
+            {t(`${T_PATH}.offer`)}
           </Button>
           {!isInReview && (
             <>
