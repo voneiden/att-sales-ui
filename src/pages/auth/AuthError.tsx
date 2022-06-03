@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Container from '../../components/common/container/Container';
 import { usePageTitle } from '../../utils/usePageTitle';
 
-const T_PATH = 'pages.AuthError';
+const T_PATH = 'pages.auth.AuthError';
 
 const AuthError = (): React.ReactElement => {
   const { t } = useTranslation();
