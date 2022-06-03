@@ -265,6 +265,8 @@
   "components.reservations.ReservationEditModal.formSentSuccessfully": "Reservation state updated",
   "components.reservations.ReservationEditModal.noReservation": "Could not fetch reservation info",
   "components.reservations.ReservationEditModal.reservationEdit": "Edit reservation",
+  "error.automaticLogoutMessage": "You will be logged out automatically",
+  "error.unauthorizedTitle": "No required access rights",
   "pages.NotFound.pageNotFound": "Page not found",
   "pages.auth.AuthError.authError": "Error with authentication",
   "pages.auth.AuthError.errorTitle": "Error",
