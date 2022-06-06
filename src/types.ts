@@ -207,6 +207,11 @@ export type ProjectInstallmentInputRow = {
   due_date: string;
 };
 
+export type ProjectExtraData = {
+  offer_message_intro: string;
+  offer_message_content: string;
+};
+
 export type ApartmentReservationCustomer = {
   id: Customer['id'];
   primary_profile: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
@@ -323,3 +328,5 @@ export type Offer = {
 };
 
 export type ApartmentReservationOffer = Omit<Offer, 'apartment_reservation_id'>;
+
+export type ProjectOfferMessageFormData = Pick<ProjectExtraData, 'offer_message_intro' | 'offer_message_content'>;
