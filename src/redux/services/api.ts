@@ -9,6 +9,8 @@ import {
   Customer,
   CustomerListItem,
   Project,
+  ProjectExtraData,
+  ProjectOfferMessageFormData,
   ProjectInstallment,
   ReservationAddFormData,
   ReservationCancelFormData,
@@ -38,7 +40,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Customer', 'Project', 'Reservation'],
+  tagTypes: ['Customer', 'Project', 'ProjectExtraData', 'Reservation'],
   endpoints: (builder) => ({
     // GET: Fetch all projects
     getProjects: builder.query<Project[], void>({
@@ -115,6 +117,27 @@ export const api = createApi({
           body: params.formData,
         };
       },
+    }),
+
+    // GET: Fetch saved extra data for a project
+    getProjectExtraData: builder.query<ProjectExtraData, string>({
+      query: (id) => `projects/${id}/extra_data/`,
+      providesTags: (result, error, arg) => [{ type: 'ProjectExtraData', id: arg }],
+    }),
+
+    // PATCH: Partially update project extra data
+    partialUpdateProjectExtraData: builder.mutation<
+      any,
+      { formData: Partial<ProjectOfferMessageFormData>; uuid: string }
+    >({
+      query: (params) => {
+        return {
+          url: `projects/${params.uuid}/extra_data/`,
+          method: 'PATCH',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [{ type: 'ProjectExtraData', id: arg.uuid }],
     }),
 
     // GET: Fetch single apartment reservation that includes installments
@@ -206,6 +229,8 @@ export const {
   useStartLotteryForProjectMutation,
   useGetProjectInstallmentsQuery,
   useSetProjectInstallmentsMutation,
+  useGetProjectExtraDataQuery,
+  usePartialUpdateProjectExtraDataMutation,
   useGetCustomersQuery,
   useGetCustomerByIdQuery,
   useCreateCustomerMutation,
