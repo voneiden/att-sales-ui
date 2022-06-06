@@ -337,6 +337,7 @@
   "pages.project.ProjectDetail.errorLoadingProject": "Kohteen lataamisessa tapahtui virhe",
   "pages.project.ProjectDetail.installments": "Maksuerät",
   "pages.project.ProjectDetail.loading": "Ladataan kohteen tietoja",
+  "pages.project.ProjectDetail.offerTexts": "Tarjouspohja",
   "pages.project.ProjectDetail.projects": "Kohteet",
   "pages.project.ProjectList.btnAddProject": "Lisää kohde",
   "pages.project.ProjectList.btnAllProjects": "Kaikki kohteet",

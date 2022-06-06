@@ -336,6 +336,7 @@
   "pages.project.ProjectDetail.errorLoadingProject": "Error while loading the project",
   "pages.project.ProjectDetail.installments": "Installments",
   "pages.project.ProjectDetail.loading": "Loading project details",
+  "pages.project.ProjectDetail.offerTexts": "Offer templates",
   "pages.project.ProjectDetail.projects": "Projects",
   "pages.project.ProjectList.btnAddProject": "Add Project",
   "pages.project.ProjectList.btnAllProjects": "All Projects",

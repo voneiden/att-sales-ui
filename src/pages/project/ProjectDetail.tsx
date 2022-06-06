@@ -11,6 +11,7 @@ import Container from '../../components/common/container/Container';
 import ProjectActions from '../../components/project/ProjectActions';
 import ProjectCard from '../../components/project/ProjectCard';
 import ProjectInstallments from '../../components/installments/ProjectInstallments';
+import ProjectOfferMessageForm from '../../components/offer/ProjectOfferMessageForm';
 import Spinner from '../../components/common/spinner/Spinner';
 import useSessionStorage from '../../utils/useSessionStorage';
 import { Project } from '../../types';
@@ -117,6 +118,7 @@ const ProjectDetail = (): JSX.Element | null => {
           <Tabs.TabList className={styles.tabList}>
             <Tabs.Tab>{t(`${T_PATH}.apartments`)}</Tabs.Tab>
             <Tabs.Tab>{t(`${T_PATH}.installments`)}</Tabs.Tab>
+            <Tabs.Tab>{t(`${T_PATH}.offerTexts`)}</Tabs.Tab>
           </Tabs.TabList>
           <Tabs.TabPanel>
             <div className={styles.apartmentsWrapper}>
@@ -148,6 +150,11 @@ const ProjectDetail = (): JSX.Element | null => {
                 barred_bank_account={project.barred_bank_account}
                 regular_bank_account={project.regular_bank_account}
               />
+            </div>
+          </Tabs.TabPanel>
+          <Tabs.TabPanel>
+            <div className={styles.extraDataWrapper}>
+              <ProjectOfferMessageForm uuid={project.uuid} />
             </div>
           </Tabs.TabPanel>
         </Tabs>
