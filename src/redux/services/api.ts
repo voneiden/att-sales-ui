@@ -28,9 +28,11 @@ export const api = createApi({
       headers.set('Content-Type', 'application/json');
 
       const apiToken = (getState() as RootState).tokens.apiToken;
+
       if (apiToken) {
-        // TODO: enable authorization after getting correct credentials
-        // headers.append('authorization', `Bearer ${apiToken}`)
+        headers.append('authorization', `Bearer ${apiToken}`);
+      } else {
+        throw new Error('No API token');
       }
 
       return headers;

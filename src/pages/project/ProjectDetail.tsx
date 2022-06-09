@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LoadingSpinner, Notification, Tabs } from 'hds-react';
+import { Notification, Tabs } from 'hds-react';
 
 import ApartmentStateFilterSelect from '../../components/apartment/ApartmentStateFilterSelect';
 import ApartmentTable from '../../components/apartment/ApartmentTable';
@@ -11,6 +11,7 @@ import Container from '../../components/common/container/Container';
 import ProjectActions from '../../components/project/ProjectActions';
 import ProjectCard from '../../components/project/ProjectCard';
 import ProjectInstallments from '../../components/installments/ProjectInstallments';
+import Spinner from '../../components/common/spinner/Spinner';
 import useSessionStorage from '../../utils/useSessionStorage';
 import { Project } from '../../types';
 import { toast } from '../../components/common/toast/ToastManager';
@@ -70,14 +71,8 @@ const ProjectDetail = (): JSX.Element | null => {
     setApartmentStateFilter(value);
   };
 
-  const loadingSpinner = () => (
-    <Container className={styles.loadingSpinnerContainer}>
-      <LoadingSpinner loadingText={t(`${T_PATH}.loading`)} />
-    </Container>
-  );
-
   if (isLoading) {
-    return loadingSpinner();
+    return <Spinner />;
   }
 
   if (isError) {
@@ -104,7 +99,13 @@ const ProjectDetail = (): JSX.Element | null => {
       <Container>
         <Breadcrumbs current={project.housing_company} ancestors={breadcrumbAncestors} />
       </Container>
-      {isFetching && <div className={styles.fixedSpinner}>{loadingSpinner()}</div>}
+      {isFetching && (
+        <div className={styles.fixedSpinner}>
+          <Container className={styles.loadingSpinnerContainer}>
+            <Spinner />
+          </Container>
+        </div>
+      )}
       <Container wide className={cx(isFetching && styles.disabled)}>
         <ProjectCard
           project={project}

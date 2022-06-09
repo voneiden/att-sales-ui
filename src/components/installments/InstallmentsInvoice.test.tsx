@@ -1,12 +1,13 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import InstallmentsInvoice from './InstallmentsInvoice';
 import dummyReservation from '../../mocks/apartment_reservation.json';
 import dummyProject from '../../mocks/project.json';
+import { renderWithProviders } from '../../test/test-utils';
 
 describe('InstallmentsInvoice', () => {
   beforeEach(() => {
-    render(
+    renderWithProviders(
       <InstallmentsInvoice
         reservationId={dummyReservation.id}
         installments={dummyReservation.installments}

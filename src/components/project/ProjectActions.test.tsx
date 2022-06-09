@@ -1,27 +1,28 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import ProjectActions from './ProjectActions';
 import mockProject from '../../mocks/project.json';
+import { renderWithProviders } from '../../test/test-utils';
 
 describe('ProjectActions', () => {
   it('renders ProjectActions component', () => {
-    const { container } = render(<ProjectActions project={mockProject} />);
+    const { container } = renderWithProviders(<ProjectActions project={mockProject} />);
     const element = container.firstChild;
     expect(element).toBeDefined();
   });
 
   it('renders download lottery results button when lottery is completed', () => {
-    render(<ProjectActions project={{ ...mockProject, lottery_completed: true }} />);
+    renderWithProviders(<ProjectActions project={{ ...mockProject, lottery_completed: true }} />);
     expect(screen.getByText('components.project.ProjectActions.downloadLotteryResults')).toBeDefined();
   });
 
   it('does not render download lottery results button when lottery is not yet completed', () => {
-    render(<ProjectActions project={{ ...mockProject, lottery_completed: false }} />);
+    renderWithProviders(<ProjectActions project={{ ...mockProject, lottery_completed: false }} />);
     expect(screen.queryByText('components.project.ProjectActions.downloadLotteryResults')).toBeNull();
   });
 
   it('renders download applicant list button', () => {
-    render(<ProjectActions project={mockProject} />);
+    renderWithProviders(<ProjectActions project={mockProject} />);
     expect(screen.getByText('components.project.ProjectActions.downloadApplicantList')).toBeDefined();
   });
 });
