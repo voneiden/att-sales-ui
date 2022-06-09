@@ -266,6 +266,7 @@
   "components.reservations.ReservationEditModal.noReservation": "Could not fetch reservation info",
   "components.reservations.ReservationEditModal.reservationEdit": "Edit reservation",
   "error.automaticLogoutMessage": "You will be logged out automatically",
+  "error.apiTokenLoad": "Error loading API tokens",
   "error.unauthorizedTitle": "No required access rights",
   "pages.NotFound.pageNotFound": "Page not found",
   "pages.auth.AuthError.authError": "Error with authentication",
