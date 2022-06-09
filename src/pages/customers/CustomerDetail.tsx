@@ -9,7 +9,7 @@ import Container from '../../components/common/container/Container';
 import CustomerInfo from '../../components/customers/CustomerInfo';
 import Installments from '../../components/installments/Installments';
 import CustomerReservations from '../../components/reservations/CustomerReservations';
-import StatusText from '../../components/common/statusText/StatusText';
+import Spinner from '../../components/common/spinner/Spinner';
 import { ROUTES } from '../../enums';
 import { useGetCustomerByIdQuery } from '../../redux/services/api';
 import { Customer } from '../../types';
@@ -60,7 +60,7 @@ const CustomerDetail = (): JSX.Element | null => {
     return (
       <Container>
         {renderBreadcrumb()}
-        <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
+        <Spinner />
       </Container>
     );
   }

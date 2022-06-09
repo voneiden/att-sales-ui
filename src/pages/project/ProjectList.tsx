@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 import Container from '../../components/common/container/Container';
 import ProjectCard from '../../components/project/ProjectCard';
+import Spinner from '../../components/common/spinner/Spinner';
 import StatusText from '../../components/common/statusText/StatusText';
 import useLocalStorage from '../../utils/useLocalStorage';
 import { filterProjectsByEstateAgent } from '../../utils/filterProjectsByEstateAgent';
@@ -190,7 +191,7 @@ const ProjectList = (): JSX.Element => {
     if (isLoading) {
       return (
         <Container>
-          <StatusText>{t(`${T_PATH}.loading`)}...</StatusText>
+          <Spinner />
         </Container>
       );
     }

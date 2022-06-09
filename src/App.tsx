@@ -5,13 +5,13 @@ import AddEditCustomer from './pages/customers/AddEditCustomer';
 import AuthError from './pages/auth/AuthError';
 import CustomerDetail from './pages/customers/CustomerDetail';
 import CustomerSearch from './pages/customers/CustomerSearch';
-import LoadingScreen from './components/common/loadingScreen/LoadingScreen';
 import Login from './pages/auth/Login';
 import Logout from './pages/auth/Logout';
 import MainLayout from './components/common/mainLayout/MainLayout';
 import NotFound from './pages/NotFound';
 import ProjectDetail from './pages/project/ProjectDetail';
 import ProjectList from './pages/project/ProjectList';
+import Spinner from './components/common/spinner/Spinner';
 import WithAuth from './components/auth/WithAuth';
 
 import { ROUTES } from './enums';
@@ -46,6 +46,6 @@ const Unauthenticated = (): JSX.Element => (
   </Routes>
 );
 
-const App = (): React.ReactElement => WithAuth(Authenticated, Unauthenticated, LoadingScreen);
+const App = (): React.ReactElement => WithAuth(Authenticated, Unauthenticated, Spinner);
 
 export default App;
