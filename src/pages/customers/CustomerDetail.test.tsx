@@ -9,8 +9,6 @@ describe('CustomerDetail Page', () => {
   it('handles good response', async () => {
     renderWithProviders(<CustomerDetail />);
 
-    screen.getByText('pages.customers.CustomerDetail.loading...');
-
     await screen.findAllByText('Meikäläinen, Matti', { exact: false });
   });
 
@@ -24,8 +22,6 @@ describe('CustomerDetail Page', () => {
 
     renderWithProviders(<CustomerDetail />);
 
-    screen.getByText('pages.customers.CustomerDetail.loading...');
-
     expect(screen.queryByText('pages.customers.CustomerDetail.customerDetails')).toBeNull();
   });
 
@@ -38,8 +34,6 @@ describe('CustomerDetail Page', () => {
     );
 
     renderWithProviders(<CustomerDetail />);
-
-    screen.getByText('pages.customers.CustomerDetail.loading...');
 
     await screen.findByText('pages.customers.CustomerDetail.errorLoadingCustomer');
   });
