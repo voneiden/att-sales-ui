@@ -216,6 +216,9 @@ export type ApartmentReservationCustomer = {
   id: Customer['id'];
   primary_profile: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
   secondary_profile?: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
+  has_hitas_ownership?: Customer['has_hitas_ownership'];
+  is_age_over_55?: Customer['is_age_over_55'];
+  is_right_of_occupancy_housing_changer?: Customer['is_right_of_occupancy_housing_changer'];
 };
 
 export type ApartmentReservation = {
@@ -232,9 +235,9 @@ export type ApartmentReservation = {
 
 export type ApartmentReservationWithCustomer = ApartmentReservation & {
   customer: ApartmentReservationCustomer;
-  has_children: boolean;
-  right_of_residence: string;
+  has_children?: Customer['has_children'];
   has_multiple_winning_apartments: boolean;
+  right_of_residence?: Customer['right_of_residence'];
 };
 
 export type ApartmentReservationWithInstallments = ApartmentReservation & {
@@ -250,24 +253,26 @@ export type ReservationStateChangeEvent = {
 
 export type CustomerReservation = {
   id: number;
-  apartment_uuid: Apartment['uuid'];
-  apartment_number: Apartment['apartment_number'];
-  apartment_structure: Apartment['apartment_structure'];
-  apartment_living_area: Apartment['living_area'];
   apartment_debt_free_sales_price?: Apartment['debt_free_sales_price'];
+  apartment_installments?: ApartmentInstallment[];
+  apartment_living_area: Apartment['living_area'];
+  apartment_number: Apartment['apartment_number'];
   apartment_right_of_occupancy_payment?: Apartment['right_of_occupancy_payment'];
   apartment_sales_price?: Apartment['sales_price'];
-  apartment_installments?: ApartmentInstallment[];
+  apartment_structure: Apartment['apartment_structure'];
+  apartment_uuid: Apartment['uuid'];
+  has_children?: Customer['has_children'];
   lottery_position?: number;
   offer?: ApartmentReservationOffer;
-  project_uuid: Project['uuid'];
-  project_housing_company: Project['housing_company'];
-  project_street_address: Project['street_address'];
-  project_district: Project['district'];
-  project_ownership_type: Project['ownership_type'];
-  project_lottery_completed: Project['lottery_completed'];
-  queue_position?: number;
   priority_number?: number;
+  project_district: Project['district'];
+  project_housing_company: Project['housing_company'];
+  project_lottery_completed: Project['lottery_completed'];
+  project_ownership_type: Project['ownership_type'];
+  project_street_address: Project['street_address'];
+  project_uuid: Project['uuid'];
+  queue_position?: number;
+  right_of_residence?: Customer['right_of_residence'];
   state: `${ApartmentReservationStates}`;
   state_change_events?: ReservationStateChangeEvent[];
 };
