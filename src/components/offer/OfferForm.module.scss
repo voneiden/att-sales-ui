@@ -1,0 +1,13 @@
+.offerForm {
+  margin-bottom: var(--spacing-xs);
+}
+
+.inputWrapper + .inputWrapper {
+  margin-top: var(--spacing-m);
+}
+
+.radioHelpText {
+  margin-top: var(--spacing-xs);
+  color: var(--color-error);
+  opacity: 0.8;
+}
