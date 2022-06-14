@@ -15,6 +15,9 @@ import {
   ReservationAddFormData,
   ReservationCancelFormData,
   ReservationEditFormData,
+  OfferFormData,
+  Offer,
+  OfferMessage,
 } from '../../types';
 import type { RootState } from '../store';
 import { InstallmentTypes } from '../../enums';
@@ -40,7 +43,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Customer', 'Project', 'ProjectExtraData', 'Reservation'],
+  tagTypes: ['Customer', 'Offer', 'Project', 'ProjectExtraData', 'Reservation'],
   endpoints: (builder) => ({
     // GET: Fetch all projects
     getProjects: builder.query<Project[], void>({
@@ -219,6 +222,56 @@ export const api = createApi({
       },
       invalidatesTags: (result, error, arg) => [{ type: 'Reservation', id: arg.id }],
     }),
+
+    // GET: Fetch single offer
+    getOfferById: builder.query<Offer, number>({
+      query: (id) => `offers/${id}/`,
+      providesTags: (result, error, arg) => [{ type: 'Offer', id: arg }],
+    }),
+
+    // POST: Create new offer
+    createOffer: builder.mutation<
+      Offer,
+      { formData: OfferFormData; reservationId: number; projectId: string; customerId: number }
+    >({
+      query: (params) => {
+        return {
+          url: `offers/`,
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Customer', id: arg.customerId },
+        { type: 'Reservation', id: arg.reservationId },
+        { type: 'Project', id: arg.projectId },
+      ],
+    }),
+
+    // PUT: Update offer
+    updateOfferById: builder.mutation<
+      Offer,
+      { formData: OfferFormData; offerId: number; reservationId: number; projectId: string; customerId: number }
+    >({
+      query: (params) => {
+        return {
+          url: `offers/${params.offerId}/`,
+          method: 'PUT',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Customer', id: arg.customerId },
+        { type: 'Offer', id: arg.offerId },
+        { type: 'Project', id: arg.projectId },
+        { type: 'Reservation', id: arg.reservationId },
+      ],
+    }),
+
+    // GET: Fetch offer email message
+    getOfferMessage: builder.query<OfferMessage, number>({
+      query: (id) => `apartment_reservations/${id}/offer_message/`,
+    }),
   }),
 });
 
@@ -241,4 +294,8 @@ export const {
   useCancelApartmentReservationMutation,
   useSetApartmentInstallmentsMutation,
   useSendApartmentInstallmentsToSAPMutation,
+  useGetOfferByIdQuery,
+  useCreateOfferMutation,
+  useUpdateOfferByIdMutation,
+  useGetOfferMessageQuery,
 } = api;
