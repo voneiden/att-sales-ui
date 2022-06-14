@@ -335,3 +335,26 @@ export type Offer = {
 export type ApartmentReservationOffer = Omit<Offer, 'apartment_reservation_id'>;
 
 export type ProjectOfferMessageFormData = Pick<ProjectExtraData, 'offer_message_intro' | 'offer_message_content'>;
+
+export type OfferModalReservationData = Pick<
+  ApartmentReservationWithCustomer,
+  'has_children' | 'id' | 'offer' | 'right_of_residence'
+>;
+
+export type OfferFormData = {
+  apartment_reservation_id: Offer['apartment_reservation_id'];
+  valid_until: Offer['valid_until'];
+  state: Offer['state'];
+  comment?: Offer['comment'];
+};
+
+export type OfferMessageRecipient = {
+  name: string;
+  email: string;
+};
+
+export type OfferMessage = {
+  subject: string;
+  body: string;
+  recipients: OfferMessageRecipient[];
+};
