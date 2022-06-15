@@ -52,19 +52,19 @@ export const api = createApi({
 
     // GET: Fetch single project by project uuid
     getProjectById: builder.query<Project, string>({
-      query: (id) => `projects/${id}`,
+      query: (id) => `projects/${id}/`,
       providesTags: (result, error, arg) => [{ type: 'Project', id: arg }],
     }),
 
     // GET: Fetch apartments for a single project by project uuid
     getApartmentsByProject: builder.query<Apartment[], string>({
-      query: (id) => `apartments?project_uuid=${id}`,
+      query: (id) => `apartments/?project_uuid=${id}`,
     }),
 
     // POST: Start lottery for a project
     startLotteryForProject: builder.mutation<any, {}>({
       query: (params) => ({
-        url: 'execute_lottery_for_project',
+        url: 'execute_lottery_for_project/',
         method: 'POST',
         body: params,
       }),
@@ -72,7 +72,7 @@ export const api = createApi({
 
     // GET: Search for customers with search params
     getCustomers: builder.query<CustomerListItem[], string>({
-      query: (params) => `customers?${params}`,
+      query: (params) => `customers/?${params}`,
       providesTags: [{ type: 'Customer', id: 'LIST' }],
     }),
 
@@ -108,7 +108,7 @@ export const api = createApi({
 
     // GET: Fetch saved installments for a project
     getProjectInstallments: builder.query<ProjectInstallment[], string>({
-      query: (id) => `projects/${id}/installment_templates`,
+      query: (id) => `projects/${id}/installment_templates/`,
     }),
 
     // POST: Set project installments
@@ -145,7 +145,7 @@ export const api = createApi({
 
     // GET: Fetch single apartment reservation that includes installments
     getApartmentReservation: builder.query<ApartmentReservationWithInstallments, number>({
-      query: (id) => `apartment_reservations/${id}`,
+      query: (id) => `apartment_reservations/${id}/`,
       providesTags: (result, error, arg) => [{ type: 'Reservation', id: arg }],
     }),
 
