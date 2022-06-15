@@ -8,17 +8,18 @@ import { useDispatch } from 'react-redux';
 import formatDateTime from '../../utils/formatDateTime';
 import formattedLivingArea from '../../utils/formatLivingArea';
 import Label from '../common/label/Label';
+import OfferStatusText from '../offer/OfferStatusText';
 import { ApartmentReservationStates } from '../../enums';
-import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { Customer, CustomerReservation } from '../../types';
-import { getOfferCustomerData } from '../../utils/mapOfferCustomerData';
+import { mapApartmentReservationCustomerData } from '../../utils/mapApartmentReservationCustomerData';
 import { getReservationApartmentData, getReservationProjectData } from '../../utils/mapReservationData';
+import { showOfferModal } from '../../redux/features/offerModalSlice';
+import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
+import { toast } from '../common/toast/ToastManager';
 import { useDownloadFile } from '../../utils/useDownloadFile';
 import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
-import { toast } from '../common/toast/ToastManager';
 
 import styles from './CustomerReservationRow.module.scss';
-import OfferStatusText from '../offer/OfferStatusText';
 
 const T_PATH = 'components.reservations.CustomerReservationRow';
 
@@ -194,37 +195,63 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
           </div>
         </div>
       </div>
-      {firstInQueue && (
+      {!isCanceled && (
         <div className={styles.buttons}>
-          <Button
-            variant="secondary"
-            size="small"
-            onClick={() =>
-              dispatch(
-                showOfferModal({
-                  apartment: apartment,
-                  customer: getOfferCustomerData(customer),
-                  isNewOffer: !reservation.offer,
-                  project: project,
-                  reservation: reservation,
-                })
-              )
-            }
-          >
-            {t(`${T_PATH}.offer`)}
-          </Button>
-          {!isInReview && (
-            <>
-              <Button variant="secondary" size="small" onClick={download} disabled={isLoadingContract}>
-                {reservation.project_ownership_type.toLowerCase() === 'haso'
-                  ? t(`${T_PATH}.createContract`)
-                  : t(`${T_PATH}.createDeedOfSale`)}
-              </Button>
-              <a href={fileUrl} download={fileName} className="hiddenFromScreen" ref={fileRef}>
-                {t(`${T_PATH}.download`)}
-              </a>
-            </>
-          )}
+          <div>
+            {firstInQueue && (
+              <>
+                <Button
+                  variant="secondary"
+                  size="small"
+                  onClick={() =>
+                    dispatch(
+                      showOfferModal({
+                        apartment: apartment,
+                        customer: mapApartmentReservationCustomerData(customer),
+                        isNewOffer: !reservation.offer,
+                        project: project,
+                        reservation: reservation,
+                      })
+                    )
+                  }
+                >
+                  {t(`${T_PATH}.offer`)}
+                </Button>
+                {!isInReview && (
+                  <>
+                    <Button variant="secondary" size="small" onClick={download} disabled={isLoadingContract}>
+                      {reservation.project_ownership_type.toLowerCase() === 'haso'
+                        ? t(`${T_PATH}.createContract`)
+                        : t(`${T_PATH}.createDeedOfSale`)}
+                    </Button>
+                    <a href={fileUrl} download={fileName} className="hiddenFromScreen" ref={fileRef}>
+                      {t(`${T_PATH}.download`)}
+                    </a>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+          <div>
+            <Button
+              variant="supplementary"
+              size="small"
+              iconLeft={''}
+              className={styles.cancelBtn}
+              onClick={() =>
+                dispatch(
+                  showReservationCancelModal({
+                    ownershipType: project.ownership_type,
+                    projectId: project.uuid,
+                    reservationId: reservation.id,
+                    customer: mapApartmentReservationCustomerData(customer),
+                  })
+                )
+              }
+            >
+              {t(`${T_PATH}.btnCancel`)}
+            </Button>
+          </div>
         </div>
       )}
       {!isEmpty(reservation.state_change_events) && (

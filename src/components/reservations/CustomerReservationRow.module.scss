@@ -44,9 +44,14 @@
 
 .buttons {
   margin-top: var(--spacing-s);
+  padding-top: var(--spacing-s);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px solid var(--color-black-5);
 
-  button {
-    margin-right: var(--spacing-xs);
+  button + button {
+    margin-left: var(--spacing-xs);
   }
 }
 
@@ -133,5 +138,12 @@
 
   tbody tr td {
     font-size: var(--fontsize-body-s);
+  }
+}
+
+.cancelBtn {
+  [class*=Button-module_label] {
+    margin: 0 var(--spacing-xs) !important;
+    padding: var(--spacing-2-xs) var(--spacing-xs) !important;
   }
 }
