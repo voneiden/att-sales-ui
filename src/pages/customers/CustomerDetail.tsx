@@ -22,7 +22,7 @@ const T_PATH = 'pages.customers.CustomerDetail';
 const CustomerDetail = (): JSX.Element | null => {
   const { t } = useTranslation();
   const { customerId } = useParams();
-  const { data: customer, isLoading, isError, isSuccess } = useGetCustomerByIdQuery(customerId || '0');
+  const { data: customer, isLoading, isFetching, isError, isSuccess } = useGetCustomerByIdQuery(customerId || '0');
 
   usePageTitle(customer?.id ? `${t('PAGES.customers')} - ${customer.id}` : t('PAGES.customers'));
 
@@ -79,38 +79,47 @@ const CustomerDetail = (): JSX.Element | null => {
   if (!isSuccess || !customer) return null;
 
   return (
-    <Container>
-      {renderBreadcrumb()}
-      <div className={styles.titleRow}>
-        <h1>{t(`${T_PATH}.customerDetails`)}</h1>
-        <div className={styles.customerEditLink}>
-          <a
-            href={`/${ROUTES.CUSTOMERS}/edit/${customerId}`}
-            className={cx(styles.editBtn, 'hds-button hds-button--secondary hds-button--small')}
-          >
-            <span aria-hidden="true" className="hds-icon">
-              <IconPenLine />
-            </span>
-            <span className="hds-button__label">{t(`${T_PATH}.editCustomerBtn`)}</span>
-          </a>
+    <>
+      <Container>{renderBreadcrumb()}</Container>
+      {isFetching && (
+        <div className={styles.fixedSpinner}>
+          <Container className={styles.loadingSpinnerContainer}>
+            <Spinner />
+          </Container>
         </div>
-      </div>
-      <CustomerInfo customer={customer} />
-      <div className={styles.tabsWrapper}>
-        <Tabs>
-          <TabList className={styles.tabs}>
-            <Tab>{t(`${T_PATH}.tabReservations`)}</Tab>
-            <Tab>{t(`${T_PATH}.tabInstallments`)}</Tab>
-          </TabList>
-          <TabPanel className={styles.tabPanel}>
-            <CustomerReservations customer={customer} />
-          </TabPanel>
-          <TabPanel className={styles.tabPanel}>
-            <Installments customer={customer} />
-          </TabPanel>
-        </Tabs>
-      </div>
-    </Container>
+      )}
+      <Container className={cx(isFetching && styles.disabled)}>
+        <div className={styles.titleRow}>
+          <h1>{t(`${T_PATH}.customerDetails`)}</h1>
+          <div className={styles.customerEditLink}>
+            <a
+              href={`/${ROUTES.CUSTOMERS}/edit/${customerId}`}
+              className={cx(styles.editBtn, 'hds-button hds-button--secondary hds-button--small')}
+            >
+              <span aria-hidden="true" className="hds-icon">
+                <IconPenLine />
+              </span>
+              <span className="hds-button__label">{t(`${T_PATH}.editCustomerBtn`)}</span>
+            </a>
+          </div>
+        </div>
+        <CustomerInfo customer={customer} />
+        <div className={styles.tabsWrapper}>
+          <Tabs>
+            <TabList className={styles.tabs}>
+              <Tab>{t(`${T_PATH}.tabReservations`)}</Tab>
+              <Tab>{t(`${T_PATH}.tabInstallments`)}</Tab>
+            </TabList>
+            <TabPanel className={styles.tabPanel}>
+              <CustomerReservations customer={customer} />
+            </TabPanel>
+            <TabPanel className={styles.tabPanel}>
+              <Installments customer={customer} />
+            </TabPanel>
+          </Tabs>
+        </div>
+      </Container>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ import formatDateTime from '../../utils/formatDateTime';
 import OfferStatusText from '../offer/OfferStatusText';
 import { Apartment, ApartmentReservationCustomer, ApartmentReservationWithCustomer, Project } from '../../types';
 import { ApartmentReservationStates, ROUTES } from '../../enums';
+import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { showReservationAddModal } from '../../redux/features/reservationAddModalSlice';
 import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
 import { showReservationEditModal } from '../../redux/features/reservationEditModalSlice';
@@ -187,7 +188,21 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
                 >
                   {t(`${T_PATH}.btnEdit`)}
                 </Button>
-                <Button variant="secondary" size="small">
+                <Button
+                  variant="secondary"
+                  size="small"
+                  onClick={() =>
+                    dispatch(
+                      showOfferModal({
+                        apartment: apartment,
+                        customer: reservation.customer,
+                        isNewOffer: !reservation.offer,
+                        project: project,
+                        reservation: reservation,
+                      })
+                    )
+                  }
+                >
                   {t(`${T_PATH}.btnOffer`)}
                 </Button>
               </>

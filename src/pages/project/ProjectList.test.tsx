@@ -12,8 +12,6 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.project.ProjectList.loading...');
-
     await screen.findByText('Taloyhtiö 30+');
     await screen.findByText('Kotikatu 32 As Oy');
   });
@@ -28,8 +26,6 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.project.ProjectList.loading...');
-
     await screen.findByText('pages.project.ProjectList.errorLoadingProjects');
   });
 
@@ -43,8 +39,6 @@ describe('ProjectList', () => {
 
     renderWithProviders(<ProjectList />);
 
-    screen.getByText('pages.project.ProjectList.loading...');
-
     await screen.findByText('pages.project.ProjectList.noAssignedProjects');
   });
 
@@ -57,8 +51,6 @@ describe('ProjectList', () => {
     );
 
     renderWithProviders(<ProjectList />);
-
-    screen.getByText('pages.project.ProjectList.loading...');
 
     await screen.findByText('pages.project.ProjectList.noProjects');
   });

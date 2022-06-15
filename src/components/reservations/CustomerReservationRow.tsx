@@ -11,6 +11,7 @@ import Label from '../common/label/Label';
 import { ApartmentReservationStates } from '../../enums';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { Customer, CustomerReservation } from '../../types';
+import { getOfferCustomerData } from '../../utils/mapOfferCustomerData';
 import { getReservationApartmentData, getReservationProjectData } from '../../utils/mapReservationData';
 import { useDownloadFile } from '../../utils/useDownloadFile';
 import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
@@ -201,9 +202,11 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             onClick={() =>
               dispatch(
                 showOfferModal({
-                  project: project,
                   apartment: apartment,
-                  customer: customer,
+                  customer: getOfferCustomerData(customer),
+                  isNewOffer: !reservation.offer,
+                  project: project,
+                  reservation: reservation,
                 })
               )
             }

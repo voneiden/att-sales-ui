@@ -20,6 +20,16 @@
   }
 }
 
+.extraDataWrapper {
+  background-color: var(--color-black-5);
+  padding: var(--spacing-l) var(--spacing-m);
+
+  @media (min-width: 1248px) {
+    // --breakpoint-xl
+    padding: var(--spacing-l) var(--spacing-2-xl) var(--spacing-xl) var(--spacing-2-xl);
+  }
+}
+
 .loadingSpinnerContainer {
   position: relative;
   z-index: 2;
