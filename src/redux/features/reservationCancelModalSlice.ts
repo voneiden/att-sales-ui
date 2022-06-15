@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ApartmentReservationWithCustomer, Project } from '../../types';
+
+import { ApartmentReservation, ApartmentReservationCustomer, Project } from '../../types';
 
 interface ReservationCancelModalContent {
-  reservation: ApartmentReservationWithCustomer;
+  customer: ApartmentReservationCustomer;
   ownershipType: Project['ownership_type'];
   projectId: Project['uuid'];
+  reservationId: ApartmentReservation['id'];
 }
 
 interface ReservationCancelModalState {
