@@ -167,6 +167,11 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
               <div>
                 {t(`${T_PATH}.priority`)}: {renderPriorityNumber()}
               </div>
+              {reservation.project_ownership_type.toLowerCase() === 'haso' && (
+                <div>
+                  {t(`${T_PATH}.hasoNumber`)}: {reservation.right_of_residence}
+                </div>
+              )}
             </>
           )}
         </div>

@@ -246,6 +246,7 @@
   "components.reservations.CustomerReservationRow.comment": "Comment",
   "components.reservations.CustomerReservationRow.createContract": "Create contract",
   "components.reservations.CustomerReservationRow.createDeedOfSale": "Create deed of sale",
+  "components.reservations.CustomerReservationRow.hasoNumber": "Aso number",
   "components.reservations.CustomerReservationRow.lotteryUncompleted": "Lottery uncompleted",
   "components.reservations.CustomerReservationRow.noChangeHistory": "No change history",
   "components.reservations.CustomerReservationRow.offer": "Offer",
