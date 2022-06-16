@@ -44,6 +44,7 @@
   "components.common.navbar.Navbar.login": "Kirjaudu sisään",
   "components.common.navbar.Navbar.logout": "Kirjaudu ulos",
   "components.common.navbar.Navbar.projects": "Kohteet",
+  "components.common.navbar.Navbar.reports": "Raportit",
   "components.common.navbar.Navbar.skipToContent": "Hyppää pääsisältöön",
   "components.common.navbar.Navbar.title": "Asuntomyynti",
   "components.common.spinner.Spinner.loading": "Ladataan",
@@ -238,6 +239,13 @@
   "components.project.ProjectCard.startLotteryCancel": "Peruuta",
   "components.project.ProjectCard.startLotteryConfirmText": "Olet käynnistämässä kyseiselle kohteelle arvonnan. Arvonnan voi suorittaa vain kerran, eikä tätä toimintoa voi peruuttaa!",
   "components.project.ProjectCard.startLotteryConfirmTitle": "Haluatko varmasti käynnistää arvonnan?",
+  "components.reports.SalesReport.salesReport": "Myynnin raportti",
+  "components.reports.SalesReport.download": "Lataa",
+  "components.reports.SalesReport.downloadReport": "Lataa raportti",
+  "components.reports.SalesReport.dateFormatHelper": "Käytä muotoa P.K.VVVV",
+  "components.reports.SalesReport.startDate": "Alkupvm",
+  "components.reports.SalesReport.endDate": "Loppupvm",
+  "components.reports.SalesReport.reportHelpText": "Valitse sekä alku- että loppupvm.",
   "components.reservations.CustomerReservationRow.btnCancel": "Peruuta",
   "components.reservations.CustomerReservationRow.canceled": "Peruttu",
   "components.reservations.CustomerReservationRow.changeHistory": "Muutoshistoria",
@@ -376,6 +384,7 @@
   "pages.project.ProjectList.tabPublished": "Julkaistut",
   "pages.project.ProjectList.tabUnpublished": "Julkaisemattomat",
   "pages.project.ProjectList.tabUpcoming": "Tulevat",
+  "pages.reports.Reports.reportsPageTitle": "Raportit",
   "utils.getOfferText.expired": "Tarjous vanhentunut",
   "utils.getProjectState.archived": "Arkistoitu",
   "utils.getProjectState.unpublished": "Julkaisematon",
@@ -452,6 +461,7 @@
     "homepage": "Etusivu",
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
-    "projects": "Kohteet"
+    "projects": "Kohteet",
+    "reports": "Raportit"
   }
 }

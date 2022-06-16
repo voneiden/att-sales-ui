@@ -44,6 +44,7 @@
   "components.common.navbar.Navbar.login": "Log in",
   "components.common.navbar.Navbar.logout": "Log out",
   "components.common.navbar.Navbar.projects": "Projects",
+  "components.common.navbar.Navbar.reports": "Reports",
   "components.common.navbar.Navbar.skipToContent": "Skip to main content",
   "components.common.navbar.Navbar.title": "Asuntomyynti",
   "components.common.spinner.Spinner.loading": "Loading",
@@ -238,6 +239,13 @@
   "components.project.ProjectCard.startLotteryCancel": "Cancel",
   "components.project.ProjectCard.startLotteryConfirmText": "You are about to start a lottery for a project. This operation can only be done once and cannot be undone!",
   "components.project.ProjectCard.startLotteryConfirmTitle": "Are you sure you want to continue?",
+  "components.reports.SalesReport.salesReport": "Sales report",
+  "components.reports.SalesReport.download": "Download",
+  "components.reports.SalesReport.downloadReport": "Download report",
+  "components.reports.SalesReport.dateFormatHelper": "Use format D.M.YYYY",
+  "components.reports.SalesReport.startDate": "Start date",
+  "components.reports.SalesReport.endDate": "End date",
+  "components.reports.SalesReport.reportHelpText": "Choose both start and end date",
   "components.reservations.CustomerReservationRow.btnCancel": "Cancel",
   "components.reservations.CustomerReservationRow.canceled": "Canceled",
   "components.reservations.CustomerReservationRow.changeHistory": "Change history",
@@ -375,6 +383,7 @@
   "pages.project.ProjectList.tabPublished": "Published",
   "pages.project.ProjectList.tabUnpublished": "Unpublished",
   "pages.project.ProjectList.tabUpcoming": "Upcoming",
+  "pages.reports.Reports.reportsPageTitle": "Reports",
   "utils.getOfferText.expired": "Offer expired",
   "utils.getProjectState.archived": "Archived",
   "utils.getProjectState.unpublished": "Unpublished",
@@ -451,6 +460,7 @@
     "homepage": "Home",
     "login": "Login",
     "logout": "Logout",
-    "projects": "Projects"
+    "projects": "Projects",
+    "reports": "Reports"
   }
 }
