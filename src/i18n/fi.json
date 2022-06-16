@@ -209,7 +209,6 @@
   "components.offer.OfferModal.no": "Ei",
   "components.offer.OfferModal.noRequiredDataAvailable": "Projektin, huoneiston, asiakkaan tai varauksen data puuttuu",
   "components.offer.OfferModal.offer": "Tarjous",
-  "components.offer.OfferModal.primaryApplicantAgeInfo": "Päähakijan",
   "components.offer.OfferModal.rejectOffer": "Hylkää tarjous",
   "components.offer.OfferModal.save": "Tallenna",
   "components.offer.OfferModal.saveOffer": "Tallenna muutokset",
