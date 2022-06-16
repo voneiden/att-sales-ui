@@ -42,6 +42,10 @@ const NavBar = (): JSX.Element => {
       path: `/${ROUTES.CUSTOMERS}`,
       label: t(`${T_PATH}.customers`),
     },
+    {
+      path: `/${ROUTES.REPORTS}`,
+      label: t(`${T_PATH}.reports`),
+    },
   ];
 
   return (

@@ -11,6 +11,7 @@ import MainLayout from './components/common/mainLayout/MainLayout';
 import NotFound from './pages/NotFound';
 import ProjectDetail from './pages/project/ProjectDetail';
 import ProjectList from './pages/project/ProjectList';
+import Reports from './pages/reports/Reports';
 import Spinner from './components/common/spinner/Spinner';
 import WithAuth from './components/auth/WithAuth';
 
@@ -26,6 +27,7 @@ const Authenticated = (): JSX.Element => (
       <Route path={`${ROUTES.CUSTOMERS}/:customerId`} element={<CustomerDetail />} />
       <Route path={`${ROUTES.ADD_CUSTOMER}`} element={<AddEditCustomer isEditMode={false} />} />
       <Route path={`${ROUTES.EDIT_CUSTOMER}/:customerId`} element={<AddEditCustomer isEditMode />} />
+      <Route path={ROUTES.REPORTS} element={<Reports />} />
       <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
