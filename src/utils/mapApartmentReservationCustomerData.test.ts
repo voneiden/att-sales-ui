@@ -1,4 +1,4 @@
-import { getOfferCustomerData } from './mapOfferCustomerData';
+import { mapApartmentReservationCustomerData } from './mapApartmentReservationCustomerData';
 
 import mockCustomer from '../mocks/customer.json';
 
@@ -37,13 +37,13 @@ const targetDataWithoutSecondaryProfile = {
 
 describe('mapOfferCustomerData', () => {
   it('maps data with secondary profile', () => {
-    const mappedData = getOfferCustomerData(customerWithTwoProfiles);
+    const mappedData = mapApartmentReservationCustomerData(customerWithTwoProfiles);
 
     expect(mappedData).toMatchObject(targetDataWithSecondaryProfile);
   });
 
   it('maps data without secondary profile', () => {
-    const mappedData = getOfferCustomerData(customerWithoutSecondaryProfile);
+    const mappedData = mapApartmentReservationCustomerData(customerWithoutSecondaryProfile);
 
     expect(mappedData).toMatchObject(targetDataWithoutSecondaryProfile);
   });

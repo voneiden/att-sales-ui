@@ -164,7 +164,8 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
                   showReservationCancelModal({
                     ownershipType: projectOwnershipType,
                     projectId: project.uuid,
-                    reservation: reservation,
+                    reservationId: reservation.id,
+                    customer: reservation.customer,
                   })
                 )
               }

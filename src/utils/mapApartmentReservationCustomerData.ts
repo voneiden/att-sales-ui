@@ -1,6 +1,6 @@
 import { ApartmentReservationCustomer, Customer } from '../types';
 
-export const getOfferCustomerData = (customer: Customer): ApartmentReservationCustomer => {
+export const mapApartmentReservationCustomerData = (customer: Customer): ApartmentReservationCustomer => {
   const formattedCustomerData: ApartmentReservationCustomer = {
     id: customer.id,
     primary_profile: {

@@ -185,7 +185,7 @@ export const api = createApi({
     // POST: Cancel apartment reservation
     cancelApartmentReservation: builder.mutation<
       any,
-      { formData: ReservationCancelFormData; reservationId: number; projectId: string }
+      { formData: ReservationCancelFormData; reservationId: number; projectId: string; customerId: number }
     >({
       query: (params) => {
         return {
@@ -197,6 +197,7 @@ export const api = createApi({
       invalidatesTags: (result, error, arg) => [
         { type: 'Project', id: arg.projectId },
         { type: 'Reservation', id: arg.reservationId },
+        { type: 'Customer', id: arg.customerId },
       ],
     }),
 

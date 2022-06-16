@@ -239,6 +239,7 @@
   "components.project.ProjectCard.startLotteryCancel": "Peruuta",
   "components.project.ProjectCard.startLotteryConfirmText": "Olet käynnistämässä kyseiselle kohteelle arvonnan. Arvonnan voi suorittaa vain kerran, eikä tätä toimintoa voi peruuttaa!",
   "components.project.ProjectCard.startLotteryConfirmTitle": "Haluatko varmasti käynnistää arvonnan?",
+  "components.reservations.CustomerReservationRow.btnCancel": "Peruuta",
   "components.reservations.CustomerReservationRow.canceled": "Peruttu",
   "components.reservations.CustomerReservationRow.changeHistory": "Muutoshistoria",
   "components.reservations.CustomerReservationRow.close": "Sulje",

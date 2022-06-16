@@ -19,18 +19,20 @@ const ReservationCancelModal = (): JSX.Element | null => {
   const dispatch = useDispatch();
   const reservationCancelModal = useSelector((state: RootState) => state.reservationCancelModal);
   const isDialogOpen = reservationCancelModal.isOpened;
-  const reservation = reservationCancelModal.content?.reservation;
+  const reservationId = reservationCancelModal.content?.reservationId;
+  const customer = reservationCancelModal.content?.customer;
   const ownershipType = reservationCancelModal.content?.ownershipType;
   const [isLoading, setIsLoading] = useState(false);
   const [cancelApartmentReservation, { isLoading: postReservationCancelLoading }] =
     useCancelApartmentReservationMutation();
 
-  // Project uuid is used to refetch project data (including reservations) after cancelling a reservation
+  // Project UUID and customer ID is used to invalidate cached data after cancelling a reservation
   const projectId = reservationCancelModal.content?.projectId || '';
+  const customerId = reservationCancelModal.content?.customer.id || 0;
 
   if (!isDialogOpen) return null;
 
-  if (!reservation || !ownershipType) {
+  if (!reservationId || !ownershipType || !customer) {
     toast.show({
       type: 'error',
       title: t(`${T_PATH}.errorTitle`),
@@ -48,7 +50,12 @@ const ReservationCancelModal = (): JSX.Element | null => {
 
       try {
         // Send reservation cancel form data to API
-        await cancelApartmentReservation({ formData, reservationId: reservation.id, projectId: projectId })
+        await cancelApartmentReservation({
+          formData,
+          reservationId: reservationId,
+          projectId: projectId,
+          customerId: customerId,
+        })
           .unwrap()
           .then(() => {
             toast.show({ type: 'success', content: t(`${T_PATH}.cancelledSuccessfully`) });
@@ -63,11 +70,11 @@ const ReservationCancelModal = (): JSX.Element | null => {
     }
   };
 
-  const formId = `reservation-cancel-form-${reservation.id}`;
+  const formId = `reservation-cancel-form-${reservationId}`;
 
   return (
     <Dialog
-      id={`reservation-cancel-dialog-${reservation.id}`}
+      id={`reservation-cancel-dialog-${reservationId}`}
       aria-labelledby="reservation-cancel-dialog-header"
       isOpen={isDialogOpen}
       close={closeDialog}
@@ -82,9 +89,9 @@ const ReservationCancelModal = (): JSX.Element | null => {
         <div className={styles.customer}>
           {t(`${T_PATH}.cancelingForCustomer`)}:
           <div className={styles.applicants}>
-            {reservation.customer.primary_profile.last_name} {reservation.customer.primary_profile.first_name}
-            {reservation.customer.secondary_profile &&
-              ` (${reservation.customer.secondary_profile.last_name}, ${reservation.customer.secondary_profile.first_name})`}
+            {customer.primary_profile.last_name} {customer.primary_profile.first_name}
+            {customer.secondary_profile &&
+              ` (${customer.secondary_profile.last_name}, ${customer.secondary_profile.first_name})`}
           </div>
         </div>
         <ReservationCancelForm ownershipType={ownershipType} handleFormCallback={handleFormCallback} formId={formId} />
