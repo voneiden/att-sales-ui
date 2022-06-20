@@ -143,7 +143,8 @@ const OfferForm = ({ formId, handleFormCallback, offer, ownershipType, reservati
                   helperText={t(`${T_PATH}.dateFormatHelpText`)}
                   language={getCurrentLangCode()}
                   disableConfirmation
-                  invalid={Boolean(get(errors, 'valid_until'))}
+                  disabled={offer && !!offer.concluded_at}
+                  invalid={Boolean(get(errors, 'valid_until')) || !moment(validUntilDate, 'D.M.YYYY', true).isValid()}
                   errorText={get(errors, 'valid_until')?.message}
                   onChange={(value) => setValue('valid_until', value)}
                   required
