@@ -216,9 +216,6 @@ export type ApartmentReservationCustomer = {
   id: Customer['id'];
   primary_profile: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
   secondary_profile?: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
-  has_hitas_ownership?: Customer['has_hitas_ownership'];
-  is_age_over_55?: Customer['is_age_over_55'];
-  is_right_of_occupancy_housing_changer?: Customer['is_right_of_occupancy_housing_changer'];
 };
 
 export type ApartmentReservation = {
@@ -238,6 +235,9 @@ export type ApartmentReservationWithCustomer = ApartmentReservation & {
   has_children?: Customer['has_children'];
   has_multiple_winning_apartments: boolean;
   right_of_residence?: Customer['right_of_residence'];
+  has_hitas_ownership?: Customer['has_hitas_ownership'];
+  is_age_over_55?: Customer['is_age_over_55'];
+  is_right_of_occupancy_housing_changer?: Customer['is_right_of_occupancy_housing_changer'];
 };
 
 export type ApartmentReservationWithInstallments = ApartmentReservation & {
@@ -252,7 +252,6 @@ export type ReservationStateChangeEvent = {
 };
 
 export type CustomerReservation = {
-  id: number;
   apartment_debt_free_sales_price?: Apartment['debt_free_sales_price'];
   apartment_installments?: ApartmentInstallment[];
   apartment_living_area: Apartment['living_area'];
@@ -262,6 +261,10 @@ export type CustomerReservation = {
   apartment_structure: Apartment['apartment_structure'];
   apartment_uuid: Apartment['uuid'];
   has_children?: Customer['has_children'];
+  has_hitas_ownership?: Customer['has_hitas_ownership'];
+  id: number;
+  is_age_over_55?: Customer['is_age_over_55'];
+  is_right_of_occupancy_housing_changer?: Customer['is_right_of_occupancy_housing_changer'];
   lottery_position?: number;
   offer?: ApartmentReservationOffer;
   priority_number?: number;
@@ -338,7 +341,13 @@ export type ProjectOfferMessageFormData = Pick<ProjectExtraData, 'offer_message_
 
 export type OfferModalReservationData = Pick<
   ApartmentReservationWithCustomer,
-  'has_children' | 'id' | 'offer' | 'right_of_residence'
+  | 'has_children'
+  | 'id'
+  | 'offer'
+  | 'right_of_residence'
+  | 'has_hitas_ownership'
+  | 'is_age_over_55'
+  | 'is_right_of_occupancy_housing_changer'
 >;
 
 export type OfferFormData = {
