@@ -215,24 +215,59 @@ const OfferModal = (): JSX.Element | null => {
       <thead className="hds-table__header-row">
         <tr>
           <th>{t(`${T_PATH}.apartment`)}</th>
-          <th>{t(`${T_PATH}.applicant`)}</th>
+          <th>
+            <div className={styles.tooltipWrapper}>
+              {t(`${T_PATH}.applicant`)}
+              <Tooltip placement="top" small className={styles.tooltip}>
+                {t(`${T_PATH}.basedOnCustomerData`)}
+              </Tooltip>
+            </div>
+          </th>
           {project.ownership_type.toLowerCase() === 'haso' ? (
             <>
               <th>
                 <div className={styles.tooltipWrapper}>
                   {t(`${T_PATH}.hasoNumber`)}
                   <Tooltip placement="top" small className={styles.tooltip}>
-                    {t(`${T_PATH}.basedOnApplicationData`)}
+                    {t(`${T_PATH}.basedOnReservationData`)}
                   </Tooltip>
                 </div>
               </th>
-              <th>{t(`${T_PATH}.isOver55`)}</th>
-              <th>{t(`${T_PATH}.hasHasoOwnership`)}</th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.isOver55`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.hasHasoOwnership`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
             </>
           ) : (
             <>
-              <th>{t(`${T_PATH}.familyWithChildren`)}</th>
-              <th>{t(`${T_PATH}.hasHitasOwnership`)}</th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.familyWithChildren`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.hasHitasOwnership`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
             </>
           )}
         </tr>
