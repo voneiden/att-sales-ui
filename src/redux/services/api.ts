@@ -270,8 +270,8 @@ export const api = createApi({
     }),
 
     // GET: Fetch offer email message
-    getOfferMessage: builder.query<OfferMessage, number>({
-      query: (id) => `apartment_reservations/${id}/offer_message/`,
+    getOfferMessage: builder.query<OfferMessage, { id: number; valid_until: string }>({
+      query: (params) => `apartment_reservations/${params.id}/offer_message/?valid_until=${params.valid_until}`,
     }),
   }),
 });

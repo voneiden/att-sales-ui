@@ -4,7 +4,6 @@ import { Button, Dialog, Notification, Tooltip } from 'hds-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import OfferEmailMessage from './OfferEmailMessage';
 import OfferForm from './OfferForm';
 import ProjectName from '../project/ProjectName';
 import Spinner from '../common/spinner/Spinner';
@@ -292,22 +291,14 @@ const OfferModal = (): JSX.Element | null => {
 
       {renderTable()}
 
-      <div className={styles.offerGrid}>
-        <div className={cx(styles.textareaColumn, styles.fullHeightColumn)}>
-          <div className={styles.inputWrapper}>
-            <OfferEmailMessage reservationId={reservation.id} />
-          </div>
-        </div>
-        <div className={styles.textareaColumn}>
-          <OfferForm
-            formId={formId}
-            handleFormCallback={handleFormCallback}
-            offer={isNewOffer ? undefined : offer}
-            ownershipType={project.ownership_type}
-            reservationId={reservation.id}
-          />
-        </div>
-      </div>
+      <OfferForm
+        formId={formId}
+        handleFormCallback={handleFormCallback}
+        offer={isNewOffer ? undefined : offer}
+        ownershipType={project.ownership_type}
+        reservationId={reservation.id}
+      />
+
       <hr />
     </>
   );

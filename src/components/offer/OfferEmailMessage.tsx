@@ -1,9 +1,10 @@
 import React from 'react';
+import moment from 'moment';
 import { IconArrowRight, Notification, TextArea } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
 import Spinner from '../common/spinner/Spinner';
-import { OfferModalReservationData } from '../../types';
+import { Offer, OfferModalReservationData } from '../../types';
 import { useGetOfferMessageQuery } from '../../redux/services/api';
 
 import styles from './OfferEmailMessage.module.scss';
@@ -12,13 +13,19 @@ const T_PATH = 'components.offer.OfferEmailMessage';
 
 interface IProps {
   reservationId: OfferModalReservationData['id'];
+  validUntil: Offer['valid_until'];
 }
 
-const OfferEmailMessage = ({ reservationId }: IProps): JSX.Element => {
+const OfferEmailMessage = ({ reservationId, validUntil }: IProps): JSX.Element => {
   const { t } = useTranslation();
-  const { data, isLoading, isError } = useGetOfferMessageQuery(reservationId);
+  const isCorrectValidUntil = moment(validUntil, 'D.M.YYYY', true).isValid();
+  const formattedValidUntil = isCorrectValidUntil ? moment(validUntil, 'D.M.YYYY', true).format('YYYY-MM-DD') : '';
+  const { data, isFetching, isLoading, isError } = useGetOfferMessageQuery(
+    { id: reservationId, valid_until: formattedValidUntil },
+    { skip: !isCorrectValidUntil }
+  );
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || isFetching) return <Spinner />;
 
   if (isError || !data) {
     return (
