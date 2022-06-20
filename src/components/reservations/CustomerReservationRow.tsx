@@ -105,6 +105,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
             <th>{t(`${T_PATH}.reservationState`)}</th>
             <th>{t(`${T_PATH}.timestamp`)}</th>
             <th>{t(`${T_PATH}.comment`)}</th>
+            <th>{t(`${T_PATH}.user`)}</th>
           </tr>
         </thead>
         <tbody className="hds-table__content">
@@ -118,6 +119,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
               </td>
               <td>{stateChangeEvent.timestamp && formatDateTime(stateChangeEvent.timestamp)}</td>
               <td>{stateChangeEvent.comment || '-'}</td>
+              <td>{/* TODO: Add related user name and email here */}</td>
             </tr>
           ))}
         </tbody>
