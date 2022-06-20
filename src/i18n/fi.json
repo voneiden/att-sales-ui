@@ -445,7 +445,8 @@
       "CANCELED": "Varaus peruttu",
       "RESERVATION_AGREEMENT_CANCELED": "Varaussopimus peruttu",
       "TERMINATED": "Irtisanottu",
-      "TRANSFERRED": "Siirretty"
+      "TRANSFERRED": "Siirretty",
+      "OTHER_APARTMENT_OFFERED": "Toinen huoneisto tarjottu"
     },
     "OfferState": {
       "ACCEPTED": "Tarjous hyväksytty",

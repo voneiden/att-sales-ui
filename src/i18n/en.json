@@ -444,7 +444,8 @@
       "CANCELED": "Reservation canceled",
       "RESERVATION_AGREEMENT_CANCELED": "Reservation agreement canceled",
       "TERMINATED": "Terminated",
-      "TRANSFERRED": "Transferred"
+      "TRANSFERRED": "Transferred",
+      "OTHER_APARTMENT_OFFERED": "Other apartment offered"
     },
     "OfferState": {
       "ACCEPTED": "Offer accepted",
