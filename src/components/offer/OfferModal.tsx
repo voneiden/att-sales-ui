@@ -296,13 +296,13 @@ const OfferModal = (): JSX.Element | null => {
           {project.ownership_type.toLowerCase() === 'haso' ? (
             <>
               <td>{reservation.right_of_residence || '-'}</td>
-              <td>{renderBooleanValue(customer.is_age_over_55)}</td>
-              <td>{renderBooleanValue(customer.is_right_of_occupancy_housing_changer)}</td>
+              <td>{renderBooleanValue(reservation.is_age_over_55)}</td>
+              <td>{renderBooleanValue(reservation.is_right_of_occupancy_housing_changer)}</td>
             </>
           ) : (
             <>
               <td>{renderBooleanValue(reservation.has_children)}</td>
-              <td>{renderBooleanValue(customer.has_hitas_ownership)}</td>
+              <td>{renderBooleanValue(reservation.has_hitas_ownership)}</td>
             </>
           )}
         </tr>
