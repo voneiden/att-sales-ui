@@ -95,7 +95,7 @@ const ProjectList = (): JSX.Element => {
   };
 
   const renderProjects = () => {
-    if (projects === undefined) {
+    if (projects === undefined || !projects) {
       return (
         <Container>
           <p className={styles.statusText}>{t(`${T_PATH}.noProjects`)}</p>
@@ -103,7 +103,7 @@ const ProjectList = (): JSX.Element => {
       );
     }
 
-    let visibleProjects = projects;
+    let visibleProjects = projects || [];
 
     if (showMyProjects) {
       visibleProjects = filterProjectsByEstateAgent(projects, userFullName);

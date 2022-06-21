@@ -4,7 +4,6 @@ import { Button, Dialog, Notification, Tooltip } from 'hds-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import OfferEmailMessage from './OfferEmailMessage';
 import OfferForm from './OfferForm';
 import ProjectName from '../project/ProjectName';
 import Spinner from '../common/spinner/Spinner';
@@ -216,24 +215,59 @@ const OfferModal = (): JSX.Element | null => {
       <thead className="hds-table__header-row">
         <tr>
           <th>{t(`${T_PATH}.apartment`)}</th>
-          <th>{t(`${T_PATH}.applicant`)}</th>
+          <th>
+            <div className={styles.tooltipWrapper}>
+              {t(`${T_PATH}.applicant`)}
+              <Tooltip placement="top" small className={styles.tooltip}>
+                {t(`${T_PATH}.basedOnCustomerData`)}
+              </Tooltip>
+            </div>
+          </th>
           {project.ownership_type.toLowerCase() === 'haso' ? (
             <>
               <th>
                 <div className={styles.tooltipWrapper}>
                   {t(`${T_PATH}.hasoNumber`)}
                   <Tooltip placement="top" small className={styles.tooltip}>
-                    {t(`${T_PATH}.basedOnApplicationData`)}
+                    {t(`${T_PATH}.basedOnReservationData`)}
                   </Tooltip>
                 </div>
               </th>
-              <th>{t(`${T_PATH}.isOver55`)}</th>
-              <th>{t(`${T_PATH}.hasHasoOwnership`)}</th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.isOver55`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.hasHasoOwnership`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
             </>
           ) : (
             <>
-              <th>{t(`${T_PATH}.familyWithChildren`)}</th>
-              <th>{t(`${T_PATH}.hasHitasOwnership`)}</th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.familyWithChildren`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
+              <th>
+                <div className={styles.tooltipWrapper}>
+                  {t(`${T_PATH}.hasHitasOwnership`)}
+                  <Tooltip placement="top" small className={styles.tooltip}>
+                    {t(`${T_PATH}.basedOnReservationData`)}
+                  </Tooltip>
+                </div>
+              </th>
             </>
           )}
         </tr>
@@ -262,13 +296,13 @@ const OfferModal = (): JSX.Element | null => {
           {project.ownership_type.toLowerCase() === 'haso' ? (
             <>
               <td>{reservation.right_of_residence || '-'}</td>
-              <td>{renderBooleanValue(customer.is_age_over_55)}</td>
-              <td>{renderBooleanValue(customer.is_right_of_occupancy_housing_changer)}</td>
+              <td>{renderBooleanValue(reservation.is_age_over_55)}</td>
+              <td>{renderBooleanValue(reservation.is_right_of_occupancy_housing_changer)}</td>
             </>
           ) : (
             <>
               <td>{renderBooleanValue(reservation.has_children)}</td>
-              <td>{renderBooleanValue(customer.has_hitas_ownership)}</td>
+              <td>{renderBooleanValue(reservation.has_hitas_ownership)}</td>
             </>
           )}
         </tr>
@@ -292,22 +326,14 @@ const OfferModal = (): JSX.Element | null => {
 
       {renderTable()}
 
-      <div className={styles.offerGrid}>
-        <div className={cx(styles.textareaColumn, styles.fullHeightColumn)}>
-          <div className={styles.inputWrapper}>
-            <OfferEmailMessage reservationId={reservation.id} />
-          </div>
-        </div>
-        <div className={styles.textareaColumn}>
-          <OfferForm
-            formId={formId}
-            handleFormCallback={handleFormCallback}
-            offer={isNewOffer ? undefined : offer}
-            ownershipType={project.ownership_type}
-            reservationId={reservation.id}
-          />
-        </div>
-      </div>
+      <OfferForm
+        formId={formId}
+        handleFormCallback={handleFormCallback}
+        offer={isNewOffer ? undefined : offer}
+        ownershipType={project.ownership_type}
+        reservationId={reservation.id}
+      />
+
       <hr />
     </>
   );

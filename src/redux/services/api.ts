@@ -43,7 +43,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Customer', 'Offer', 'Project', 'ProjectExtraData', 'Reservation'],
+  tagTypes: ['Customer', 'Offer', 'OfferMessage', 'Project', 'ProjectExtraData', 'Reservation'],
   endpoints: (builder) => ({
     // GET: Fetch all projects
     getProjects: builder.query<Project[], void>({
@@ -140,7 +140,7 @@ export const api = createApi({
           body: params.formData,
         };
       },
-      invalidatesTags: (result, error, arg) => [{ type: 'ProjectExtraData', id: arg.uuid }],
+      invalidatesTags: (result, error, arg) => [{ type: 'ProjectExtraData', id: arg.uuid }, { type: 'OfferMessage' }],
     }),
 
     // GET: Fetch single apartment reservation that includes installments
@@ -270,8 +270,9 @@ export const api = createApi({
     }),
 
     // GET: Fetch offer email message
-    getOfferMessage: builder.query<OfferMessage, number>({
-      query: (id) => `apartment_reservations/${id}/offer_message/`,
+    getOfferMessage: builder.query<OfferMessage, { id: number; valid_until: string }>({
+      query: (params) => `apartment_reservations/${params.id}/offer_message/?valid_until=${params.valid_until}`,
+      providesTags: [{ type: 'OfferMessage' }],
     }),
   }),
 });

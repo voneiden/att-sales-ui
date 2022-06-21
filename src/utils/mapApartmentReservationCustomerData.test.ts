@@ -17,9 +17,6 @@ const targetDataWithSecondaryProfile = {
     last_name: customerWithTwoProfiles.secondary_profile.last_name,
     email: customerWithTwoProfiles.secondary_profile.email,
   },
-  is_age_over_55: customerWithTwoProfiles.is_age_over_55,
-  is_right_of_occupancy_housing_changer: customerWithTwoProfiles.is_right_of_occupancy_housing_changer,
-  has_hitas_ownership: customerWithTwoProfiles.has_hitas_ownership,
 };
 
 const targetDataWithoutSecondaryProfile = {
@@ -30,9 +27,6 @@ const targetDataWithoutSecondaryProfile = {
     email: customerWithoutSecondaryProfile.primary_profile.email,
   },
   secondary_profile: undefined,
-  is_age_over_55: customerWithoutSecondaryProfile.is_age_over_55,
-  is_right_of_occupancy_housing_changer: customerWithoutSecondaryProfile.is_right_of_occupancy_housing_changer,
-  has_hitas_ownership: customerWithoutSecondaryProfile.has_hitas_ownership,
 };
 
 describe('mapOfferCustomerData', () => {
