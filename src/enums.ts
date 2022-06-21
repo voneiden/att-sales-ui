@@ -8,6 +8,7 @@ export enum ROUTES {
   LOGOUT = 'logout',
   NOT_FOUND = '404',
   PROJECTS = 'projects',
+  REPORTS = 'reports',
 }
 
 export enum StateOfSale {
