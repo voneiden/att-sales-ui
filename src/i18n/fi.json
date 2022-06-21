@@ -254,6 +254,7 @@
   "components.reservations.CustomerReservationRow.comment": "Kommentti",
   "components.reservations.CustomerReservationRow.createContract": "Tee sopimus",
   "components.reservations.CustomerReservationRow.createDeedOfSale": "Tee kauppakirja",
+  "components.reservations.CustomerReservationRow.hasoNumber": "Asonro",
   "components.reservations.CustomerReservationRow.lotteryUncompleted": "Ei arvottu",
   "components.reservations.CustomerReservationRow.noChangeHistory": "Ei muutoshistoriaa",
   "components.reservations.CustomerReservationRow.offer": "Tarjous",
