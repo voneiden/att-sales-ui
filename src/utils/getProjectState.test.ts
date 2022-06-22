@@ -27,9 +27,10 @@ describe('getProjectState', () => {
     const project = {
       state_of_sale: StateOfSale.Ready,
       archived: true,
+      published: false,
     };
     const input = getProjectState(project);
 
-    expect(input).toEqual('Valmis (Julkaisematon)');
+    expect(input).toEqual('Valmis (Arkistoitu)');
   });
 });
