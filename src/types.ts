@@ -70,6 +70,7 @@ export type Project = {
   acc_salesperson: string;
   apartment_count: number;
   apartments: Apartment[];
+  application_count: number;
   application_end_time: string;
   application_start_time: string;
   archived: boolean;
