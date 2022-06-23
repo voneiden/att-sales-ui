@@ -86,6 +86,18 @@ const ProjectCard = ({ project, renderAsLink, showActions, lotteryLoading, lotte
             &nbsp;
             {application_end_time ? formatDateTime(application_end_time) : '-'}
           </div>
+          {!renderAsLink && (
+            <>
+              {project.lottery_completed_at && (
+                <div className={styles.infoText}>
+                  {t(`${T_PATH}.lotteryCompletedAt`)} {formatDateTime(project.lottery_completed_at)}
+                </div>
+              )}
+              <div className={styles.infoText}>
+                {t(`${T_PATH}.applications`)}: {project.application_count}
+              </div>
+            </>
+          )}
           {showActions && !lottery_completed_at && (
             <div className={styles.lotteryBtnWrap}>
               <Button
