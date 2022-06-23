@@ -411,7 +411,7 @@
     "InstallmentPercentageSpecifiers": {
       "SALES_PRICE": "Myyntihinta",
       "DEBT_FREE_SALES_PRICE": "Velaton hinta",
-      "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Velaton hinta (joustoerä)"
+      "SALES_PRICE_FLEXIBLE": "Myyntihinta (joustoerä)"
     },
     "StateOfSale": {
       "FOR_SALE": "Myynnissä",
