@@ -247,7 +247,7 @@
   "image_urls": [
     "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2021-08/room_6.jpeg"
   ],
-  "lottery_completed": false,
+  "lottery_completed_at": null,
   "main_image_url": "https://nginx-asuntotuotanto-test.agw.arodevtest.hel.fi/sites/default/files/2021-08/room_6.jpeg",
   "manager": null,
   "material_choice_dl": null,

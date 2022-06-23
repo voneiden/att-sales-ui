@@ -70,6 +70,7 @@ export type Project = {
   acc_salesperson: string;
   apartment_count: number;
   apartments: Apartment[];
+  application_count: number;
   application_end_time: string;
   application_start_time: string;
   archived: boolean;
@@ -97,7 +98,7 @@ export type Project = {
   housing_manager: string;
   id: number;
   image_urls: string[];
-  lottery_completed: boolean;
+  lottery_completed_at: string;
   main_image_url: string;
   manager: string;
   material_choice_dl: string;
@@ -270,7 +271,7 @@ export type CustomerReservation = {
   priority_number?: number;
   project_district: Project['district'];
   project_housing_company: Project['housing_company'];
-  project_lottery_completed: Project['lottery_completed'];
+  project_lottery_completed: boolean;
   project_ownership_type: Project['ownership_type'];
   project_street_address: Project['street_address'];
   project_uuid: Project['uuid'];

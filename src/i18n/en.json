@@ -229,10 +229,12 @@
   "components.project.ProjectActions.createBuyerMailingList": "Mailing list of 1st reservations",
   "components.project.ProjectActions.downloadApplicantList": "Download applicant list",
   "components.project.ProjectActions.downloadLotteryResults": "Lottery results",
+  "components.project.ProjectCard.applications": "Applications",
   "components.project.ProjectCard.applicationEndTime": "Application period ends",
   "components.project.ProjectCard.applicationTimeHasEnded": "Application period has ended",
   "components.project.ProjectCard.hasoLotteryLoading": "Apartment distribution in progress",
   "components.project.ProjectCard.hitasLotteryLoading": "Lottery in progress",
+  "components.project.ProjectCard.lotteryCompletedAt": "Lottery completed at",
   "components.project.ProjectCard.noEstateAgent": "No assigned salesperson",
   "components.project.ProjectCard.showProject": "Show project page",
   "components.project.ProjectCard.startHasoLottery": "Run apartment distribution",
@@ -410,7 +412,7 @@
     "InstallmentPercentageSpecifiers": {
       "SALES_PRICE": "Sales price",
       "DEBT_FREE_SALES_PRICE": "Debt-free sales price",
-      "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Debt-free sales price (flexible)"
+      "SALES_PRICE_FLEXIBLE": "Sales price (flexible)"
     },
     "StateOfSale": {
       "FOR_SALE": "For sale",

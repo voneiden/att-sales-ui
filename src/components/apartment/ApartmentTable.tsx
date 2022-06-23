@@ -18,7 +18,7 @@ interface IProps {
   project: Project;
   ownershipType: Project['ownership_type'];
   housingCompany: Project['housing_company'];
-  lotteryCompleted: Project['lottery_completed'];
+  isLotteryCompleted: boolean;
 }
 
 const ApartmentTable = ({
@@ -27,7 +27,7 @@ const ApartmentTable = ({
   housingCompany,
   ownershipType,
   project,
-  lotteryCompleted,
+  isLotteryCompleted,
 }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const { sortedApartments, requestSort, sortConfig } = useSortApartments(
@@ -102,7 +102,7 @@ const ApartmentTable = ({
               </div>
               <div className={styles.headerCellParent}>
                 <div className={cx(styles.headerCell, styles.headerCellHalf)}>
-                  {lotteryCompleted ? t(`${T_PATH}.priorityOrder`) : t(`${T_PATH}.applicants`)}
+                  {isLotteryCompleted ? t(`${T_PATH}.priorityOrder`) : t(`${T_PATH}.applicants`)}
                 </div>
                 <div className={cx(styles.headerCell, styles.headerCellHalf)}>
                   {ownershipType === 'haso' ? t(`${T_PATH}.hasoNumber`) : t(`${T_PATH}.familyWithChildren`)}
@@ -114,7 +114,7 @@ const ApartmentTable = ({
                 key={index}
                 apartment={apartment}
                 ownershipType={ownershipType}
-                lotteryCompleted={lotteryCompleted}
+                isLotteryCompleted={isLotteryCompleted}
                 project={project}
               />
             ))}

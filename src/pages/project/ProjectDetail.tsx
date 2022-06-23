@@ -124,7 +124,7 @@ const ProjectDetail = (): JSX.Element | null => {
             <div className={styles.apartmentsWrapper}>
               <div className={styles.actions}>
                 <div className={styles.selectWrapper}>
-                  {project.lottery_completed && (
+                  {!!project.lottery_completed_at && (
                     <ApartmentStateFilterSelect
                       activeFilter={apartmentStateFilter}
                       handleFilterChangeCallback={handleFilterChangeCallback}
@@ -138,7 +138,7 @@ const ProjectDetail = (): JSX.Element | null => {
                 ownershipType={project.ownership_type.toLowerCase()}
                 project={project}
                 housingCompany={project.housing_company}
-                lotteryCompleted={project.lottery_completed}
+                isLotteryCompleted={!!project.lottery_completed_at}
                 hasActiveFilters={hasActiveFilters}
               />
             </div>

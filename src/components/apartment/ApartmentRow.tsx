@@ -23,11 +23,11 @@ const T_PATH = 'components.apartment.ApartmentRow';
 interface IProps {
   apartment: Apartment;
   ownershipType: Project['ownership_type'];
-  lotteryCompleted: Project['lottery_completed'];
+  isLotteryCompleted: boolean;
   project: Project;
 }
 
-const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: IProps): JSX.Element => {
+const ApartmentRow = ({ apartment, ownershipType, isLotteryCompleted, project }: IProps): JSX.Element => {
   const { reservations, apartment_uuid } = apartment;
   const [applicationRowOpen, setApplicationRowOpen] = useSessionStorage({
     defaultValue: false,
@@ -327,11 +327,11 @@ const ApartmentRow = ({ apartment, ownershipType, lotteryCompleted, project }: I
       <div className={cx(styles.cell, styles.apartmentCell)}>
         <ApartmentBaseDetails
           apartment={apartment}
-          isLotteryResult={lotteryCompleted}
-          showState={lotteryCompleted ? resultRowOpen : false}
+          isLotteryResult={isLotteryCompleted}
+          showState={isLotteryCompleted ? resultRowOpen : false}
         />
       </div>
-      {lotteryCompleted ? renderLotteryResults() : renderReservations()}
+      {isLotteryCompleted ? renderLotteryResults() : renderReservations()}
     </div>
   );
 };

@@ -229,10 +229,12 @@
   "components.project.ProjectActions.createBuyerMailingList": "Sähköpostilista 1. varaajista",
   "components.project.ProjectActions.downloadApplicantList": "Lataa hakijalistaus",
   "components.project.ProjectActions.downloadLotteryResults": "Arvontatulokset",
+  "components.project.ProjectCard.applications": "Hakemuksia",
   "components.project.ProjectCard.applicationEndTime": "Hakuaika päättyy",
   "components.project.ProjectCard.applicationTimeHasEnded": "Hakuaika päättynyt",
   "components.project.ProjectCard.hasoLotteryLoading": "Huoneistojakoa suoritetaan",
   "components.project.ProjectCard.hitasLotteryLoading": "Arvontaa suoritetaan",
+  "components.project.ProjectCard.lotteryCompletedAt": "Arvonta suoritettu",
   "components.project.ProjectCard.noEstateAgent": "Ei määritettyä myyjää",
   "components.project.ProjectCard.showProject": "Näytä kohde",
   "components.project.ProjectCard.startHasoLottery": "Suorita huoneistojako",
@@ -377,8 +379,8 @@
   "pages.project.ProjectList.noAssignedProjects": "Sinulle ei ole määritetty kohteita",
   "pages.project.ProjectList.noProjects": "Ei kohteita",
   "pages.project.ProjectList.pageTitle": "Asuntomyynnin etusivu",
-  "pages.project.ProjectList.resultCount_one": "{{ count }} projekti",
-  "pages.project.ProjectList.resultCount_other": "{{ count }} projektia",
+  "pages.project.ProjectList.resultCount_one": "{{ count }} kohde",
+  "pages.project.ProjectList.resultCount_other": "{{ count }} kohdetta",
   "pages.project.ProjectList.searchClearBtnLabel": "Tyhjennä hakukenttä",
   "pages.project.ProjectList.searchLabel": "Hae kohteen nimellä",
   "pages.project.ProjectList.searchResultsFor": "Tulokset hakusanalla",
@@ -411,7 +413,7 @@
     "InstallmentPercentageSpecifiers": {
       "SALES_PRICE": "Myyntihinta",
       "DEBT_FREE_SALES_PRICE": "Velaton hinta",
-      "DEBT_FREE_SALES_PRICE_FLEXIBLE": "Velaton hinta (joustoerä)"
+      "SALES_PRICE_FLEXIBLE": "Myyntihinta (joustoerä)"
     },
     "StateOfSale": {
       "FOR_SALE": "Myynnissä",

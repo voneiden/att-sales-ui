@@ -144,7 +144,7 @@ const ProjectActions = ({ project }: ProjectActionsProps): JSX.Element => (
     <span className={styles.action}>
       <DownloadApplicantsListButton housingCompany={project.housing_company} projectUuid={project.uuid} />
     </span>
-    {project.lottery_completed && (
+    {!!project.lottery_completed_at && (
       <span className={styles.action}>
         <DownloadLotteryResultsButton housingCompany={project.housing_company} projectUuid={project.uuid} />
       </span>
