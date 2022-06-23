@@ -10,7 +10,7 @@ import formattedLivingArea from '../../utils/formatLivingArea';
 import Label from '../common/label/Label';
 import OfferStatusText from '../offer/OfferStatusText';
 import { ApartmentReservationStates } from '../../enums';
-import { Customer, CustomerReservation } from '../../types';
+import { Customer, CustomerReservation, ReservationStateChangeUser } from '../../types';
 import { mapApartmentReservationCustomerData } from '../../utils/mapApartmentReservationCustomerData';
 import { getReservationApartmentData, getReservationProjectData } from '../../utils/mapReservationData';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
@@ -97,6 +97,18 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
   const renderHistoryTable = () => {
     if (!reservation.state_change_events) return;
 
+    const renderUserDetails = (user?: ReservationStateChangeUser) => {
+      if (user) {
+        return (
+          <>
+            {user.first_name} {user.last_name}
+            {user.email && <span>&nbsp;&ndash;&nbsp;{user.email}</span>}
+          </>
+        );
+      }
+      return '-';
+    };
+
     return (
       <table className={cx('hds-table hds-table--dark', styles.historyTable)}>
         <thead>
@@ -116,10 +128,15 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
               </td>
               <td className={styles.noWrap}>
                 {t(`ENUMS.ApartmentReservationStates.${stateChangeEvent.state.toUpperCase()}`)}
+                {isCanceled && stateChangeEvent.cancellation_reason && (
+                  <span>
+                    &nbsp;({t(`ENUMS.ReservationCancelReasons.${stateChangeEvent.cancellation_reason.toUpperCase()}`)})
+                  </span>
+                )}
               </td>
               <td>{stateChangeEvent.timestamp && formatDateTime(stateChangeEvent.timestamp)}</td>
               <td>{stateChangeEvent.comment || '-'}</td>
-              <td>{/* TODO: Add related user name and email here */}</td>
+              <td>{renderUserDetails(stateChangeEvent.changed_by)}</td>
             </tr>
           ))}
         </tbody>

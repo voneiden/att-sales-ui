@@ -245,10 +245,19 @@ export type ApartmentReservationWithInstallments = ApartmentReservation & {
   installments: ApartmentInstallment[];
 };
 
+export type ReservationStateChangeUser = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+};
+
 export type ReservationStateChangeEvent = {
   timestamp: string;
   state: `${ApartmentReservationStates}`;
   comment: string;
+  cancellation_reason?: `${ReservationCancelReasons}`;
+  changed_by?: ReservationStateChangeUser;
 };
 
 export type CustomerReservation = {
