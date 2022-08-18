@@ -303,6 +303,7 @@
   "components.reservations.ReservationEditModal.formSentSuccessfully": "Reservation state updated",
   "components.reservations.ReservationEditModal.noReservation": "Could not fetch reservation info",
   "components.reservations.ReservationEditModal.reservationEdit": "Edit reservation",
+  "d.m.yyyy": "D.M.YYYY",
   "error.automaticLogoutMessage": "You will be logged out automatically",
   "error.apiTokenLoad": "Error loading API tokens",
   "error.unauthorizedTitle": "No required access rights",

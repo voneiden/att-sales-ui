@@ -336,7 +336,7 @@ const InstallmentsForm = ({
             <TextInput
               id={`dueDate-${index}`}
               name="due_date"
-              placeholder={'D.M.YYYY'}
+              placeholder={t('d.m.yyyy')}
               label=""
               className={styles.input}
               value={input.due_date}
