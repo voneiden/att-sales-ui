@@ -11,6 +11,10 @@
       color: inherit;
     }
   }
+
+  .cancelText {
+    font-size: var(--fontsize-body-m);
+  }
 }
 
 .apartmentRowLeft {
@@ -55,7 +59,7 @@
   }
 }
 
-.historyBtn {
+.infoBtn {
   margin-left: var(--spacing-s);
   position: relative;
 
@@ -111,15 +115,11 @@
   white-space: nowrap;
 }
 
-.cancelText {
-  font-size: var(--fontsize-body-m);
-}
-
 .noWrap {
   white-space: nowrap;
 }
 
-.historyDialog {
+.reservationDialog {
   width: var(--container-width-xl) !important;
 }
 
@@ -127,17 +127,32 @@
   margin: var(--spacing-s) 0 var(--spacing-m) 0;
   font-weight: 500;
 
-  span + span {
+  span+span {
     margin-left: var(--spacing-2-xs);
   }
 }
 
-.historyTable {
+.historyTable,
+.reservationDetailTable {
   text-align: left;
-  margin: var(--spacing-m) 0;
 
-  tbody tr td {
-    font-size: var(--fontsize-body-s);
+  tbody tr {
+    td, th {
+      font-size: var(--fontsize-body-s) !important;
+      vertical-align: top !important;
+      line-height: var(--lineheight-m) !important;
+    }
+  }
+
+  tr td {
+    border-bottom-color: var(--color-black-20) !important;
+    background-color: transparent !important;
+  }
+
+  tbody tr:last-child {
+    td, th {
+      border-bottom: none !important;
+    }
   }
 }
 
@@ -146,4 +161,49 @@
     margin: 0 var(--spacing-xs) !important;
     padding: var(--spacing-2-xs) var(--spacing-xs) !important;
   }
+}
+
+.reservationDetailTable {
+  th {
+    width: 1%;
+    text-align: right !important;
+  }
+}
+
+.asterisk {
+  color: var(--color-black-60) !important;
+}
+
+.historyTable {
+  thead,
+  thead tr {
+    background-color: transparent !important;
+  }
+}
+
+.tabList ul {
+  width: 100% !important;
+  position: relative;
+
+  &::before {
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: var(--tablist-border-color);
+    position: absolute;
+    bottom: 2px;
+  }
+}
+
+.tabPanel {
+  background-color: var(--color-black-5);
+  padding: var(--spacing-m);
+  margin-top: -2px;
+}
+
+.tableHelpText {
+  color: var(--color-black-60);
+  font-size: var(--fontsize-body-s);
+  font-style: italic;
+  margin: var(--spacing-m) 0 0 var(--spacing-m);
 }
