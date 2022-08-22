@@ -12,6 +12,7 @@ import { OfferState } from '../../enums';
 import { RootState } from '../../redux/store';
 import { formattedLivingArea } from '../../utils/formatLivingArea';
 import { hideOfferModal } from '../../redux/features/offerModalSlice';
+import { renderBooleanTextualValue } from '../../utils/renderBooleanTextualValue';
 import { renderOfferDate, renderOfferState } from '../../utils/getOfferText';
 import { toast } from '../common/toast/ToastManager';
 import { useCreateOfferMutation, useGetOfferByIdQuery, useUpdateOfferByIdMutation } from '../../redux/services/api';
@@ -203,13 +204,6 @@ const OfferModal = (): JSX.Element | null => {
     );
   };
 
-  const renderBooleanValue = (value: boolean | null | undefined): string => {
-    if (value === null || value === undefined) {
-      return t(`${T_PATH}.unknown`);
-    }
-    return value ? t(`${T_PATH}.yes`) : t(`${T_PATH}.no`);
-  };
-
   const renderTable = () => (
     <table className={cx(styles.offerTable, 'hds-table hds-table--light')}>
       <thead className="hds-table__header-row">
@@ -296,13 +290,13 @@ const OfferModal = (): JSX.Element | null => {
           {project.ownership_type.toLowerCase() === 'haso' ? (
             <>
               <td>{reservation.right_of_residence || '-'}</td>
-              <td>{renderBooleanValue(reservation.is_age_over_55)}</td>
-              <td>{renderBooleanValue(reservation.is_right_of_occupancy_housing_changer)}</td>
+              <td>{renderBooleanTextualValue(reservation.is_age_over_55)}</td>
+              <td>{renderBooleanTextualValue(reservation.is_right_of_occupancy_housing_changer)}</td>
             </>
           ) : (
             <>
-              <td>{renderBooleanValue(reservation.has_children)}</td>
-              <td>{renderBooleanValue(reservation.has_hitas_ownership)}</td>
+              <td>{renderBooleanTextualValue(reservation.has_children)}</td>
+              <td>{renderBooleanTextualValue(reservation.has_hitas_ownership)}</td>
             </>
           )}
         </tr>
