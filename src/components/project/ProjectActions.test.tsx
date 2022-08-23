@@ -12,12 +12,12 @@ describe('ProjectActions', () => {
   });
 
   it('renders download lottery results button when lottery is completed', () => {
-    renderWithProviders(<ProjectActions project={{ ...mockProject, lottery_completed: true }} />);
+    renderWithProviders(<ProjectActions project={{ ...mockProject, lottery_completed_at: '01-01-2000' }} />);
     expect(screen.getByText('components.project.ProjectActions.downloadLotteryResults')).toBeDefined();
   });
 
   it('does not render download lottery results button when lottery is not yet completed', () => {
-    renderWithProviders(<ProjectActions project={{ ...mockProject, lottery_completed: false }} />);
+    renderWithProviders(<ProjectActions project={{ ...mockProject, lottery_completed_at: null }} />);
     expect(screen.queryByText('components.project.ProjectActions.downloadLotteryResults')).toBeNull();
   });
 
