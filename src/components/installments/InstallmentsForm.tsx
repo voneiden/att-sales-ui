@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import Big from 'big.js';
@@ -15,6 +15,7 @@ import {
   useAccordion,
 } from 'hds-react';
 import { useTranslation } from 'react-i18next';
+import { unionBy } from 'lodash';
 
 import formatDateTime from '../../utils/formatDateTime';
 import formattedSalesPrice from '../../utils/formatSalesPrice';
@@ -113,6 +114,12 @@ const InstallmentsForm = ({
 
   const formatDueDate = (dueDate: string) => moment(dueDate, 'YYYY-MM-DD').format('D.M.YYYY');
 
+  // Combine a list of installments from candidates and saved installments
+  // Use unionBy to remove duplicates by installment type
+  const combinedPossibleInstallments = useCallback(() => {
+    return unionBy(installmentCandidates, installments, 'type');
+  }, [installmentCandidates, installments]);
+
   // Calculate total sum of all amount fields
   useEffect(() => {
     const sum = inputFields.reduce((previousValue, currentValue) => {
@@ -136,9 +143,9 @@ const InstallmentsForm = ({
       added_to_be_sent_to_sap_at: '',
     };
 
-    // Create an array with a length of installmentCandidates.
+    // Create an array with a length of all possible installment rows (installments and candidates combined).
     // Initially fill all array items with emptyInputRow objects
-    const initialInputRows = [...new Array(Object.keys(installmentCandidates).length)].map(() => ({
+    const initialInputRows = [...new Array(Object.keys(combinedPossibleInstallments()).length)].map(() => ({
       ...emptyInputRow,
     }));
 
@@ -190,7 +197,7 @@ const InstallmentsForm = ({
 
     // Set initial inputRows after fetching all the saved installments
     setInputFields(sortedInputRows);
-  }, [installments, installmentCandidates]);
+  }, [installments, installmentCandidates, combinedPossibleInstallments]);
 
   // Set data to be sent to the API
   useEffect(() => {
@@ -245,18 +252,34 @@ const InstallmentsForm = ({
     setInputFields(inputs);
   };
 
-  const InstallmentTypeOptions = () => {
-    // Define an empty value as the first dropdown item
-    let options: SelectOption[] = [{ label: '', name: 'type', selectValue: '' }];
-    // Loop through InstallmentTypes ENUMs and create dropdown options out of them
-    Object.values(installmentCandidates).forEach((installmentCandidate) => {
+  const InstallmentTypeOptions = (): SelectOption[] => {
+    let options: SelectOption[] = [];
+
+    // Loop through all available installment types and create dropdown options out of them
+    Object.values(combinedPossibleInstallments()).forEach((installment) => {
       options.push({
-        label: t(`ENUMS.InstallmentTypes.${installmentCandidate.type}`),
+        label: t(`ENUMS.InstallmentTypes.${installment.type}`),
         name: 'type',
-        selectValue: installmentCandidate.type,
+        selectValue: installment.type,
       });
     });
-    return options;
+
+    // Sort type options in the order of the InstallmentTypes ENUM list to stay consistent throughout the app
+    const sortedOptions = () => {
+      const InstallmentOrder = Object.values(InstallmentTypes);
+      const optionsCopy = [...options];
+      return optionsCopy.sort((a, b) =>
+        a.selectValue
+          ? b.selectValue
+            ? InstallmentOrder.indexOf(a.selectValue as InstallmentTypes) -
+              InstallmentOrder.indexOf(b.selectValue as InstallmentTypes)
+            : -1
+          : 1
+      );
+    };
+
+    // Return options with an empty value as the first dropdown item
+    return [{ label: '', name: 'type', selectValue: '' }, ...sortedOptions()];
   };
 
   const sumsMatch = (value: number, target: number) => {
