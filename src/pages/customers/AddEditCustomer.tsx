@@ -364,7 +364,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                   required
                   invalid={Boolean(errors.primary_profile?.date_of_birth)}
                   errorText={errors.primary_profile?.date_of_birth?.message}
-                  helperText={'D.M.YYYY'}
+                  helperText={t('d.m.yyyy')}
                   autoComplete="off"
                   style={{ width: '67%' }}
                   {...register('primary_profile.date_of_birth', { required: true })}
@@ -512,7 +512,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                       required
                       invalid={Boolean(get(errors, 'secondary_profile.date_of_birth'))}
                       errorText={get(errors, 'secondary_profile.date_of_birth')?.message}
-                      helperText={'D.M.YYYY'}
+                      helperText={t('d.m.yyyy')}
                       autoComplete="off"
                       style={{ width: '67%' }}
                       {...register('secondary_profile.date_of_birth', { required: true })}
@@ -614,7 +614,7 @@ const AddEditCustomer = ({ isEditMode }: IProps) => {
                 <TextInput
                   id="lastContactDate"
                   label={t(`${T_PATH}.lastContactDate`)}
-                  helperText={'D.M.YYYY'}
+                  helperText={t('d.m.yyyy')}
                   invalid={Boolean(errors.last_contact_date)}
                   errorText={errors.last_contact_date?.message}
                   autoComplete="off"

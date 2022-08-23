@@ -303,6 +303,7 @@
   "components.reservations.ReservationEditModal.formSentSuccessfully": "Varauksen tila päivitetty",
   "components.reservations.ReservationEditModal.noReservation": "Varauksen tietojen hakemisessa tapahtui virhe",
   "components.reservations.ReservationEditModal.reservationEdit": "Muokkaa varausta",
+  "d.m.yyyy": "p.k.vvvv",
   "error.automaticLogoutMessage": "Sinut kirjataan automaattisesti ulos",
   "error.apiTokenLoad": "Virhe API Tokenien latauksessa",
   "error.unauthorizedTitle": "Ei tarvittavia käyttöoikeuksia",
