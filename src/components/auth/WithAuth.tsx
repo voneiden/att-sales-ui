@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import i18n from '../../i18n/i18n';
+import IdleTimer from './WithIdleProvider';
 import { ApiAccessTokenActions } from '../../api/useApiAccessTokens';
 import { ApiAccessTokenContext } from '../api/ApiAccessTokenProvider';
 import { Client } from '../../auth/index';
@@ -44,7 +45,11 @@ const WithAuth = (
   if (authenticated) {
     if (apiToken && apiTokenStatus === 'loaded') {
       store.dispatch(apiTokenFetched({ apiToken }));
-      return <AuthorizedContent client={client} />;
+      return (
+        <IdleTimer>
+          <AuthorizedContent client={client} />
+        </IdleTimer>
+      );
     }
     if (InitializingContent) {
       return <InitializingContent />;
