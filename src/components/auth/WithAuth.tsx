@@ -5,6 +5,7 @@ import { ApiAccessTokenActions } from '../../api/useApiAccessTokens';
 import { ApiAccessTokenContext } from '../api/ApiAccessTokenProvider';
 import { Client } from '../../auth/index';
 import { apiTokenFetched } from '../../redux/features/apiTokenSlice';
+import { getApiTokenByAudience } from '../../utils/getApiTokenByAudience';
 import { store } from '../../redux/store';
 import { toast } from '../common/toast/ToastManager';
 import { useClient } from '../../auth/hooks';
@@ -22,7 +23,7 @@ const WithAuth = (
   const authenticated = client.isAuthenticated();
   const apiTokenStatus = getStatus();
   const apiTokens = getTokens();
-  const apiToken = apiTokens ? apiTokens[String(process.env.REACT_APP_API_AUDIENCE)] : undefined;
+  const apiToken = getApiTokenByAudience(apiTokens);
 
   if (apiTokenStatus === 'error') {
     // Show error toast when error in loading api tokens
