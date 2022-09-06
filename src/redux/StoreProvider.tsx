@@ -23,9 +23,6 @@ const StoreProvider: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
     client.addListener(ClientEvent.UNAUTHORIZED, () => {
       store.dispatch(unauthorized());
     });
-    client.addListener(ClientEvent.TOKEN_EXPIRING, (payload) => {
-      console.warn('TOKEN EXPIRING', payload);
-    });
     client.addListener(ClientEvent.TOKEN_EXPIRED, () => {
       store.dispatch(tokenExpired());
     });
