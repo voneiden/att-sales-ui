@@ -36,10 +36,14 @@ export enum InstallmentTypes {
   ReservationFee = 'RESERVATION_FEE',
 }
 
-export enum InstallmentPercentageSpecifiers {
+export enum HitasInstallmentPercentageSpecifiers {
   SalesPrice = 'SALES_PRICE',
   DebtFreeSalesPrice = 'DEBT_FREE_SALES_PRICE',
   SalesPriceFlexible = 'SALES_PRICE_FLEXIBLE',
+}
+
+export enum HasoInstallmentPercentageSpecifiers {
+  RightOfOccupancyPayment = 'RIGHT_OF_OCCUPANCY_PAYMENT',
 }
 
 export enum ApartmentReservationStates {

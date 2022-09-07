@@ -422,10 +422,13 @@
       "RESERVATION_FEE": "Varausmaksu",
       "RIGHT_OF_OCCUPANCY_PAYMENT": "AO-maksu"
     },
-    "InstallmentPercentageSpecifiers": {
+    "HitasInstallmentPercentageSpecifiers": {
       "SALES_PRICE": "Myyntihinta",
       "DEBT_FREE_SALES_PRICE": "Velaton hinta",
       "SALES_PRICE_FLEXIBLE": "Myyntihinta (joustoerä)"
+    },
+    "HasoInstallmentPercentageSpecifiers": {
+      "RIGHT_OF_OCCUPANCY_PAYMENT": "AO-maksu"
     },
     "StateOfSale": {
       "FOR_SALE": "Myynnissä",

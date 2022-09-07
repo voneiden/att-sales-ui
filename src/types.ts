@@ -1,7 +1,8 @@
 import {
   ApartmentReservationStates,
   ApartmentState,
-  InstallmentPercentageSpecifiers,
+  HasoInstallmentPercentageSpecifiers,
+  HitasInstallmentPercentageSpecifiers,
   InstallmentTypes,
   OfferState,
   ReservationCancelReasons,
@@ -194,7 +195,7 @@ export type ProjectInstallment = {
   type: `${InstallmentTypes}`;
   amount?: number;
   percentage?: string;
-  percentage_specifier?: `${InstallmentPercentageSpecifiers}`;
+  percentage_specifier?: `${HitasInstallmentPercentageSpecifiers}` | `${HasoInstallmentPercentageSpecifiers}`;
   account_number: string;
   due_date: string | null;
 };

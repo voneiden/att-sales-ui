@@ -422,10 +422,13 @@
       "RESERVATION_FEE": "Reservation fee",
       "RIGHT_OF_OCCUPANCY_PAYMENT": "Right of occupancy payment"
     },
-    "InstallmentPercentageSpecifiers": {
+    "HitasInstallmentPercentageSpecifiers": {
       "SALES_PRICE": "Sales price",
       "DEBT_FREE_SALES_PRICE": "Debt-free sales price",
       "SALES_PRICE_FLEXIBLE": "Sales price (flexible)"
+    },
+    "HasoInstallmentPercentageSpecifiers": {
+      "RIGHT_OF_OCCUPANCY_PAYMENT": "Right of occupancy payment"
     },
     "StateOfSale": {
       "FOR_SALE": "For sale",
