@@ -112,8 +112,9 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     return (
       <>
         <div className={cx(styles.cancelText, styles.noWrap)}>
-          {latestCancelStateEvent.state &&
-            t(`ENUMS.ReservationCancelReasons.${latestCancelStateEvent.state.toUpperCase()}`)}
+          {latestCancelStateEvent.cancellation_reason
+            ? t(`ENUMS.ReservationCancelReasons.${latestCancelStateEvent.cancellation_reason.toUpperCase()}`)
+            : t(`${T_PATH}.canceled`)}
           {' - '}
           {latestCancelStateEvent.timestamp && formatDateTime(latestCancelStateEvent.timestamp)}
         </div>
