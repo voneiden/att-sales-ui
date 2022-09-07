@@ -15,6 +15,7 @@
   "components.apartment.ApartmentRow.btnCancel": "Peruuta",
   "components.apartment.ApartmentRow.btnEdit": "Muokkaa",
   "components.apartment.ApartmentRow.btnOffer": "Tarjous",
+  "components.apartment.ApartmentRow.canceled": "Peruttu",
   "components.apartment.ApartmentRow.floor": "Kerros",
   "components.apartment.ApartmentRow.hasMultipleWinningApartments": "Asiakkaalla useampi 1. sija",
   "components.apartment.ApartmentRow.noApplicants": "Ei hakijoita",
