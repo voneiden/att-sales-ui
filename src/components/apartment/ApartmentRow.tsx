@@ -149,8 +149,9 @@ const ApartmentRow = ({ apartment, ownershipType, isLotteryCompleted, project }:
       <div className={styles.actionButtons}>
         {isCanceled(reservation) ? (
           <div className={styles.cancellationReason}>
-            {reservation.cancellation_reason &&
-              t(`ENUMS.ReservationCancelReasons.${reservation.cancellation_reason.toUpperCase()}`)}{' '}
+            {reservation.cancellation_reason
+              ? t(`ENUMS.ReservationCancelReasons.${reservation.cancellation_reason.toUpperCase()}`)
+              : t(`${T_PATH}.canceled`)}{' '}
             {reservation.cancellation_timestamp && formatDateTime(reservation.cancellation_timestamp)}
           </div>
         ) : (

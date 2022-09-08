@@ -15,6 +15,7 @@
   "components.apartment.ApartmentRow.btnCancel": "Cancel",
   "components.apartment.ApartmentRow.btnEdit": "Edit",
   "components.apartment.ApartmentRow.btnOffer": "Offer",
+  "components.apartment.ApartmentRow.canceled": "Canceled",
   "components.apartment.ApartmentRow.floor": "Floor",
   "components.apartment.ApartmentRow.hasMultipleWinningApartments": "Customer has more than one 1st places",
   "components.apartment.ApartmentRow.noApplicants": "No applicants",
@@ -466,7 +467,9 @@
       "RESERVATION_AGREEMENT_CANCELED": "Reservation agreement canceled",
       "TERMINATED": "Terminated",
       "TRANSFERRED": "Transferred",
-      "OTHER_APARTMENT_OFFERED": "Other apartment offered"
+      "OTHER_APARTMENT_OFFERED": "Other apartment offered",
+      "LOWER_PRIORITY": "Lower priority",
+      "OFFER_REJECTED": "Offer rejected"
     },
     "OfferState": {
       "ACCEPTED": "Offer accepted",
