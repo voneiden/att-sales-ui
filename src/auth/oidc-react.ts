@@ -342,6 +342,7 @@ export function createOidcClient(): Client {
 
   clientFunctions.addListener(ClientEvent.UNAUTHORIZED, () => {
     userSessionValidityPoller.stop();
+    sessionStorage.clear(); // Clear session storage on logout
   });
 
   clientFunctions.addListener(ClientEvent.TOKEN_EXPIRING, () => {
