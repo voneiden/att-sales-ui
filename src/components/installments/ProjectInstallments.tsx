@@ -79,11 +79,15 @@ const ProjectInstallments = ({
           installment.due_date !== null ? moment(installment.due_date, 'YYYY-MM-DD').format('D.M.YYYY') : '';
 
         if (installment.percentage_specifier) {
-          installmentRows[index].sum = installment.percentage === undefined ? '' : installment.percentage;
+          installmentRows[index].sum =
+            installment.percentage === undefined || installment.percentage === null ? '' : installment.percentage;
           installmentRows[index].percentage_specifier = installment.percentage_specifier;
           installmentRows[index].unit = unitOptions.UNIT_AS_PERCENTAGE;
         } else {
-          installmentRows[index].sum = installment.amount === undefined ? '' : (installment.amount / 100).toFixed(2);
+          installmentRows[index].sum =
+            installment.amount === undefined || installment.amount === null
+              ? ''
+              : (installment.amount / 100).toFixed(2);
           installmentRows[index].unit = unitOptions.UNIT_AS_EURO;
         }
       });
