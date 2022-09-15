@@ -99,7 +99,7 @@ export type Project = {
   housing_manager: string;
   id: number;
   image_urls: string[];
-  lottery_completed_at: string;
+  lottery_completed_at: string | null;
   main_image_url: string;
   manager: string;
   material_choice_dl: string;
@@ -130,8 +130,8 @@ export type Project = {
 };
 
 export type CustomerProfile = {
-  city?: string;
-  contact_language?: 'en' | 'fi' | 'sv';
+  city?: string | null;
+  contact_language?: 'en' | 'fi' | 'sv' | null;
   date_of_birth: string;
   email: string;
   first_name: string;
@@ -139,23 +139,23 @@ export type CustomerProfile = {
   last_name: string;
   national_identification_number?: string;
   phone_number: string;
-  postal_code?: string;
-  street_address?: string;
+  postal_code?: string | null;
+  street_address?: string | null;
 };
 
 export type Customer = {
   additional_information: string;
   created_at: string;
-  has_children?: boolean;
-  has_hitas_ownership?: boolean;
+  has_children?: boolean | null;
+  has_hitas_ownership?: boolean | null;
   id: number;
-  is_age_over_55?: boolean;
-  is_right_of_occupancy_housing_changer?: boolean;
-  last_contact_date?: string;
+  is_age_over_55?: boolean | null;
+  is_right_of_occupancy_housing_changer?: boolean | null;
+  last_contact_date?: string | null;
   primary_profile: CustomerProfile;
-  right_of_residence?: number;
-  secondary_profile?: CustomerProfile;
-  apartment_reservations?: CustomerReservation[];
+  right_of_residence?: number | null;
+  secondary_profile?: CustomerProfile | null;
+  apartment_reservations?: CustomerReservation[] | null;
 };
 
 export type CustomerListItem = {
@@ -164,8 +164,8 @@ export type CustomerListItem = {
   primary_last_name: string;
   primary_email: string;
   primary_phone_number: string;
-  secondary_first_name?: string;
-  secondary_last_name?: string;
+  secondary_first_name?: string | null;
+  secondary_last_name?: string | null;
 };
 
 export type ApartmentInstallment = {
@@ -173,8 +173,8 @@ export type ApartmentInstallment = {
   amount: number;
   account_number: string;
   due_date: string | null;
-  reference_number?: string;
-  added_to_be_sent_to_sap_at?: string;
+  reference_number?: string | null;
+  added_to_be_sent_to_sap_at?: string | null;
 };
 
 export type ApartmentInstallmentCandidate = Omit<
@@ -193,9 +193,9 @@ export type ApartmentInstallmentInputRow = {
 
 export type ProjectInstallment = {
   type: `${InstallmentTypes}`;
-  amount?: number;
-  percentage?: string;
-  percentage_specifier?: `${HitasInstallmentPercentageSpecifiers}` | `${HasoInstallmentPercentageSpecifiers}`;
+  amount?: number | null;
+  percentage?: string | null;
+  percentage_specifier?: `${HitasInstallmentPercentageSpecifiers}` | `${HasoInstallmentPercentageSpecifiers}` | null;
   account_number: string;
   due_date: string | null;
 };
@@ -217,29 +217,29 @@ export type ProjectExtraData = {
 export type ApartmentReservationCustomer = {
   id: Customer['id'];
   primary_profile: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
-  secondary_profile?: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'>;
+  secondary_profile?: Pick<CustomerProfile, 'first_name' | 'last_name' | 'email'> | null;
 };
 
 export type ApartmentReservation = {
   apartment_uuid: Apartment['uuid'];
-  cancellation_reason?: `${ReservationCancelReasons}`;
-  cancellation_timestamp?: string;
+  cancellation_reason?: `${ReservationCancelReasons}` | null;
+  cancellation_timestamp?: string | null;
   id: number;
-  lottery_position?: number;
-  offer?: ApartmentReservationOffer;
-  priority_number?: number;
-  queue_position?: number;
+  lottery_position?: number | null;
+  offer?: ApartmentReservationOffer | null;
+  priority_number?: number | null;
+  queue_position?: number | null;
   state: `${ApartmentReservationStates}`;
 };
 
 export type ApartmentReservationWithCustomer = ApartmentReservation & {
   customer: ApartmentReservationCustomer;
-  has_children?: Customer['has_children'];
+  has_children: Customer['has_children'];
   has_multiple_winning_apartments: boolean;
-  right_of_residence?: Customer['right_of_residence'];
-  has_hitas_ownership?: Customer['has_hitas_ownership'];
-  is_age_over_55?: Customer['is_age_over_55'];
-  is_right_of_occupancy_housing_changer?: Customer['is_right_of_occupancy_housing_changer'];
+  right_of_residence: Customer['right_of_residence'];
+  has_hitas_ownership: Customer['has_hitas_ownership'];
+  is_age_over_55: Customer['is_age_over_55'];
+  is_right_of_occupancy_housing_changer: Customer['is_right_of_occupancy_housing_changer'];
 };
 
 export type ApartmentReservationWithInstallments = ApartmentReservation & {
@@ -258,37 +258,37 @@ export type ReservationStateChangeEvent = {
   timestamp: string;
   state: `${ApartmentReservationStates}`;
   comment: string;
-  cancellation_reason?: `${ReservationCancelReasons}`;
-  changed_by?: ReservationStateChangeUser;
+  cancellation_reason?: `${ReservationCancelReasons}` | null;
+  changed_by?: ReservationStateChangeUser | null;
 };
 
 export type CustomerReservation = {
   apartment_debt_free_sales_price?: Apartment['debt_free_sales_price'];
-  apartment_installments?: ApartmentInstallment[];
+  apartment_installments?: ApartmentInstallment[] | null;
   apartment_living_area: Apartment['living_area'];
   apartment_number: Apartment['apartment_number'];
-  apartment_right_of_occupancy_payment?: Apartment['right_of_occupancy_payment'];
-  apartment_sales_price?: Apartment['sales_price'];
+  apartment_right_of_occupancy_payment?: Apartment['right_of_occupancy_payment'] | null;
+  apartment_sales_price?: Apartment['sales_price'] | null;
   apartment_structure: Apartment['apartment_structure'];
   apartment_uuid: Apartment['uuid'];
-  has_children?: Customer['has_children'];
-  has_hitas_ownership?: Customer['has_hitas_ownership'];
+  has_children: Customer['has_children'];
+  has_hitas_ownership: Customer['has_hitas_ownership'];
   id: number;
-  is_age_over_55?: Customer['is_age_over_55'];
-  is_right_of_occupancy_housing_changer?: Customer['is_right_of_occupancy_housing_changer'];
-  lottery_position?: number;
-  offer?: ApartmentReservationOffer;
-  priority_number?: number;
+  is_age_over_55: Customer['is_age_over_55'];
+  is_right_of_occupancy_housing_changer: Customer['is_right_of_occupancy_housing_changer'];
+  lottery_position?: number | null;
+  offer?: ApartmentReservationOffer | null;
+  priority_number?: number | null;
   project_district: Project['district'];
   project_housing_company: Project['housing_company'];
   project_lottery_completed: boolean;
   project_ownership_type: Project['ownership_type'];
   project_street_address: Project['street_address'];
   project_uuid: Project['uuid'];
-  queue_position?: number;
-  right_of_residence?: Customer['right_of_residence'];
+  queue_position?: number | null;
+  right_of_residence: Customer['right_of_residence'];
   state: `${ApartmentReservationStates}`;
-  state_change_events?: ReservationStateChangeEvent[];
+  state_change_events?: ReservationStateChangeEvent[] | null;
 };
 
 export type SelectOption = {
@@ -342,8 +342,8 @@ export type Offer = {
   valid_until: string;
   state: `${OfferState}`;
   concluded_at: string;
-  comment?: string;
-  is_expired?: boolean;
+  comment?: string | null;
+  is_expired?: boolean | null;
 };
 
 export type ApartmentReservationOffer = Omit<Offer, 'apartment_reservation_id'>;
