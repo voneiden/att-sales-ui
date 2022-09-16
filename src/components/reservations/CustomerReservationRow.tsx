@@ -205,7 +205,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
       return <p>{t(`${T_PATH}.noChangeHistory`)}</p>;
     }
 
-    const renderUserDetails = (user?: ReservationStateChangeUser) => {
+    const renderUserDetails = (user?: ReservationStateChangeUser | null) => {
       if (user) {
         return (
           <>
