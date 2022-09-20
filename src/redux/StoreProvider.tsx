@@ -1,6 +1,7 @@
 import React, { useEffect, FC } from 'react';
 import { Provider } from 'react-redux';
 
+import { api } from './services/api';
 import { ClientEvent, ClientErrorObject, User } from '../auth';
 import { authorized, connected, errorThrown, initializing, tokenExpired, unauthorized } from './features/authSlice';
 import { store } from './store';
@@ -22,6 +23,7 @@ const StoreProvider: FC<React.PropsWithChildren<unknown>> = ({ children }) => {
     });
     client.addListener(ClientEvent.UNAUTHORIZED, () => {
       store.dispatch(unauthorized());
+      store.dispatch(api.util.resetApiState());
     });
     client.addListener(ClientEvent.TOKEN_EXPIRED, () => {
       store.dispatch(tokenExpired());
