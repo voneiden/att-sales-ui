@@ -5,6 +5,7 @@ import {
   AddEditCustomerFormFields,
   Apartment,
   ApartmentInstallment,
+  ApartmentReservationWithCustomer,
   ApartmentReservationWithInstallments,
   Customer,
   CustomerListItem,
@@ -43,7 +44,15 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Customer', 'Offer', 'OfferMessage', 'Project', 'ProjectExtraData', 'Reservation'],
+  tagTypes: [
+    'ApartmentReservations',
+    'Customer',
+    'Offer',
+    'OfferMessage',
+    'Project',
+    'ProjectExtraData',
+    'Reservation',
+  ],
   endpoints: (builder) => ({
     // GET: Fetch all projects
     getProjects: builder.query<Project[], void>({
@@ -141,6 +150,12 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [{ type: 'ProjectExtraData', id: arg.uuid }, { type: 'OfferMessage' }],
+    }),
+
+    // GET: Fetch all reservations for a specific apartment
+    getApartmentReservations: builder.query<ApartmentReservationWithCustomer[], string>({
+      query: (apartmentId) => `apartments/${apartmentId}/reservations/`,
+      providesTags: (result, error, arg) => [{ type: 'ApartmentReservations', id: arg }],
     }),
 
     // GET: Fetch single apartment reservation that includes installments
@@ -291,6 +306,7 @@ export const {
   useCreateCustomerMutation,
   useUpdateCustomerByIdMutation,
   useCreateApartmentReservationMutation,
+  useGetApartmentReservationsQuery,
   useGetApartmentReservationByIdQuery,
   useSetApartmentReservationStateMutation,
   useCancelApartmentReservationMutation,
