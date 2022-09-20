@@ -144,7 +144,7 @@ export const api = createApi({
     }),
 
     // GET: Fetch single apartment reservation that includes installments
-    getApartmentReservation: builder.query<ApartmentReservationWithInstallments, number>({
+    getApartmentReservationById: builder.query<ApartmentReservationWithInstallments, number>({
       query: (id) => `apartment_reservations/${id}/`,
       providesTags: (result, error, arg) => [{ type: 'Reservation', id: arg }],
     }),
@@ -291,7 +291,7 @@ export const {
   useCreateCustomerMutation,
   useUpdateCustomerByIdMutation,
   useCreateApartmentReservationMutation,
-  useGetApartmentReservationQuery,
+  useGetApartmentReservationByIdQuery,
   useSetApartmentReservationStateMutation,
   useCancelApartmentReservationMutation,
   useSetApartmentInstallmentsMutation,
