@@ -48,7 +48,7 @@ export type Apartment = {
   parking_fee_explanation: string;
   price_m2: number;
   project_id: number;
-  reservations: ApartmentReservationWithCustomer[];
+  reservation_count: number;
   right_of_occupancy_payment: number;
   room_count: number;
   sales_price: number;
@@ -64,6 +64,7 @@ export type Apartment = {
   view_description: string;
   water_fee: number;
   water_fee_explanation: string;
+  winning_reservation?: WinningReservation | null;
 };
 
 export type Project = {
@@ -235,11 +236,14 @@ export type ApartmentReservation = {
 export type ApartmentReservationWithCustomer = ApartmentReservation & {
   customer: ApartmentReservationCustomer;
   has_children: Customer['has_children'];
-  has_multiple_winning_apartments: boolean;
   right_of_residence: Customer['right_of_residence'];
   has_hitas_ownership: Customer['has_hitas_ownership'];
   is_age_over_55: Customer['is_age_over_55'];
   is_right_of_occupancy_housing_changer: Customer['is_right_of_occupancy_housing_changer'];
+};
+
+export type WinningReservation = ApartmentReservationWithCustomer & {
+  has_multiple_winning_apartments: boolean;
 };
 
 export type ApartmentReservationWithInstallments = ApartmentReservation & {
