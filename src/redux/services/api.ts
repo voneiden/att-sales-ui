@@ -165,7 +165,10 @@ export const api = createApi({
     }),
 
     // POST: Create new apartment reservation
-    createApartmentReservation: builder.mutation<any, { formData: ReservationAddFormData; projectId: string }>({
+    createApartmentReservation: builder.mutation<
+      any,
+      { formData: ReservationAddFormData; projectId: string; apartmentId: string }
+    >({
       query: (params) => {
         return {
           url: `apartment_reservations/`,
@@ -174,6 +177,7 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentReservations', id: arg.apartmentId },
         { type: 'Project', id: arg.projectId },
         { type: 'Customer', id: arg.formData.customer_id },
       ],
@@ -182,7 +186,7 @@ export const api = createApi({
     // POST: Set apartment reservation state
     setApartmentReservationState: builder.mutation<
       any,
-      { formData: ReservationEditFormData; reservationId: number; projectId: string }
+      { formData: ReservationEditFormData; reservationId: number; projectId: string; apartmentId: string }
     >({
       query: (params) => {
         return {
@@ -192,6 +196,7 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentReservations', id: arg.apartmentId },
         { type: 'Project', id: arg.projectId },
         { type: 'Reservation', id: arg.reservationId },
       ],
@@ -200,7 +205,13 @@ export const api = createApi({
     // POST: Cancel apartment reservation
     cancelApartmentReservation: builder.mutation<
       any,
-      { formData: ReservationCancelFormData; reservationId: number; projectId: string; customerId: number }
+      {
+        formData: ReservationCancelFormData;
+        reservationId: number;
+        projectId: string;
+        customerId: number;
+        apartmentId: string;
+      }
     >({
       query: (params) => {
         return {
@@ -210,6 +221,7 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentReservations', id: arg.apartmentId },
         { type: 'Project', id: arg.projectId },
         { type: 'Reservation', id: arg.reservationId },
         { type: 'Customer', id: arg.customerId },
@@ -248,7 +260,7 @@ export const api = createApi({
     // POST: Create new offer
     createOffer: builder.mutation<
       Offer,
-      { formData: OfferFormData; reservationId: number; projectId: string; customerId: number }
+      { formData: OfferFormData; reservationId: number; projectId: string; customerId: number; apartmentId: string }
     >({
       query: (params) => {
         return {
@@ -258,6 +270,7 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentReservations', id: arg.apartmentId },
         { type: 'Customer', id: arg.customerId },
         { type: 'Reservation', id: arg.reservationId },
         { type: 'Project', id: arg.projectId },
@@ -267,7 +280,14 @@ export const api = createApi({
     // PUT: Update offer
     updateOfferById: builder.mutation<
       Offer,
-      { formData: OfferFormData; offerId: number; reservationId: number; projectId: string; customerId: number }
+      {
+        formData: OfferFormData;
+        offerId: number;
+        reservationId: number;
+        projectId: string;
+        customerId: number;
+        apartmentId: string;
+      }
     >({
       query: (params) => {
         return {
@@ -277,6 +297,7 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentReservations', id: arg.apartmentId },
         { type: 'Customer', id: arg.customerId },
         { type: 'Offer', id: arg.offerId },
         { type: 'Project', id: arg.projectId },
