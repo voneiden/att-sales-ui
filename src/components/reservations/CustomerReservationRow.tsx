@@ -350,6 +350,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
                     projectId: project.uuid,
                     reservationId: reservation.id,
                     customer: mapApartmentReservationCustomerData(customer),
+                    apartmentId: reservation.apartment_uuid,
                   })
                 )
               }
