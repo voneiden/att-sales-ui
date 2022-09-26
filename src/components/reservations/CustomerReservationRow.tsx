@@ -125,19 +125,24 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
     );
   };
 
+  const renderApartmentReservationState = () => {
+    const stateText = t(`ENUMS.ApartmentReservationStates.${reservation.state.toUpperCase()}`);
+    const waitingForLotteryText = t(`${T_PATH}.waitingForLottery`);
+
+    if (!reservation.project_lottery_completed && reservation.state === ApartmentReservationStates.SUBMITTED) {
+      return `${stateText} (${waitingForLotteryText})`;
+    }
+
+    return stateText;
+  };
+
   const renderReservationDetailTable = () => {
     return (
       <table className={cx('hds-table hds-table--light', styles.reservationDetailTable)}>
         <tbody className="hds-table__content">
           <tr>
             <th>{t(`${T_PATH}.state`)}</th>
-            <td>
-              {isCanceled
-                ? renderCancelDetails()
-                : !reservation.project_lottery_completed && reservation.state === ApartmentReservationStates.SUBMITTED
-                ? t(`${T_PATH}.waitingForLottery`)
-                : t(`ENUMS.ApartmentReservationStates.${reservation.state.toUpperCase()}`)}
-            </td>
+            <td>{isCanceled ? renderCancelDetails() : renderApartmentReservationState()}</td>
           </tr>
           <tr>
             <th>{t(`${T_PATH}.queuePosition`)}</th>
