@@ -13,6 +13,7 @@ import { ApartmentReservationStates } from '../../enums';
 import { Customer, CustomerReservation, ReservationStateChangeUser } from '../../types';
 import { mapApartmentReservationCustomerData } from '../../utils/mapApartmentReservationCustomerData';
 import { getReservationApartmentData, getReservationProjectData } from '../../utils/mapReservationData';
+import { renderBooleanTextualValue } from '../../utils/renderBooleanTextualValue';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
 import { toast } from '../common/toast/ToastManager';
@@ -20,7 +21,6 @@ import { useDownloadFile } from '../../utils/useDownloadFile';
 import { useFileDownloadApi } from '../../utils/useFileDownloadApi';
 
 import styles from './CustomerReservationRow.module.scss';
-import { renderBooleanTextualValue } from '../../utils/renderBooleanTextualValue';
 
 const T_PATH = 'components.reservations.CustomerReservationRow';
 
@@ -39,7 +39,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
   const project = getReservationProjectData(reservation);
   const isCanceled = reservation.state === ApartmentReservationStates.CANCELED;
   const isInReview = reservation.state === ApartmentReservationStates.REVIEW;
-  const firstInQueue = reservation.queue_position === 1;
+  const isWinningReservation = reservation.project_lottery_completed && reservation.queue_position === 1;
 
   const closeDialog = () => setIsDialogOpen(false);
 
@@ -314,7 +314,7 @@ const CustomerReservationRow = ({ customer, reservation }: IProps): JSX.Element 
       {!isCanceled && (
         <div className={styles.buttons}>
           <div>
-            {firstInQueue && (
+            {isWinningReservation && (
               <>
                 <Button
                   variant="secondary"
