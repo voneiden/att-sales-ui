@@ -133,12 +133,16 @@ const ProjectInstallments = ({
     };
 
     // Map input field data to use correct format for the API
-    const apiData = nonEmptyRows.map((row, index) => {
-      // Define using either of amount (€) or percentage values
-      const sumFields =
-        row.unit === unitOptions.UNIT_AS_PERCENTAGE
-          ? { percentage: getFormattedSum(row.sum, true), percentage_specifier: row.percentage_specifier }
-          : { amount: getFormattedSum(row.sum, false) };
+    const apiData = nonEmptyRows.map((row) => {
+      // Define using either of amount (€) or percentage values -- or neither if flexible
+      let sumFields;
+      if (row.percentage_specifier === HitasInstallmentPercentageSpecifiers.SalesPriceFlexible) {
+        sumFields = { percentage_specifier: row.percentage_specifier };
+      } else if (row.unit === unitOptions.UNIT_AS_PERCENTAGE) {
+        sumFields = { percentage: getFormattedSum(row.sum, true), percentage_specifier: row.percentage_specifier };
+      } else {
+        sumFields = { amount: getFormattedSum(row.sum, false) };
+      }
 
       // Use date format of YYYY-MM-DD if there's a valid date
       const formattedDate =
@@ -217,10 +221,11 @@ const ProjectInstallments = ({
   // };
 
   const isPercentageRow = (index: number) => {
-    if (inputFields[index].unit === unitOptions.UNIT_AS_PERCENTAGE) {
-      return true;
-    }
-    return false;
+    return inputFields[index].unit === unitOptions.UNIT_AS_PERCENTAGE;
+  };
+
+  const isFlexibleInstallmentRow = (index: number) => {
+    return inputFields[index].percentage_specifier === HitasInstallmentPercentageSpecifiers.SalesPriceFlexible;
   };
 
   const InstallmentTypeOptions = () => {
@@ -298,27 +303,31 @@ const ProjectInstallments = ({
             />
           </td>
           <td>
-            <TextInput
-              type="number"
-              pattern="[0-9]+([\.,][0-9]+)?"
-              id={`sum-${index}`}
-              name="sum"
-              label=""
-              className={styles.input}
-              value={input.sum}
-              onChange={(event) => handleInputChange(index, event)}
-            />
+            {!isFlexibleInstallmentRow(index) && (
+              <TextInput
+                type="number"
+                pattern="[0-9]+([\.,][0-9]+)?"
+                id={`sum-${index}`}
+                name="sum"
+                label=""
+                className={styles.input}
+                value={input.sum}
+                onChange={(event) => handleInputChange(index, event)}
+              />
+            )}
           </td>
           <td>
-            <Select
-              id={`unit-${index}`}
-              placeholder={t(`${T_PATH}.select`)}
-              label=""
-              className={styles.select}
-              options={InstallmentUnitOptions}
-              value={InstallmentUnitOptions.find((value) => value.selectValue === input.unit) || emptySelectOption}
-              onChange={(value: SelectOption) => handleSelectChange(index, value)}
-            />
+            {!isFlexibleInstallmentRow(index) && (
+              <Select
+                id={`unit-${index}`}
+                placeholder={t(`${T_PATH}.select`)}
+                label=""
+                className={styles.select}
+                options={InstallmentUnitOptions}
+                value={InstallmentUnitOptions.find((value) => value.selectValue === input.unit) || emptySelectOption}
+                onChange={(value: SelectOption) => handleSelectChange(index, value)}
+              />
+            )}
           </td>
           <td>
             <Select
