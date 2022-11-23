@@ -303,36 +303,38 @@ const ProjectInstallments = ({
             />
           </td>
           <td>
-            {!isFlexibleInstallmentRow(index) && (
-              <TextInput
-                type="number"
-                pattern="[0-9]+([\.,][0-9]+)?"
-                id={`sum-${index}`}
-                name="sum"
-                label=""
-                className={styles.input}
-                value={input.sum}
-                onChange={(event) => handleInputChange(index, event)}
-              />
-            )}
+            <TextInput
+              type="number"
+              pattern="[0-9]+([\.,][0-9]+)?"
+              id={`sum-${index}`}
+              name="sum"
+              label=""
+              className={styles.input}
+              value={!isFlexibleInstallmentRow(index) ? input.sum : ''}
+              onChange={(event) => handleInputChange(index, event)}
+              disabled={isFlexibleInstallmentRow(index)}
+            />
           </td>
           <td>
-            {!isFlexibleInstallmentRow(index) && (
-              <Select
-                id={`unit-${index}`}
-                placeholder={t(`${T_PATH}.select`)}
-                label=""
-                className={styles.select}
-                options={InstallmentUnitOptions}
-                value={InstallmentUnitOptions.find((value) => value.selectValue === input.unit) || emptySelectOption}
-                onChange={(value: SelectOption) => handleSelectChange(index, value)}
-              />
-            )}
+            <Select
+              id={`unit-${index}`}
+              placeholder={!isFlexibleInstallmentRow(index) ? t(`${T_PATH}.select`) : ''}
+              label=""
+              className={styles.select}
+              options={InstallmentUnitOptions}
+              value={
+                isFlexibleInstallmentRow(index)
+                  ? emptySelectOption
+                  : InstallmentUnitOptions.find((value) => value.selectValue === input.unit) || emptySelectOption
+              }
+              onChange={(value: SelectOption) => handleSelectChange(index, value)}
+              disabled={isFlexibleInstallmentRow(index)}
+            />
           </td>
           <td>
             <Select
               id={`unitSpecifier-${index}`}
-              placeholder={t(`${T_PATH}.select`)}
+              placeholder={isPercentageRow(index) ? t(`${T_PATH}.select`) : ''}
               label=""
               className={styles.select}
               options={InstallmentPercentageSpecifierOptions()}
