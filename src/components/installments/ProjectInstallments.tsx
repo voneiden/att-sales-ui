@@ -133,12 +133,16 @@ const ProjectInstallments = ({
     };
 
     // Map input field data to use correct format for the API
-    const apiData = nonEmptyRows.map((row, index) => {
-      // Define using either of amount (€) or percentage values
-      const sumFields =
-        row.unit === unitOptions.UNIT_AS_PERCENTAGE
-          ? { percentage: getFormattedSum(row.sum, true), percentage_specifier: row.percentage_specifier }
-          : { amount: getFormattedSum(row.sum, false) };
+    const apiData = nonEmptyRows.map((row) => {
+      // Define using either of amount (€) or percentage values -- or neither if flexible
+      let sumFields;
+      if (row.percentage_specifier === HitasInstallmentPercentageSpecifiers.SalesPriceFlexible) {
+        sumFields = { percentage_specifier: row.percentage_specifier };
+      } else if (row.unit === unitOptions.UNIT_AS_PERCENTAGE) {
+        sumFields = { percentage: getFormattedSum(row.sum, true), percentage_specifier: row.percentage_specifier };
+      } else {
+        sumFields = { amount: getFormattedSum(row.sum, false) };
+      }
 
       // Use date format of YYYY-MM-DD if there's a valid date
       const formattedDate =
@@ -217,10 +221,11 @@ const ProjectInstallments = ({
   // };
 
   const isPercentageRow = (index: number) => {
-    if (inputFields[index].unit === unitOptions.UNIT_AS_PERCENTAGE) {
-      return true;
-    }
-    return false;
+    return inputFields[index].unit === unitOptions.UNIT_AS_PERCENTAGE;
+  };
+
+  const isFlexibleInstallmentRow = (index: number) => {
+    return inputFields[index].percentage_specifier === HitasInstallmentPercentageSpecifiers.SalesPriceFlexible;
   };
 
   const InstallmentTypeOptions = () => {
@@ -305,25 +310,31 @@ const ProjectInstallments = ({
               name="sum"
               label=""
               className={styles.input}
-              value={input.sum}
+              value={!isFlexibleInstallmentRow(index) ? input.sum : ''}
               onChange={(event) => handleInputChange(index, event)}
+              disabled={isFlexibleInstallmentRow(index)}
             />
           </td>
           <td>
             <Select
               id={`unit-${index}`}
-              placeholder={t(`${T_PATH}.select`)}
+              placeholder={!isFlexibleInstallmentRow(index) ? t(`${T_PATH}.select`) : ''}
               label=""
               className={styles.select}
               options={InstallmentUnitOptions}
-              value={InstallmentUnitOptions.find((value) => value.selectValue === input.unit) || emptySelectOption}
+              value={
+                isFlexibleInstallmentRow(index)
+                  ? emptySelectOption
+                  : InstallmentUnitOptions.find((value) => value.selectValue === input.unit) || emptySelectOption
+              }
               onChange={(value: SelectOption) => handleSelectChange(index, value)}
+              disabled={isFlexibleInstallmentRow(index)}
             />
           </td>
           <td>
             <Select
               id={`unitSpecifier-${index}`}
-              placeholder={t(`${T_PATH}.select`)}
+              placeholder={isPercentageRow(index) ? t(`${T_PATH}.select`) : ''}
               label=""
               className={styles.select}
               options={InstallmentPercentageSpecifierOptions()}
