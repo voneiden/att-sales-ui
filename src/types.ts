@@ -382,3 +382,14 @@ export type OfferMessage = {
   body: string;
   recipients: OfferMessageRecipient[];
 };
+
+export type CostIndex = {
+  id: number;
+  valid_from: string;
+  value: string;
+};
+
+export type AddEditCostIndex = {
+  valid_from: string;
+  value: string;
+};

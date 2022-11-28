@@ -16,6 +16,7 @@ import Spinner from './components/common/spinner/Spinner';
 import WithAuth from './components/auth/WithAuth';
 
 import { ROUTES } from './enums';
+import CostIndexTable from './components/costindex/CostIndexTable';
 
 const Authenticated = (): JSX.Element => (
   <Routes>
@@ -28,6 +29,7 @@ const Authenticated = (): JSX.Element => (
       <Route path={`${ROUTES.ADD_CUSTOMER}`} element={<AddEditCustomer isEditMode={false} />} />
       <Route path={`${ROUTES.EDIT_CUSTOMER}/:customerId`} element={<AddEditCustomer isEditMode />} />
       <Route path={ROUTES.REPORTS} element={<Reports />} />
+      <Route path={ROUTES.COST_INDEX} element={<CostIndexTable />} />
       <Route path={ROUTES.LOGIN} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.LOGOUT} element={<Navigate to={ROUTES.INDEX} />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
