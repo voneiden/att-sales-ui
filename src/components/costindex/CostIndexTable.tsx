@@ -2,17 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment/moment';
 import { get, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import {
-  Button,
-  DateInput,
-  Dialog,
-  IconPlus,
-  IconQuestionCircle,
-  LoadingSpinner,
-  Notification,
-  Table,
-  TextInput,
-} from 'hds-react';
+import { Button, DateInput, Dialog, IconPlus, IconQuestionCircle, Notification, Table, TextInput } from 'hds-react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 
@@ -21,6 +11,7 @@ import { useAddCostIndexMutation, useGetCostIndexesQuery } from '../../redux/ser
 import Container from '../common/container/Container';
 import { AddEditCostIndex } from '../../types';
 import parseApiErrors from '../../utils/parseApiErrors';
+import Spinner from '../common/spinner/Spinner';
 import { toast } from '../common/toast/ToastManager';
 import { usePageTitle } from '../../utils/usePageTitle';
 import CostIndexSingleTable from './CostIndexSingleTable';
@@ -69,7 +60,7 @@ const CostIndexTable = (): JSX.Element => {
   const value = getValues('value');
 
   if (isLoading) {
-    return <LoadingSpinner small />;
+    return <Spinner />;
   } else if (isError || !data) {
     return (
       <Container>
