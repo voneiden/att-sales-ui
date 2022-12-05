@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import moment from 'moment/moment';
+import { get, SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -11,19 +13,19 @@ import {
   Table,
   TextInput,
 } from 'hds-react';
-
-import styles from './CostIndexTable.module.scss';
-import { useAddCostIndexMutation, useGetCostIndexesQuery } from '../../redux/services/api';
-import moment from 'moment/moment';
-import Container from '../common/container/Container';
-import { get, SubmitHandler, useForm } from 'react-hook-form';
-import { AddEditCostIndex } from '../../types';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+
+import { getCurrentLangCode } from '../../utils/getCurrentLangCode';
+import { useAddCostIndexMutation, useGetCostIndexesQuery } from '../../redux/services/api';
+import Container from '../common/container/Container';
+import { AddEditCostIndex } from '../../types';
 import parseApiErrors from '../../utils/parseApiErrors';
 import { toast } from '../common/toast/ToastManager';
 import { usePageTitle } from '../../utils/usePageTitle';
 import CostIndexSingleTable from './CostIndexSingleTable';
+
+import styles from './CostIndexTable.module.scss';
 
 const T_PATH = 'components.costindex.CostIndexTable';
 
@@ -102,7 +104,7 @@ const CostIndexTable = (): JSX.Element => {
         await addCostIndex({ formData: data })
           .unwrap()
           .then(() => {
-            toast.show({ type: 'success', content: t(`${T_PATH}.createdSuccessfully`) });
+            toast.show({ type: 'success', content: t('createdSuccessfully') });
             reset();
           });
       } catch (err: any) {
@@ -160,6 +162,7 @@ const CostIndexTable = (): JSX.Element => {
                 Boolean(get(errors, 'valid_from')) ||
                 (!!validFromDate && !moment(validFromDate, 'D.M.YYYY', true).isValid())
               }
+              language={getCurrentLangCode()}
               errorText={get(errors, 'valid_from')?.message}
               onChange={(value) => setValue('valid_from', value)}
               required
@@ -209,9 +212,7 @@ const CostIndexTable = (): JSX.Element => {
             <p id={descriptionId} className="text-body">
               {t('confirmBody')}
             </p>
-            <p>
-              <CostIndexSingleTable costIndex={{ valid_from: fiDateToISO(validFrom), value: value }} />
-            </p>
+            <CostIndexSingleTable costIndex={{ valid_from: fiDateToISO(validFrom), value: value }} />
           </Dialog.Content>
           <Dialog.ActionButtons>
             {/* Calling close directly prevents the form from being submitted */}

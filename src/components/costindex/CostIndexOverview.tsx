@@ -1,7 +1,7 @@
 import { Notification } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { ROUTES } from '../../enums';
 import Container from '../common/container/Container';
@@ -15,7 +15,6 @@ const T_PATH = 'components.costindex.CostIndexOverview';
 
 const CostIndexOverview = (): JSX.Element => {
   const { t: translate } = useTranslation();
-  const navigate = useNavigate();
 
   const t = (label: string) => translate(`${T_PATH}.${label}`);
 
@@ -37,16 +36,9 @@ const CostIndexOverview = (): JSX.Element => {
       <>
         <h3>{t('lastModification')}</h3>
         <CostIndexSingleTable costIndex={data[0]} />
-        <a
-          href={`/${ROUTES.COST_INDEX}`}
-          className="hds-button hds-button--primary"
-          onClick={(e) => {
-            navigate(`/${ROUTES.COST_INDEX}`);
-            e.preventDefault();
-          }}
-        >
-          {t('modify')}
-        </a>
+        <Link to={`/${ROUTES.COST_INDEX}`} className="hds-button hds-button--primary">
+          <span className="hds-button__label">{t('modify')}</span>
+        </Link>
       </>
     );
   }

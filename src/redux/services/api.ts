@@ -89,7 +89,7 @@ export const api = createApi({
     }),
 
     // POST: Add CostIndexTable
-    addCostIndex: builder.mutation<Customer, { formData: Partial<AddEditCostIndex> }>({
+    addCostIndex: builder.mutation<any, { formData: AddEditCostIndex }>({
       query: (params) => {
         return {
           url: 'cost_indexes/',

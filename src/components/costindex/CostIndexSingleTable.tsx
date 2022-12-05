@@ -1,20 +1,23 @@
-import { useTranslation } from 'react-i18next';
-import reportStyles from '../../pages/reports/Reports.module.scss';
-import formatDateTime from '../../utils/formatDateTime';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-const T_PATH = 'components.costindex.common';
+import { AddEditCostIndex } from '../../types';
+import formatDateTime from '../../utils/formatDateTime';
+
+import styles from './CostIndexSingleTable.module.scss';
+
+const T_PATH = 'components.costindex.CostIndexSingleTable';
 
 interface Props {
-  costIndex: { valid_from: string; value: string };
+  costIndex: AddEditCostIndex;
 }
 
 const CostIndexSingleTable = ({ costIndex }: Props): JSX.Element => {
   const { t: translate } = useTranslation();
   const t = (label: string) => translate(`${T_PATH}.${label}`);
-  console.log('COST INDEX', costIndex);
+
   return (
-    <table className={reportStyles.costIndexInfoTable}>
+    <table className={styles.costIndexInfoTable}>
       <tbody>
         <tr>
           <th>{t('date')}</th>
