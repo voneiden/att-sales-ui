@@ -10,3 +10,11 @@
 .tableContainer {
   max-width: 500px;
 }
+
+.errorWrapper {
+  padding: 0 var(--spacing-l);
+
+  ul {
+    margin: 0;
+  }
+}

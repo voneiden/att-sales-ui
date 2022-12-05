@@ -1,12 +1,15 @@
+import { Notification } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGetCostIndexesQuery } from '../../redux/services/api';
-import Container from '../common/container/Container';
-import reportStyles from '../../pages/reports/Reports.module.scss';
-import Spinner from '../common/spinner/Spinner';
-import { ROUTES } from '../../enums';
 import { useNavigate } from 'react-router-dom';
+
+import { ROUTES } from '../../enums';
+import Container from '../common/container/Container';
+import Spinner from '../common/spinner/Spinner';
 import CostIndexSingleTable from './CostIndexSingleTable';
+import { useGetCostIndexesQuery } from '../../redux/services/api';
+
+import reportStyles from '../../pages/reports/Reports.module.scss';
 
 const T_PATH = 'components.costindex.CostIndexOverview';
 
@@ -22,7 +25,13 @@ const CostIndexOverview = (): JSX.Element => {
   if (isLoading) {
     content = <Spinner />;
   } else if (isError || !data) {
-    content = <>Error terror</>;
+    content = (
+      <Container>
+        <Notification type="error" size="small" style={{ marginTop: 15 }}>
+          {t('errorLoadingCostIndex')}
+        </Notification>
+      </Container>
+    );
   } else {
     content = (
       <>

@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, DateInput, Dialog, IconPlus, IconQuestionCircle, LoadingSpinner, Table, TextInput } from 'hds-react';
+import {
+  Button,
+  DateInput,
+  Dialog,
+  IconPlus,
+  IconQuestionCircle,
+  LoadingSpinner,
+  Notification,
+  Table,
+  TextInput,
+} from 'hds-react';
 
 import styles from './CostIndexTable.module.scss';
 import { useAddCostIndexMutation, useGetCostIndexesQuery } from '../../redux/services/api';
@@ -10,6 +20,7 @@ import { get, SubmitHandler, useForm } from 'react-hook-form';
 import { AddEditCostIndex } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import * as yup from 'yup';
+import parseApiErrors from '../../utils/parseApiErrors';
 import { toast } from '../common/toast/ToastManager';
 import { usePageTitle } from '../../utils/usePageTitle';
 import CostIndexSingleTable from './CostIndexSingleTable';
@@ -27,6 +38,7 @@ const CostIndexTable = (): JSX.Element => {
   const confirmationDialogTarget = React.useRef(null);
   const openConfirmationDialogButtonRef = React.useRef(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
   const close = () => setIsOpen(false);
   const titleId = 'info-dialog-title';
   const descriptionId = 'info-dialog-content';
@@ -57,7 +69,13 @@ const CostIndexTable = (): JSX.Element => {
   if (isLoading) {
     return <LoadingSpinner small />;
   } else if (isError || !data) {
-    return <>Error terror</>;
+    return (
+      <Container>
+        <Notification type="error" size="small" style={{ marginTop: 15 }}>
+          {t('errorLoadingCostIndex')}
+        </Notification>
+      </Container>
+    );
   }
   const fiDateToISO = (date: string) => moment(date, 'D.M.YYYY', true).format('YYYY-MM-DD');
   const ISODateToFi = (date: string) => moment(date, 'YYYY-MM-DD').format('D.M.YYYY');
@@ -88,8 +106,7 @@ const CostIndexTable = (): JSX.Element => {
             reset();
           });
       } catch (err: any) {
-        toast.show({ type: 'error' });
-        console.error(err);
+        setErrorMessages(parseApiErrors(err));
       }
     }
   };
@@ -122,6 +139,17 @@ const CostIndexTable = (): JSX.Element => {
   return (
     <Container>
       <h2>{t('addIndexTitle')}</h2>
+      {!!errorMessages.length && (
+        <div className={styles.errorWrapper}>
+          <Notification type="error" style={{ margin: '15px 0' }} label={t('formError')}>
+            <ul>
+              {errorMessages.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </Notification>
+        </div>
+      )}
       <form id={formId} onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className={styles.formAddRow}>
           <span>
@@ -142,7 +170,7 @@ const CostIndexTable = (): JSX.Element => {
             <TextInput
               id="indexValue"
               label={t('indexValue')}
-              placeholder="100.00"
+              placeholder="100,00"
               errorText={get(errors, 'value')?.message}
               invalid={Boolean(errors.value)}
               required

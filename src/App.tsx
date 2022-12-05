@@ -3,6 +3,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 
 import AddEditCustomer from './pages/customers/AddEditCustomer';
 import AuthError from './pages/auth/AuthError';
+import CostIndexTable from './components/costindex/CostIndexTable';
 import CustomerDetail from './pages/customers/CustomerDetail';
 import CustomerSearch from './pages/customers/CustomerSearch';
 import Login from './pages/auth/Login';
@@ -16,7 +17,6 @@ import Spinner from './components/common/spinner/Spinner';
 import WithAuth from './components/auth/WithAuth';
 
 import { ROUTES } from './enums';
-import CostIndexTable from './components/costindex/CostIndexTable';
 
 const Authenticated = (): JSX.Element => (
   <Routes>

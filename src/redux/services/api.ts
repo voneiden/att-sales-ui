@@ -84,7 +84,7 @@ export const api = createApi({
 
     // GET: List CostIndexTable values
     getCostIndexes: builder.query<CostIndex[], void>({
-      query: () => `cost_indexes/`,
+      query: () => 'cost_indexes/',
       providesTags: [{ type: 'CostIndex', id: 'LIST' }],
     }),
 
@@ -92,41 +92,12 @@ export const api = createApi({
     addCostIndex: builder.mutation<Customer, { formData: Partial<AddEditCostIndex> }>({
       query: (params) => {
         return {
-          url: `cost_indexes/`,
+          url: 'cost_indexes/',
           method: 'POST',
           body: params.formData,
         };
       },
       invalidatesTags: (result, error, arg) => [{ type: 'CostIndex', id: 'LIST' }],
-    }),
-
-    // PUT: Update CostIndexTable
-    updateCostIndex: builder.mutation<Customer, { formData: Partial<AddEditCostIndex>; id: string }>({
-      query: (params) => {
-        return {
-          url: `cost_indexes/${params.id}/`,
-          method: 'PUT',
-          body: params.formData,
-        };
-      },
-      invalidatesTags: (result, error, arg) => [
-        { type: 'CostIndex', id: arg.id },
-        { type: 'CostIndex', id: 'LIST' },
-      ],
-    }),
-
-    // DELETE: CostIndexTable
-    deleteCostIndex: builder.mutation<Customer, { id: string }>({
-      query: (params) => {
-        return {
-          url: `cost_indexes/${params.id}/`,
-          method: 'DELETE',
-        };
-      },
-      invalidatesTags: (result, error, arg) => [
-        { type: 'CostIndex', id: arg.id },
-        { type: 'CostIndex', id: 'LIST' },
-      ],
     }),
 
     // GET: Search for customers with search params
@@ -389,6 +360,4 @@ export const {
   useGetOfferMessageQuery,
   useGetCostIndexesQuery,
   useAddCostIndexMutation,
-  useUpdateCostIndexMutation,
-  useDeleteCostIndexMutation,
 } = api;
