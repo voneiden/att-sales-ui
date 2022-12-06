@@ -2,11 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import getApiBaseUrl from '../../utils/getApiBaseUrl';
 import {
+  AddEditCostIndex,
   AddEditCustomerFormFields,
   Apartment,
   ApartmentInstallment,
   ApartmentReservationWithCustomer,
   ApartmentReservationWithInstallments,
+  CostIndex,
   Customer,
   CustomerListItem,
   Project,
@@ -46,6 +48,7 @@ export const api = createApi({
   }),
   tagTypes: [
     'ApartmentReservations',
+    'CostIndex',
     'Customer',
     'Offer',
     'OfferMessage',
@@ -77,6 +80,24 @@ export const api = createApi({
         method: 'POST',
         body: params,
       }),
+    }),
+
+    // GET: List CostIndexTable values
+    getCostIndexes: builder.query<CostIndex[], void>({
+      query: () => 'cost_indexes/',
+      providesTags: [{ type: 'CostIndex', id: 'LIST' }],
+    }),
+
+    // POST: Add CostIndexTable
+    addCostIndex: builder.mutation<any, { formData: AddEditCostIndex }>({
+      query: (params) => {
+        return {
+          url: 'cost_indexes/',
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [{ type: 'CostIndex', id: 'LIST' }],
     }),
 
     // GET: Search for customers with search params
@@ -337,4 +358,6 @@ export const {
   useCreateOfferMutation,
   useUpdateOfferByIdMutation,
   useGetOfferMessageQuery,
+  useGetCostIndexesQuery,
+  useAddCostIndexMutation,
 } = api;

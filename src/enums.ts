@@ -9,6 +9,7 @@ export enum ROUTES {
   NOT_FOUND = '404',
   PROJECTS = 'projects',
   REPORTS = 'reports',
+  COST_INDEX = 'reports/cost-index',
 }
 
 export enum StateOfSale {

@@ -13,6 +13,7 @@ import {
   HitasInstallmentPercentageSpecifiers,
 } from '../../enums';
 import { useGetProjectInstallmentsQuery, useSetProjectInstallmentsMutation } from '../../redux/services/api';
+import parseApiErrors from '../../utils/parseApiErrors';
 import { toast } from '../common/toast/ToastManager';
 
 import styles from './ProjectInstallments.module.scss';
@@ -49,7 +50,7 @@ const ProjectInstallments = ({
   const [setProjectInstallments, { isLoading: postInstallmentsLoading }] = useSetProjectInstallmentsMutation();
   const [formData, setFormData] = useState<ProjectInstallment[]>([]); // Form data to be sent to the API
   const [inputFields, setInputFields] = useState<ProjectInstallmentInputRow[]>([]); // Form input field values
-  const [errorMessages, setErrorMessages] = useState([]);
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
   // Render saved installment data into inputFields
   useEffect(() => {
@@ -178,25 +179,7 @@ const ProjectInstallments = ({
             refetch();
           });
       } catch (err: any) {
-        // Catch error data and display error messages from the API in an error toast
-        const errorCode = err.originalStatus;
-        const errorData = err.data;
-        let errorMessages: any = [];
-        if (Array.isArray(errorData)) {
-          errorData.forEach((row, index: number) => {
-            Object.entries(row).forEach(([key, value]) => {
-              const val = value as any;
-              errorMessages.push(`Row ${index + 1} - ${key}: ${val[0].message}`);
-            });
-          });
-        } else {
-          if (errorData.message) {
-            errorMessages.push(errorData.message);
-          } else {
-            errorMessages.push(`${errorCode} - Error`);
-          }
-        }
-        setErrorMessages(errorMessages);
+        setErrorMessages(parseApiErrors(err));
       }
     }
   };
