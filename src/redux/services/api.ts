@@ -21,6 +21,8 @@ import {
   OfferFormData,
   Offer,
   OfferMessage,
+  ApartmentHASOPayment,
+  ApartmentRevaluation,
 } from '../../types';
 import type { RootState } from '../store';
 import { InstallmentTypes } from '../../enums';
@@ -48,6 +50,8 @@ export const api = createApi({
   }),
   tagTypes: [
     'ApartmentReservations',
+    'ApartmentHASOPayment',
+    'ApartmentRevaluation',
     'CostIndex',
     'Customer',
     'Offer',
@@ -98,6 +102,46 @@ export const api = createApi({
         };
       },
       invalidatesTags: (result, error, arg) => [{ type: 'CostIndex', id: 'LIST' }],
+    }),
+
+    // GET: Fetch apartment HASO payment
+    getApartmentHASOPayment: builder.query<ApartmentHASOPayment, string>({
+      query: (apartment_uuid) => `apartment/${apartment_uuid}/haso_payment/`,
+      providesTags: (result, error, arg) => [{ type: 'ApartmentHASOPayment', id: arg }],
+    }),
+
+    // POST: Create HASO apartment revaluation
+    addApartmentRevaluation: builder.mutation<any, { formData: ApartmentRevaluation; apartmentId: string }>({
+      query: (params) => {
+        return {
+          url: 'apartment/revaluations/',
+          method: 'POST',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentRevaluation', id: 'LIST' },
+        { type: 'ApartmentReservations', id: arg.apartmentId },
+        { type: 'ApartmentHASOPayment', id: arg.apartmentId },
+      ],
+    }),
+
+    updateApartmentRevaluation: builder.mutation<
+      any,
+      { formData: ApartmentRevaluation; id: number; apartmentId: string }
+    >({
+      query: (params) => {
+        return {
+          url: `apartment/revaluations/${params.id}/`,
+          method: 'PUT',
+          body: params.formData,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'ApartmentRevaluation', id: arg.id },
+        { type: 'ApartmentReservations', id: arg.apartmentId },
+        { type: 'ApartmentHASOPayment', id: arg.apartmentId },
+      ],
     }),
 
     // GET: Search for customers with search params
@@ -360,4 +404,7 @@ export const {
   useGetOfferMessageQuery,
   useGetCostIndexesQuery,
   useAddCostIndexMutation,
+  useGetApartmentHASOPaymentQuery,
+  useAddApartmentRevaluationMutation,
+  useUpdateApartmentRevaluationMutation,
 } = api;
