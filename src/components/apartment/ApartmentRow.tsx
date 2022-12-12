@@ -13,6 +13,7 @@ import {
 } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import ReservationRevaluationInfo from '../revaluation/ReservationRevaluationInfo';
 
 import ApartmentBaseDetails from './ApartmentBaseDetails';
 import formatDateTime from '../../utils/formatDateTime';
@@ -24,7 +25,7 @@ import {
   Project,
   WinningReservation,
 } from '../../types';
-import { ApartmentReservationStates, ROUTES } from '../../enums';
+import { ApartmentReservationStates, ReservationCancelReasons, ROUTES } from '../../enums';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { showReservationAddModal } from '../../redux/features/reservationAddModalSlice';
 import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';
@@ -177,12 +178,18 @@ const ApartmentRow = ({ apartment, ownershipType, isLotteryCompleted, project }:
     ) => (
       <div className={styles.actionButtons}>
         {isCanceled(reservation) ? (
-          <div className={styles.cancellationReason}>
-            {reservation.cancellation_reason
-              ? t(`ENUMS.ReservationCancelReasons.${reservation.cancellation_reason.toUpperCase()}`)
-              : t(`${T_PATH}.canceled`)}{' '}
-            {reservation.cancellation_timestamp && formatDateTime(reservation.cancellation_timestamp)}
-          </div>
+          <>
+            <div className={styles.cancellationReason}>
+              {reservation.cancellation_reason
+                ? t(`ENUMS.ReservationCancelReasons.${reservation.cancellation_reason.toUpperCase()}`)
+                : t(`${T_PATH}.canceled`)}{' '}
+              {reservation.cancellation_timestamp && formatDateTime(reservation.cancellation_timestamp)}
+            </div>
+            {projectOwnershipType.toUpperCase() === 'HASO' &&
+              reservation.cancellation_reason === ReservationCancelReasons.TERMINATED && (
+                <ReservationRevaluationInfo reservationWithCustomer={reservation} />
+              )}
+          </>
         ) : (
           <>
             <Button

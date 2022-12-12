@@ -231,6 +231,7 @@ export type ApartmentReservation = {
   priority_number?: number | null;
   queue_position?: number | null;
   state: `${ApartmentReservationStates}`;
+  revaluation: ApartmentRevaluationWithId | null;
 };
 
 export type ApartmentReservationWithCustomer = ApartmentReservation & {
@@ -328,10 +329,21 @@ export type ReservationEditFormData = {
   comment: string;
 };
 
+export type RevaluationFormData = {
+  start_date: string;
+  start_cost_index_value: string;
+  start_right_of_occupancy_payment: string;
+  alteration_cost: string;
+  end_date: string;
+  end_cost_index_value: string;
+  end_right_of_occupancy_payment: string;
+};
+
 export type ReservationCancelFormData = {
   cancellation_reason: string;
   comment: string;
   new_customer_id?: string;
+  revaluation?: RevaluationFormData;
 };
 
 export type ReservationAddFormData = {
@@ -392,4 +404,24 @@ export type CostIndex = {
 export type AddEditCostIndex = {
   valid_from: string;
   value: string;
+};
+
+export type ApartmentRevaluation = {
+  start_date: string;
+  start_cost_index_value: string;
+  end_date: string;
+  end_cost_index_value: string;
+  alteration_work: string;
+  start_right_of_occupancy_payment: string;
+  end_right_of_occupancy_payment: string;
+};
+
+export type ApartmentRevaluationWithId = ApartmentRevaluation & {
+  id: number;
+  created_at: string;
+  modified_at: string;
+};
+
+export type ApartmentHASOPayment = {
+  right_of_occupancy_payment: string;
 };

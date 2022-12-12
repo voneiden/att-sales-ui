@@ -3,6 +3,8 @@ import { Button, Dialog, IconInfoCircle } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { ReservationCancelReasons } from '../../enums';
+import { showApartmentRevaluationModal } from '../../redux/features/apartmentRevaluationModalSlice';
 import ReservationCancelForm from './ReservationCancelForm';
 import { RootState } from '../../redux/store';
 import { toast } from '../common/toast/ToastManager';
@@ -22,6 +24,10 @@ const ReservationCancelModal = (): JSX.Element | null => {
   const reservationId = reservationCancelModal.content?.reservationId;
   const customer = reservationCancelModal.content?.customer;
   const ownershipType = reservationCancelModal.content?.ownershipType;
+
+  // apartmentId used to invalidate cached data
+  const apartmentId = reservationCancelModal.content?.apartmentId || '';
+
   const [isLoading, setIsLoading] = useState(false);
   const [cancelApartmentReservation, { isLoading: postReservationCancelLoading }] =
     useCancelApartmentReservationMutation();
@@ -44,10 +50,9 @@ const ReservationCancelModal = (): JSX.Element | null => {
     if (!postReservationCancelLoading) {
       setIsLoading(true);
 
-      // Project uuid, customer id and Apartment uuid is used to invalidate cached data after cancelling a reservation
+      // Project uuid and customer id is used to invalidate cached data after cancelling a reservation
       const projectId = reservationCancelModal.content?.projectId || '';
       const customerId = reservationCancelModal.content?.customer.id || 0;
-      const apartmentId = reservationCancelModal.content?.apartmentId || '';
 
       try {
         // Send reservation cancel form data to API
@@ -63,6 +68,17 @@ const ReservationCancelModal = (): JSX.Element | null => {
             toast.show({ type: 'success', content: t(`${T_PATH}.cancelledSuccessfully`) });
             setIsLoading(false);
             closeDialog();
+
+            const isTerminated = formData.cancellation_reason === ReservationCancelReasons.TERMINATED;
+            if (isTerminated && ownershipType.toLowerCase() === 'haso') {
+              dispatch(
+                showApartmentRevaluationModal({
+                  apartmentId: apartmentId,
+                  reservationId: reservationId,
+                  customer: customer,
+                })
+              );
+            }
           });
       } catch (err: any) {
         toast.show({ type: 'error' });
@@ -96,13 +112,23 @@ const ReservationCancelModal = (): JSX.Element | null => {
               ` (${customer.secondary_profile.last_name}, ${customer.secondary_profile.first_name})`}
           </div>
         </div>
-        <ReservationCancelForm ownershipType={ownershipType} handleFormCallback={handleFormCallback} formId={formId} />
+        <ReservationCancelForm
+          ownershipType={ownershipType}
+          handleFormCallback={handleFormCallback}
+          formId={formId}
+          reservationId={reservationId}
+        />
       </Dialog.Content>
       <Dialog.ActionButtons>
         <Button variant="primary" type="submit" form={formId} disabled={isLoading}>
           {t(`${T_PATH}.cancelReservation`)}
         </Button>
-        <Button variant="secondary" onClick={() => closeDialog()}>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            closeDialog();
+          }}
+        >
           {t(`${T_PATH}.close`)}
         </Button>
       </Dialog.ActionButtons>

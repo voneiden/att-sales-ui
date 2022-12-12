@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import AuthSessionExpiringModal from '../../auth/AuthSessionExpiringModal';
 import ErrorPrompt from '../../auth/ErrorPrompt';
+import ApartmentRevaluationModal from '../../revaluation/ApartmentRevaluationModal';
 import NavBar from '../navbar/NavBar';
 import OfferModal from '../../offer/OfferModal';
 import ReservationAddModal from '../../reservations/ReservationAddModal';
@@ -25,6 +26,7 @@ const MainLayout = ({ authenticated }: IProps): JSX.Element => (
     {authenticated && (
       <>
         <OfferModal />
+        <ApartmentRevaluationModal />
         <ReservationAddModal />
         <ReservationCancelModal />
         <ReservationEditModal />
