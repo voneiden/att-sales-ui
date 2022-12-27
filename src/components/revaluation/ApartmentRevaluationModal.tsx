@@ -10,8 +10,6 @@ import { toast } from '../common/toast/ToastManager';
 import { ApartmentRevaluation } from '../../types';
 import ApartmentRevaluationFormContainer from './ApartmentRevaluationFormContainer';
 
-import styles from './ApartmentRevaluationModal.module.scss';
-
 const T_PATH = 'components.revaluation.ApartmentRevaluationModal';
 
 const ApartmentRevaluationModal = (): JSX.Element | null => {
@@ -96,7 +94,7 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
         customer={customer}
         closeDialog={closeDialog}
         handleFormCallback={handleFormCallback}
-        isLoading={isAddApartmentRevaluationLoading || isUpdateApartmentRevaluationLoading}
+        isLoading={isAddApartmentRevaluationLoading || isUpdateApartmentRevaluationLoading || isLoading}
       />
     </Dialog>
   );
