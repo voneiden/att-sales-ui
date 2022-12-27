@@ -6,20 +6,20 @@ import { get, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import { ApartmentReservation, ApartmentReservationCustomer, ApartmentRevaluation, CostIndex } from '../../types';
+import { ApartmentReservationCustomer, ApartmentRevaluation, CostIndex } from '../../types';
 import formattedCurrency from '../../utils/formatCurrency';
 import { getCurrentLangCode } from '../../utils/getCurrentLangCode';
-
 import '../costindex/CostIndexSingleTable.module.scss';
 import { toast } from '../common/toast/ToastManager';
-import ApartmentRevaluationFormContainer from './ApartmentRevaluationFormContainer';
 import styles from './ApartmentRevaluationModal.module.scss';
 
 const T_PATH = 'components.revaluation.ApartmentRevaluationForm';
+
 type NewDefaults = {
   startDateISODefault: string | null;
   rightOfOccupancyPayment: string;
 };
+
 interface Props {
   revaluation?: ApartmentRevaluation;
   newDefaults?: NewDefaults;
@@ -28,6 +28,7 @@ interface Props {
   customer: ApartmentReservationCustomer;
   closeDialog: () => void;
   handleFormCallback: (arg0: ApartmentRevaluation) => void;
+  isLoading: boolean;
 }
 
 function stringDecimalToNumber(decimal: string) {
@@ -76,10 +77,10 @@ const ApartmentRevaluationForm = ({
   newDefaults,
   reservationId,
   costIndexes,
-
   customer,
   closeDialog,
   handleFormCallback,
+  isLoading,
 }: Props): JSX.Element => {
   const { t: translate } = useTranslation();
   const t = (label: string) => translate(`${T_PATH}.${label}`);
@@ -101,8 +102,6 @@ const ApartmentRevaluationForm = ({
     resolver: yupResolver(schema),
     defaultValues: defaultValues,
   });
-
-  const isLoading = false; // TODO
 
   const { onChange: _startDateOnChange, ...startDateProps } = register('start_date');
   const { onChange: _endDateOnChange, ...endDateProps } = register('end_date');
@@ -142,8 +141,6 @@ const ApartmentRevaluationForm = ({
     end_date: string;
     alteration_work: string;
   }) => {
-    // TODO
-    console.log('TODO onSubmit', formData);
     if (!startCostIndex || !endCostIndex || !adjustedRightOfOccupancyPayment) {
       toast.show({ type: 'error', content: t('costIndexError') });
       return;
@@ -166,7 +163,7 @@ const ApartmentRevaluationForm = ({
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Dialog.Content>
-        <div>
+        <div className={styles.formBlock}>
           {t('forCustomer')}:
           <div className={styles.applicants}>
             {customer.primary_profile.last_name} {customer.primary_profile.first_name}
@@ -181,8 +178,9 @@ const ApartmentRevaluationForm = ({
           errorText={get(errors, 'start_right_of_occupancy_payment')?.message}
           invalid={Boolean(errors.start_right_of_occupancy_payment)}
           {...register('start_right_of_occupancy_payment')}
+          className={styles.formBlock}
         />
-        <div>
+        <div className={styles.formBlock}>
           <DateInput
             id="start_date"
             label={t('costIndexStartDate')}
@@ -208,8 +206,9 @@ const ApartmentRevaluationForm = ({
           errorText={get(errors, 'alteration_work')?.message}
           invalid={Boolean(errors.alteration_work)}
           {...register('alteration_work')}
+          className={styles.formBlock}
         />
-        <div>
+        <div className={styles.formBlock}>
           <DateInput
             id="end_date"
             label={t('costIndexEndDate')}
@@ -227,7 +226,7 @@ const ApartmentRevaluationForm = ({
           </div>
         </div>
         <div>
-          {t('adjustedRightOfOccupancyPayment')}: {adjustedRightOfOccupancyPaymentFormatted}
+          <b>{t('adjustedRightOfOccupancyPayment')}</b>: {adjustedRightOfOccupancyPaymentFormatted}
         </div>
       </Dialog.Content>
       <Dialog.ActionButtons>

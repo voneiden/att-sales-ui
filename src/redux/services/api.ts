@@ -77,11 +77,6 @@ export const api = createApi({
       query: (id) => `apartments/?project_uuid=${id}`,
     }),
 
-    // GET: Apartment price
-    getApartmentPrice: builder.query<Apartment, string>({
-      query: (id) => `apartments/${id}/prices/`,
-    }),
-
     // POST: Start lottery for a project
     startLotteryForProject: builder.mutation<any, {}>({
       query: (params) => ({
@@ -409,7 +404,6 @@ export const {
   useGetOfferMessageQuery,
   useGetCostIndexesQuery,
   useAddCostIndexMutation,
-  useGetApartmentPriceQuery, // TODO
   useGetApartmentHASOPaymentQuery,
   useAddApartmentRevaluationMutation,
   useUpdateApartmentRevaluationMutation,

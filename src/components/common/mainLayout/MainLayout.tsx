@@ -1,9 +1,9 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import ApartmentRevaluationModal from '../../revaluation/ApartmentRevaluationModal';
 import AuthSessionExpiringModal from '../../auth/AuthSessionExpiringModal';
 import ErrorPrompt from '../../auth/ErrorPrompt';
-import ApartmentRevaluationModal from '../../revaluation/ApartmentRevaluationModal';
 import NavBar from '../navbar/NavBar';
 import OfferModal from '../../offer/OfferModal';
 import ReservationAddModal from '../../reservations/ReservationAddModal';

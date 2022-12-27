@@ -13,9 +13,9 @@ import {
 } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import ReservationRevaluationInfo from '../revaluation/ReservationRevaluationInfo';
 
 import ApartmentBaseDetails from './ApartmentBaseDetails';
+import { ApartmentReservationStates, ReservationCancelReasons, ROUTES } from '../../enums';
 import formatDateTime from '../../utils/formatDateTime';
 import OfferStatusText from '../offer/OfferStatusText';
 import {
@@ -25,7 +25,7 @@ import {
   Project,
   WinningReservation,
 } from '../../types';
-import { ApartmentReservationStates, ReservationCancelReasons, ROUTES } from '../../enums';
+import ReservationRevaluationInfo from '../revaluation/ReservationRevaluationInfo';
 import { showOfferModal } from '../../redux/features/offerModalSlice';
 import { showReservationAddModal } from '../../redux/features/reservationAddModalSlice';
 import { showReservationCancelModal } from '../../redux/features/reservationCancelModalSlice';

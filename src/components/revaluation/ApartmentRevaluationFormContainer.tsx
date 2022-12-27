@@ -1,6 +1,7 @@
 import { Button, Dialog, Notification } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { InstallmentTypes, ReservationCancelReasons } from '../../enums';
 import {
   useGetApartmentHASOPaymentQuery,
@@ -8,11 +9,11 @@ import {
   useGetApartmentReservationsQuery,
   useGetCostIndexesQuery,
 } from '../../redux/services/api';
-
 import { ApartmentReservationCustomer, ApartmentRevaluation } from '../../types';
 import Container from '../common/container/Container';
 import Spinner from '../common/spinner/Spinner';
 import ApartmentRevaluationForm from './ApartmentRevaluationForm';
+
 import styles from './ApartmentRevaluationModal.module.scss';
 
 const T_PATH = 'components.revaluation.ApartmentRevaluationModal';
@@ -24,6 +25,7 @@ interface Props {
   customer: ApartmentReservationCustomer;
   closeDialog: () => void;
   handleFormCallback: (arg0: ApartmentRevaluation) => void;
+  isLoading: boolean;
 }
 
 const ApartmentRevaluationFormContainer = ({
@@ -33,6 +35,7 @@ const ApartmentRevaluationFormContainer = ({
   customer,
   closeDialog,
   handleFormCallback,
+  isLoading,
 }: Props): JSX.Element => {
   const { t: translate } = useTranslation();
   const t = (label: string) => translate(`${T_PATH}.${label}`);
@@ -67,37 +70,34 @@ const ApartmentRevaluationFormContainer = ({
     skip: !!revaluation || !firstTerminatedReservation,
   });
 
-  const dialog = (content: JSX.Element) => (
-    <>
-      <Dialog.Content>{content}</Dialog.Content>
-      <Dialog.ActionButtons>
-        <Button variant="secondary" onClick={() => closeDialog()}>
-          {t(`${T_PATH}.cancel`)}
-        </Button>
-      </Dialog.ActionButtons>
-    </>
-  );
-
   const errorContainer = (
     <Container>
-      {(costIndexesError || !costIndexes) &&
-        dialog(
+      {(costIndexesError || !costIndexes) && (
+        <Dialog.Content>
           <Notification type="error" size="small" style={{ marginTop: 15 }}>
             {t('errorLoadingCostIndex')}
           </Notification>
-        )}
-      {(apartmentHASOPaymentError || !apartmentHASOPayment) &&
-        dialog(
+        </Dialog.Content>
+      )}
+      {(apartmentHASOPaymentError || !apartmentHASOPayment) && (
+        <Dialog.Content>
           <Notification type="error" size="small" style={{ marginTop: 15 }}>
             {t('errorLoadingApartmentPrice')}
           </Notification>
-        )}
-      {(reservationsError || !reservations) &&
-        dialog(
+        </Dialog.Content>
+      )}
+      {(reservationsError || !reservations) && (
+        <Dialog.Content>
           <Notification type="error" size="small" style={{ marginTop: 15 }}>
-            {t('errorLoadingApartmentPrice')}
+            {t('errorLoadingReservations')}
           </Notification>
-        )}
+        </Dialog.Content>
+      )}
+      <Dialog.ActionButtons>
+        <Button variant="secondary" onClick={() => closeDialog()}>
+          {t(`cancel`)}
+        </Button>
+      </Dialog.ActionButtons>
     </Container>
   );
 
@@ -115,6 +115,7 @@ const ApartmentRevaluationFormContainer = ({
           customer={customer}
           closeDialog={closeDialog}
           handleFormCallback={handleFormCallback}
+          isLoading={isLoading}
         />
       );
     } else {
@@ -134,9 +135,6 @@ const ApartmentRevaluationFormContainer = ({
         const payment1 = firstTerminatedReservationPayments.installments.find(
           (installment) => installment.type === InstallmentTypes.Payment1
         );
-        console.log('Reservatoins', reservations);
-        console.log('FIrst', firstTerminatedReservationPayments);
-        console.log('payment', payment1);
         return (
           <ApartmentRevaluationForm
             reservationId={reservationId}
@@ -148,6 +146,7 @@ const ApartmentRevaluationFormContainer = ({
             customer={customer}
             closeDialog={closeDialog}
             handleFormCallback={handleFormCallback}
+            isLoading={isLoading}
           />
         );
       }

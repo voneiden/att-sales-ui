@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Dialog, IconInfoCircle } from 'hds-react';
+import { Dialog, IconInfoCircle } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
-import { hideApartmentRevaluationModal } from '../../redux/features/apartmentRevaluationModalSlice';
-import {
-  useAddApartmentRevaluationMutation,
-  useCancelApartmentReservationMutation,
-  useUpdateApartmentRevaluationMutation,
-} from '../../redux/services/api';
 
+import { hideApartmentRevaluationModal } from '../../redux/features/apartmentRevaluationModalSlice';
+import { useAddApartmentRevaluationMutation, useUpdateApartmentRevaluationMutation } from '../../redux/services/api';
 import { RootState } from '../../redux/store';
 import { toast } from '../common/toast/ToastManager';
-import { ApartmentRevaluation, ReservationCancelFormData } from '../../types';
+import { ApartmentRevaluation } from '../../types';
 import ApartmentRevaluationFormContainer from './ApartmentRevaluationFormContainer';
 
 import styles from './ApartmentRevaluationModal.module.scss';
@@ -32,10 +28,10 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [addApartmentRevaluation, { isLoading: isAddApartmentRevaluationLoading }] =
-    useAddApartmentRevaluationMutation(); // TODO error
+    useAddApartmentRevaluationMutation();
 
   const [updateApartmentRevaluation, { isLoading: isUpdateApartmentRevaluationLoading }] =
-    useUpdateApartmentRevaluationMutation(); // TODO error
+    useUpdateApartmentRevaluationMutation();
 
   if (!isDialogOpen) return null;
 
@@ -43,7 +39,7 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
     toast.show({
       type: 'error',
       title: t('errorTitle'),
-      content: t('noReservationOrOwnershipType'), // TODO
+      content: t('noApartmentReservationOrCustomer'),
     });
 
     return null;
@@ -54,7 +50,6 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
   const handleFormCallback = async (formData: ApartmentRevaluation) => {
     setIsLoading(true);
     try {
-      // TODO
       if (revaluation) {
         await updateApartmentRevaluation({ formData, id: revaluation.id, apartmentId: apartmentId })
           .unwrap()
@@ -101,6 +96,7 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
         customer={customer}
         closeDialog={closeDialog}
         handleFormCallback={handleFormCallback}
+        isLoading={isAddApartmentRevaluationLoading || isUpdateApartmentRevaluationLoading}
       />
     </Dialog>
   );

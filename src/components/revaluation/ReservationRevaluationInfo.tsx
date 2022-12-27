@@ -1,17 +1,11 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, IconAlertCircle, IconPen, Tooltip } from 'hds-react';
-import moment from 'moment';
 import React from 'react';
-import { get, useForm } from 'react-hook-form';
+import { Button, IconAlertCircle, IconPen } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import * as yup from 'yup';
-import { showApartmentRevaluationModal } from '../../redux/features/apartmentRevaluationModalSlice';
 
-import { ApartmentReservationWithCustomer, ApartmentRevaluation, CostIndex } from '../../types';
-import formattedCurrency from '../../utils/formatCurrency';
+import { showApartmentRevaluationModal } from '../../redux/features/apartmentRevaluationModalSlice';
+import { ApartmentReservationWithCustomer } from '../../types';
 import formatDateTime from '../../utils/formatDateTime';
-import { getCurrentLangCode } from '../../utils/getCurrentLangCode';
 
 import '../costindex/CostIndexSingleTable.module.scss';
 import styles from '../revaluation/ReservationRevaluationInfo.module.scss';
