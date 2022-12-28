@@ -60,7 +60,7 @@ const ApartmentRow = ({ apartment, ownershipType, isLotteryCompleted, project }:
     skip: (!isLotteryCompleted && !applicationRowOpen) || (isLotteryCompleted && !resultRowOpen),
   });
 
-  const hasReservations: boolean = reservation_count > 0;
+  const hasReservations: boolean = reservation_count > 0 || !!reservations?.length;
 
   const toggleApplicationRow = () => setApplicationRowOpen(!applicationRowOpen);
   const toggleResultRow = () => setResultRowOpen(!resultRowOpen);
