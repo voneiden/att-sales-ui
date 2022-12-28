@@ -187,6 +187,7 @@ const ApartmentRevaluationForm = ({
           placeholder="0"
           errorText={get(errors, 'start_right_of_occupancy_payment')?.message}
           invalid={Boolean(errors.start_right_of_occupancy_payment)}
+          pattern="[0-9]+([\.,][0-9]+)?"
           {...register('start_right_of_occupancy_payment')}
           className={styles.formBlock}
         />

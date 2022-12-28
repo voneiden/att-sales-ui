@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Dialog, IconInfoCircle } from 'hds-react';
+import { Dialog, IconInfoCircle, Notification } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { hideApartmentRevaluationModal } from '../../redux/features/apartmentRevaluationModalSlice';
 import { useAddApartmentRevaluationMutation, useUpdateApartmentRevaluationMutation } from '../../redux/services/api';
 import { RootState } from '../../redux/store';
+import parseApiErrors from '../../utils/parseApiErrors';
 import { toast } from '../common/toast/ToastManager';
 import { ApartmentRevaluation } from '../../types';
 import ApartmentRevaluationFormContainer from './ApartmentRevaluationFormContainer';
@@ -15,6 +16,8 @@ const T_PATH = 'components.revaluation.ApartmentRevaluationModal';
 const ApartmentRevaluationModal = (): JSX.Element | null => {
   const { t: translate } = useTranslation();
   const t = (label: string) => translate(`${T_PATH}.${label}`);
+
+  const [errorMessages, setErrorMessages] = useState<string[]>([]);
 
   const dispatch = useDispatch();
   const apartmentRevaluationModal = useSelector((state: RootState) => state.apartmentRevaluationModal);
@@ -70,6 +73,7 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
       }
     } catch (err: any) {
       console.error(err);
+      setErrorMessages(parseApiErrors(err));
       setIsLoading(false);
     }
   };
@@ -87,6 +91,15 @@ const ApartmentRevaluationModal = (): JSX.Element | null => {
         title={t('title')}
         iconLeft={<IconInfoCircle aria-hidden />}
       />
+      {!!errorMessages.length && (
+        <Notification type="error" style={{ margin: '15px 0' }}>
+          <ul>
+            {errorMessages.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        </Notification>
+      )}
       <ApartmentRevaluationFormContainer
         revaluation={revaluation}
         apartmentId={apartmentId}
