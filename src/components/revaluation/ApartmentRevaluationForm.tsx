@@ -43,7 +43,7 @@ function determineAdjustedCost(
   originalRightOfOccupancyPayment: string,
   startIndex: string,
   endIndex: string,
-  alterationWork: string
+  alterationWork: string | undefined = undefined
 ) {
   const adjustedCost =
     (stringDecimalToNumber(originalRightOfOccupancyPayment) / stringDecimalToNumber(startIndex)) *
@@ -127,13 +127,23 @@ const ApartmentRevaluationForm = ({
     adjustedRightOfOccupancyPayment = determineAdjustedCost(
       originalRightOfOccupancyPaymentRaw,
       startCostIndex.value,
-      endCostIndex.value,
-      alterationWork
+      endCostIndex.value
     );
   }
   const adjustedRightOfOccupancyPaymentFormatted = adjustedRightOfOccupancyPayment
     ? formattedCurrency(adjustedRightOfOccupancyPayment)
     : '-';
+
+  let totalPayment: number | null = null;
+  if (originalRightOfOccupancyPaymentRaw && startCostIndex && endCostIndex) {
+    totalPayment = determineAdjustedCost(
+      originalRightOfOccupancyPaymentRaw,
+      startCostIndex.value,
+      endCostIndex.value,
+      alterationWork
+    );
+  }
+  const totalPaymentFormatted = totalPayment ? formattedCurrency(totalPayment) : '-';
 
   const onSubmit = (formData: {
     start_right_of_occupancy_payment: string;
@@ -225,8 +235,11 @@ const ApartmentRevaluationForm = ({
             {t('costIndexValueForEndDate')}: {endCostIndex ? endCostIndex.value.replace('.', ',') : '-'}
           </div>
         </div>
-        <div>
+        <div className={styles.formBlock}>
           <b>{t('adjustedRightOfOccupancyPayment')}</b>: {adjustedRightOfOccupancyPaymentFormatted}
+        </div>
+        <div className={styles.formBlock}>
+          <b>{t('totalPayment')}</b>: {totalPaymentFormatted}
         </div>
       </Dialog.Content>
       <Dialog.ActionButtons>

@@ -27,6 +27,7 @@
   "components.revaluation.ApartmentRevaluationForm.costIndexEndDate": "Contract end date",
   "components.revaluation.ApartmentRevaluationForm.costIndexValueForEndDate": "Contract end date cost index",
   "components.revaluation.ApartmentRevaluationForm.adjustedRightOfOccupancyPayment": "Revalued cost index",
+  "components.revaluation.ApartmentRevaluationForm.totalPayment": "Release price",
   "components.revaluation.ApartmentRevaluationForm.submit": "Save",
   "components.revaluation.ApartmentRevaluationForm.cancel": "Camceö",
   "components.revaluation.ReservationRevaluationInfo.revaluationEdit": "Revaluation done",
