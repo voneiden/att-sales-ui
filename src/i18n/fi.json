@@ -14,6 +14,8 @@
   "components.revaluation.ApartmentRevaluationFormContainer.errorLoadingReservations": "Virhe varauksia ladattaessa",
   "components.revaluation.ApartmentRevaluationModal.title": "Asumisoikeusmaksun päivitys",
   "components.revaluation.ApartmentRevaluationModal.cancel": "Peruuta",
+  "components.revaluation.ApartmentRevaluationModal.closeDialog": "Sulje ponnahdusikkuna",
+  "components.revaluation.ApartmentRevaluationModal.errorTitle": "Virhe",
   "components.revaluation.ApartmentRevaluationModal.revaluationAddSuccess": "Indeksikorotus lisätty",
   "components.revaluation.ApartmentRevaluationModal.revaluationUpdateSuccess": "Indeksikorotus päivitetty",
   "components.revaluation.ApartmentRevaluationModal.noApartmentReservationOrCustomer": "Asunto, varaus tai asiakas puuttuu",

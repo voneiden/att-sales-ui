@@ -171,7 +171,7 @@ const ApartmentRevaluationForm = ({
   const formId = `apartment-revaluation-form-for-reservation-${reservationId}`;
 
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={styles.revaluationForm}>
+    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <Dialog.Content>
         <div className={styles.revaluationFormBlock}>
           {t('forCustomer')}:
