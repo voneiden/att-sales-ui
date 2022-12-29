@@ -16,10 +16,9 @@ interface IProps {
   formId: string;
   handleFormCallback: (data: ReservationCancelFormData) => void;
   ownershipType: Project['ownership_type'];
-  reservationId: number;
 }
 
-const ReservationCancelForm = ({ formId, handleFormCallback, ownershipType }: IProps): JSX.Element => {
+const ReservationCancelForm = ({ formId, ownershipType, handleFormCallback }: IProps): JSX.Element => {
   const { t } = useTranslation();
   const schema = yup.object({
     cancellation_reason: yup.string().required(t(`${T_PATH}.reasonRequired`)),
@@ -44,6 +43,7 @@ const ReservationCancelForm = ({ formId, handleFormCallback, ownershipType }: IP
   });
 
   const isTransferred = watch('cancellation_reason') === ReservationCancelReasons.TRANSFERRED ? true : false;
+
   const onSubmit: SubmitHandler<ReservationCancelFormData> = (data, event) => {
     event?.preventDefault();
     const formData = { ...data };

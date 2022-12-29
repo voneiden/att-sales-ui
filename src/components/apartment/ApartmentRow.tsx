@@ -185,7 +185,7 @@ const ApartmentRow = ({ apartment, ownershipType, isLotteryCompleted, project }:
                 : t(`${T_PATH}.canceled`)}{' '}
               {reservation.cancellation_timestamp && formatDateTime(reservation.cancellation_timestamp)}
             </div>
-            {projectOwnershipType.toUpperCase() === 'HASO' &&
+            {projectOwnershipType.toLowerCase() === 'haso' &&
               reservation.cancellation_reason === ReservationCancelReasons.TERMINATED && (
                 <ReservationRevaluationInfo reservationWithCustomer={reservation} />
               )}

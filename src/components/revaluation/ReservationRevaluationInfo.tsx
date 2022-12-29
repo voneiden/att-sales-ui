@@ -7,7 +7,6 @@ import { showApartmentRevaluationModal } from '../../redux/features/apartmentRev
 import { ApartmentReservationWithCustomer } from '../../types';
 import formatDateTime from '../../utils/formatDateTime';
 
-import '../costindex/CostIndexSingleTable.module.scss';
 import styles from '../revaluation/ReservationRevaluationInfo.module.scss';
 
 const T_PATH = 'components.revaluation.ReservationRevaluationInfo';

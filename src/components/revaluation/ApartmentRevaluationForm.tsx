@@ -171,9 +171,9 @@ const ApartmentRevaluationForm = ({
   const formId = `apartment-revaluation-form-for-reservation-${reservationId}`;
 
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
+    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={styles.revaluationForm}>
       <Dialog.Content>
-        <div className={styles.formBlock}>
+        <div className={styles.revaluationFormBlock}>
           {t('forCustomer')}:
           <div className={styles.applicants}>
             {customer.primary_profile.last_name} {customer.primary_profile.first_name}
@@ -189,9 +189,9 @@ const ApartmentRevaluationForm = ({
           invalid={Boolean(errors.start_right_of_occupancy_payment)}
           pattern="[0-9]+([\.,][0-9]+)?"
           {...register('start_right_of_occupancy_payment')}
-          className={styles.formBlock}
+          className={styles.revaluationFormBlock}
         />
-        <div className={styles.formBlock}>
+        <div className={styles.revaluationFormBlock}>
           <DateInput
             id="start_date"
             label={t('costIndexStartDate')}
@@ -205,7 +205,7 @@ const ApartmentRevaluationForm = ({
             minDate={new Date(1990, 1, 1)}
             defaultValue={defaultValues.start_date}
             {...startDateProps}
-          ></DateInput>
+          />
           <div>
             {t('costIndexValueForStartDate')}: {startCostIndex ? startCostIndex.value.replace('.', ',') : '-'}
           </div>
@@ -217,9 +217,9 @@ const ApartmentRevaluationForm = ({
           errorText={get(errors, 'alteration_work')?.message}
           invalid={Boolean(errors.alteration_work)}
           {...register('alteration_work')}
-          className={styles.formBlock}
+          className={styles.revaluationFormBlock}
         />
-        <div className={styles.formBlock}>
+        <div className={styles.revaluationFormBlock}>
           <DateInput
             id="end_date"
             label={t('costIndexEndDate')}
@@ -231,15 +231,15 @@ const ApartmentRevaluationForm = ({
             onChange={(value) => setValue('end_date', value)}
             defaultValue={defaultValues.end_date}
             {...endDateProps}
-          ></DateInput>
+          />
           <div>
             {t('costIndexValueForEndDate')}: {endCostIndex ? endCostIndex.value.replace('.', ',') : '-'}
           </div>
         </div>
-        <div className={styles.formBlock}>
+        <div className={styles.revaluationFormBlock}>
           <b>{t('adjustedRightOfOccupancyPayment')}</b>: {adjustedRightOfOccupancyPaymentFormatted}
         </div>
-        <div className={styles.formBlock}>
+        <div className={styles.revaluationFormBlock}>
           <b>{t('totalPayment')}</b>: {totalPaymentFormatted}
         </div>
       </Dialog.Content>

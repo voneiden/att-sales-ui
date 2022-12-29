@@ -20,7 +20,7 @@ import Container from '../common/container/Container';
 import Spinner from '../common/spinner/Spinner';
 import ApartmentRevaluationForm from './ApartmentRevaluationForm';
 
-const T_PATH = 'components.revaluation.ApartmentRevaluationModal';
+const T_PATH = 'components.revaluation.ApartmentRevaluationFormContainer';
 
 interface Props {
   revaluation?: ApartmentRevaluation;
