@@ -11,4 +11,9 @@
 
 .revaluationInfoRow {
   font-size: var(--fontsize-body-s);
+  button {
+    text-decoration: underline;
+    color: var(--color-black-40);
+    padding: 0;
+  }
 }

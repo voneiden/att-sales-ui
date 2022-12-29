@@ -30,6 +30,7 @@ interface Props {
   closeDialog: () => void;
   handleFormCallback: (arg0: ApartmentRevaluation) => void;
   isLoading: boolean;
+  editing: boolean;
 }
 
 const ErrorContainer = ({
@@ -92,6 +93,7 @@ const ApartmentRevaluationFormContainer = ({
   closeDialog,
   handleFormCallback,
   isLoading,
+  editing,
 }: Props): JSX.Element => {
   // Required fetches: cost indexes
   const { data: costIndexes, isLoading: costIndexesLoading, isError: costIndexesError } = useGetCostIndexesQuery();
@@ -148,6 +150,7 @@ const ApartmentRevaluationFormContainer = ({
         closeDialog={closeDialog}
         handleFormCallback={handleFormCallback}
         isLoading={isLoading}
+        editing={editing}
       />
     );
   }
@@ -191,6 +194,7 @@ const ApartmentRevaluationFormContainer = ({
       closeDialog={closeDialog}
       handleFormCallback={handleFormCallback}
       isLoading={isLoading}
+      editing={editing}
     />
   );
 };

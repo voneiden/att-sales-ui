@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, IconAlertCircle, IconPen } from 'hds-react';
+import { Button, IconAlertCircle } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { showApartmentRevaluationModal } from '../../redux/features/apartmentRev
 import { ApartmentReservationWithCustomer } from '../../types';
 import formatDateTime from '../../utils/formatDateTime';
 
-import styles from '../revaluation/ReservationRevaluationInfo.module.scss';
+import styles from './ReservationRevaluationInfo.module.scss';
 
 const T_PATH = 'components.revaluation.ReservationRevaluationInfo';
 
@@ -23,9 +23,6 @@ const ReservationRevaluationInfo = ({ reservationWithCustomer }: Props): JSX.Ele
   if (revaluation) {
     return (
       <div className={styles.revaluationInfoRow}>
-        <span>
-          {t('revaluationEdit')} {formatDateTime(revaluation.updated_at)}
-        </span>
         <button
           onClick={() => {
             dispatch(
@@ -39,7 +36,7 @@ const ReservationRevaluationInfo = ({ reservationWithCustomer }: Props): JSX.Ele
           }}
           className={styles.editButton}
         >
-          <IconPen size="xs" />
+          {t('revaluationEdit')} {formatDateTime(revaluation.updated_at)}
         </button>
       </div>
     );
