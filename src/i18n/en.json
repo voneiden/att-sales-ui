@@ -29,6 +29,8 @@
   "components.revaluation.ApartmentRevaluationForm.costIndexValueForEndDate": "Contract end date cost index",
   "components.revaluation.ApartmentRevaluationForm.adjustedRightOfOccupancyPayment": "Revalued cost index",
   "components.revaluation.ApartmentRevaluationForm.totalPayment": "Release price",
+  "components.revaluation.ApartmentRevaluationForm.startDateRequired": "Original 1st payment date is required",
+  "components.revaluation.ApartmentRevaluationForm.endDateRequired": "Contract end date is required",
   "components.revaluation.ApartmentRevaluationForm.submit": "Save",
   "components.revaluation.ApartmentRevaluationForm.cancel": "Cancel",
   "components.revaluation.ReservationRevaluationInfo.revaluationEdit": "Revaluation done",

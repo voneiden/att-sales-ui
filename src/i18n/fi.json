@@ -27,6 +27,8 @@
   "components.revaluation.ApartmentRevaluationForm.costIndexValueForEndDate": "Päättymispäivän rakennuskustannusindeksi",
   "components.revaluation.ApartmentRevaluationForm.adjustedRightOfOccupancyPayment": "Uusi asumisoikeusmaksu",
   "components.revaluation.ApartmentRevaluationForm.totalPayment": "Luovutushinta",
+  "components.revaluation.ApartmentRevaluationForm.startDateRequired": "Alkuperäinen 1. eräpäivä puuttuu",
+  "components.revaluation.ApartmentRevaluationForm.endDateRequired": "Sopimuksen päättymispäivämäärä puuttuu",
   "components.revaluation.ApartmentRevaluationForm.submit": "Tallenna",
   "components.revaluation.ApartmentRevaluationForm.cancel": "Peruuta",
   "components.revaluation.ReservationRevaluationInfo.revaluationEdit": "Indeksikorotus määritetty",
