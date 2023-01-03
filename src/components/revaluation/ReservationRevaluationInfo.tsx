@@ -24,7 +24,7 @@ const ReservationRevaluationInfo = ({ reservationWithCustomer }: Props): JSX.Ele
     return (
       <div className={styles.revaluationInfoRow}>
         <span>
-          {t('revaluationEdit')} {formatDateTime(revaluation.modified_at)}
+          {t('revaluationEdit')} {formatDateTime(revaluation.updated_at)}
         </span>
         <button
           onClick={() => {
