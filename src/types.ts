@@ -419,7 +419,7 @@ export type ApartmentRevaluation = {
 export type ApartmentRevaluationWithId = ApartmentRevaluation & {
   id: number;
   created_at: string;
-  modified_at: string;
+  updated_at: string;
 };
 
 export type ApartmentHASOPayment = {
