@@ -158,7 +158,7 @@ const CostIndexTable = (): JSX.Element => {
               onChange={(value) => setValue('valid_from', value)}
               required
               {...validFromFormProps}
-            ></DateInput>
+            />
           </span>
           <span className={styles.indexValueColumn}>
             <TextInput
