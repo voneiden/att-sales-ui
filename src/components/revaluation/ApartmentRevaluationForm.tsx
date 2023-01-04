@@ -11,6 +11,7 @@ import formattedCurrency from '../../utils/formatCurrency';
 import { getCurrentLangCode } from '../../utils/getCurrentLangCode';
 import '../costindex/CostIndexSingleTable.module.scss';
 import { toast } from '../common/toast/ToastManager';
+
 import styles from './ApartmentRevaluationModal.module.scss';
 
 const T_PATH = 'components.revaluation.ApartmentRevaluationForm';
@@ -29,6 +30,7 @@ interface Props {
   closeDialog: () => void;
   handleFormCallback: (arg0: ApartmentRevaluation) => void;
   isLoading: boolean;
+  editing: boolean;
 }
 
 function stringDecimalToNumber(decimal: string) {
@@ -81,6 +83,7 @@ const ApartmentRevaluationForm = ({
   closeDialog,
   handleFormCallback,
   isLoading,
+  editing,
 }: Props): JSX.Element => {
   const { t: translate } = useTranslation();
   const t = (label: string) => translate(`${T_PATH}.${label}`);
@@ -188,6 +191,7 @@ const ApartmentRevaluationForm = ({
           errorText={get(errors, 'start_right_of_occupancy_payment')?.message}
           invalid={Boolean(errors.start_right_of_occupancy_payment)}
           pattern="[0-9]+([\.,][0-9]+)?"
+          disabled={!editing}
           {...register('start_right_of_occupancy_payment')}
           className={styles.revaluationFormBlock}
         />
@@ -204,6 +208,7 @@ const ApartmentRevaluationForm = ({
             onChange={(value) => setValue('start_date', value)}
             minDate={new Date(1990, 1, 1)}
             defaultValue={defaultValues.start_date}
+            disabled={!editing}
             {...startDateProps}
           />
           <div>
@@ -216,6 +221,7 @@ const ApartmentRevaluationForm = ({
           placeholder="0"
           errorText={get(errors, 'alteration_work')?.message}
           invalid={Boolean(errors.alteration_work)}
+          disabled={!editing}
           {...register('alteration_work')}
           className={styles.revaluationFormBlock}
         />
@@ -230,6 +236,7 @@ const ApartmentRevaluationForm = ({
             errorText={get(errors, 'end_date')?.message}
             onChange={(value) => setValue('end_date', value)}
             defaultValue={defaultValues.end_date}
+            disabled={!editing}
             {...endDateProps}
           />
           <div>
@@ -244,11 +251,11 @@ const ApartmentRevaluationForm = ({
         </div>
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button variant="primary" type="submit" form={formId} disabled={isLoading}>
+        <Button variant="primary" type="submit" form={formId} disabled={isLoading || !editing}>
           {t('submit')}
         </Button>
         <Button variant="secondary" onClick={() => closeDialog()}>
-          {t('cancel')}
+          {editing ? t('cancel') : t('close')}
         </Button>
       </Dialog.ActionButtons>
     </form>
